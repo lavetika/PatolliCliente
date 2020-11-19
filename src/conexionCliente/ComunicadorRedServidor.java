@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ComunicadorRedServidor implements Runnable {
+public class ComunicadorRedServidor extends Thread {
 
     private Socket socket;
     private ObjectOutputStream flujoSalidaDatos;

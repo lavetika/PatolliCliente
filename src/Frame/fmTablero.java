@@ -63,8 +63,8 @@ public class fmTablero extends javax.swing.JFrame {
     
     private void initPantalla(){
         Canias canias = new Canias();
-        add(new Chat());
-        add(new Tablero(tamanio, canias, this, new fmMenu(), jugador));
+       // add(new PnlChat());
+        //add(new Tablero(tamanio, canias, this, new fmMenu(), jugador));
         setSize(1200, 800);
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
