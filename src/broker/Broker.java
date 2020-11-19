@@ -1,11 +1,8 @@
 
 package broker;
 
-import Dominio.Jugador;
 import callMessage.Mandadero;
 import conexionCliente.ComunicadorRedServidor;
-
-import java.net.ServerSocket;
 import java.util.HashMap;
 
 /**
@@ -16,7 +13,6 @@ public class Broker {
 
     public Broker broker;
     ComunicadorRedServidor socket;
-    HashMap<String, Object> parametros;
 
     public Broker() {
         
@@ -24,20 +20,13 @@ public class Broker {
 
     public Broker(ComunicadorRedServidor socket) {
         this.socket = socket;
-        this.parametros = new HashMap<>();
     }
     
-    
-    
-    public void enviarMensaje(){
-        
+    public void recibirPedidoSHEIN(){
+        //Dos meses despues
     }
     
-    public void recibirMensaje(){
-        
-    }
-    
-    public void addParametro(String key, Object parametro){
-        parametros.put(key, parametro);
+    public void solicitarPedidoSHEIN(Mandadero mandadero){
+        socket.enviarPeticion(mandadero);
     }
 }

@@ -27,26 +27,22 @@ public class Partida {
     public static Partida getInstance(){
         if (partida == null) {   //KK
             partida = new Partida();
-        }else{
-            System.out.println("");
         }
-        
         return partida;
     }
     
     private Partida(){
-        
+        this.jugadores = new ArrayList<>();
     }
     
-    public void setPartida(int cantJugadores, Tablero tablero, int codigoPartida, List<Broker> jugadores) {
+    public void setPartida(int cantJugadores, Tablero tablero, int codigoPartida, List<Broker> jugadores, List<Forma> posicion) {
         this.cantJugadores = cantJugadores;
         this.jugadores = new ArrayList<>(cantJugadores);
         this.tablero = tablero;
         this.codigoPartida = codigoPartida;
-        // this.posicion = posicion;
+        this.posicion = posicion;
     }
     
-
     public int getCantJugadores() {
         return cantJugadores;
     }

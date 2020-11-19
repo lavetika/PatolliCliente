@@ -9,13 +9,13 @@ public class ClienteSocket {
     
     private final String SERVIDOR;
     private final int PUERTO;
+    private Broker broker;
 
     //Prueba
     public ClienteSocket(String servidor, int puerto) {
         this.SERVIDOR = servidor;
         this.PUERTO = puerto;
-        System.out.println("Creando el cliente...");
-        
+        System.out.println("Creando el cliente...");     
     }
     
     public void iniciar() throws IOException {
@@ -27,7 +27,7 @@ public class ClienteSocket {
             //Thread hilo = new Thread(new ComunicadorRedServidor(socket));
             ComunicadorRedServidor hilo = new ComunicadorRedServidor(socket);
             hilo.start();
-            Broker broker = new Broker(hilo);
+            broker = new Broker(hilo);
             Partida.getInstance().addJugador(broker);
 
             // ESTA BIEN, ENVIAR UN MENSAJE EN EL MÉTODO INICIAR?
@@ -37,5 +37,11 @@ public class ClienteSocket {
             throw ex;
         }
     }
+
+    public Broker getBroker() {
+        return broker;
+    }
+    
+    
     
 }

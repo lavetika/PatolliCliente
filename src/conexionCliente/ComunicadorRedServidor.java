@@ -1,13 +1,12 @@
 package conexionCliente;
 
-import Dominio.Jugador;
 import callMessage.Mandadero;
 import enumServicio.EnumServicio;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,8 +19,8 @@ public class ComunicadorRedServidor extends Thread {
     public ComunicadorRedServidor(Socket socket) throws IOException {
         this.socket = socket;
         try{
-            this.flujoSalidaDatos = new ObjectOutputStream(socket.getOutputStream());
-            this.flujoEntradaDatos = new ObjectInputStream(socket.getInputStream());
+            this.flujoSalidaDatos = new ObjectOutputStream(this.socket.getOutputStream());
+            this.flujoEntradaDatos = new ObjectInputStream(this.socket.getInputStream());
         }catch(IOException ex){
             Logger.getLogger(ComunicadorRedServidor.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
@@ -37,43 +36,41 @@ public class ComunicadorRedServidor extends Thread {
         }
     }
 
-    public void enviarPeticion(String mensajeEnviar){
+    public void enviarPeticion(Mandadero m){
         try{
-            
-            this.flujoSalidaDatos.writeObject(mensajeEnviar);
+            this.flujoSalidaDatos.writeObject(m);
             this.flujoSalidaDatos.flush();
             this.socket.close();
-
         }catch(ClassCastException ex){
             Logger.getLogger(ComunicadorRedServidor.class.getName()).log(Level.SEVERE, "El objeto recibido no es un mensaje válido", ex);
         }catch(IOException ex){
             Logger.getLogger(ComunicadorRedServidor.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
     
     @Override
     public void run() {
 //        try {
-//            String respuesta = flujoEntradaDatos.readUTF();
 //            
+//            enviarPeticion();
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-    try{
-            ArrayList<Object> lista= new ArrayList<>();
-            lista.add(new Jugador("LauraBb"));
-            Mandadero mandadero= new Mandadero(lista, EnumServicio.INGRESAR_PARTIDA);
-            
-            this.flujoSalidaDatos.writeObject(mandadero);
-            this.flujoSalidaDatos.flush();
-            this.socket.close();
-
-        }catch(ClassCastException ex){
-            Logger.getLogger(ComunicadorRedServidor.class.getName()).log(Level.SEVERE, "El objeto recibido no es un mensaje válido", ex);
-        }catch(IOException ex){
-            Logger.getLogger(ComunicadorRedServidor.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    
     }
+//    try{
+//            HashMap<String, Object> lista= new HashMap<>();
+//            lista.put("Jugador", "Laura");
+//            Mandadero mandadero= new Mandadero(lista, EnumServicio.INGRESAR_PARTIDA);
+//            
+//            this.flujoSalidaDatos.writeObject(mandadero);
+//            this.flujoSalidaDatos.flush();
+//            this.socket.close();
+//
+//        }catch(ClassCastException ex){
+//            Logger.getLogger(ComunicadorRedServidor.class.getName()).log(Level.SEVERE, "El objeto recibido no es un mensaje válido", ex);
+//        }catch(IOException ex){
+//            Logger.getLogger(ComunicadorRedServidor.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    
+//    }
 }
