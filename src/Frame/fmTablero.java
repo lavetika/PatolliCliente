@@ -10,6 +10,7 @@ package Frame;
 import Control.Tablero;
 import Dominio.Jugador;
 import Graphics.Canias;
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 
@@ -44,6 +45,7 @@ public class fmTablero extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(105, 2, 5));
         setIconImage(getIconImage());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -63,9 +65,10 @@ public class fmTablero extends javax.swing.JFrame {
     
     private void initPantalla(){
         Canias canias = new Canias();
-       // add(new PnlChat());
-        //add(new Tablero(tamanio, canias, this, new fmMenu(), jugador));
-        setSize(1200, 800);
+        add(new PnlChat(jugador));
+        add(new Tablero(tamanio, canias, this, new fmMenu()));
+        setSize(1350, 800);
+        //this.setBackground(new Color(105,2,5));
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);

@@ -39,9 +39,8 @@ public class fmMenu extends javax.swing.JFrame {
         btnComoJugar = new javax.swing.JButton();
         btnCreditos = new javax.swing.JButton();
         lblFondo = new javax.swing.JLabel();
-        txtNickname = new javax.swing.JTextField();
-        lblNickName = new javax.swing.JLabel();
         lb_nickname = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -112,22 +111,11 @@ public class fmMenu extends javax.swing.JFrame {
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/FED148.jpeg"))); // NOI18N
         jPanelMenuPrincipal.add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 360, 90));
 
-        txtNickname.setBackground(new java.awt.Color(243, 243, 220));
-        txtNickname.setFont(new java.awt.Font("PT Sans", 0, 13)); // NOI18N
-        txtNickname.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtNicknameKeyTyped(evt);
-            }
-        });
-        jPanelMenuPrincipal.add(txtNickname, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, 180, 30));
-
-        lblNickName.setFont(new java.awt.Font("PT Sans", 0, 18)); // NOI18N
-        lblNickName.setForeground(new java.awt.Color(243, 243, 220));
-        lblNickName.setText("Nickname*");
-        jPanelMenuPrincipal.add(lblNickName, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, -1, 33));
-
         lb_nickname.setForeground(new java.awt.Color(255, 255, 255));
         jPanelMenuPrincipal.add(lb_nickname, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, 120, 20));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/ajolotito.png"))); // NOI18N
+        jPanelMenuPrincipal.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 140, 110, 120));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -144,18 +132,14 @@ public class fmMenu extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-public boolean validarNickname() {
-        return !txtNickname.getText().isEmpty();
-    }
+
     private void btnCrearPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearPartidaActionPerformed
-        if (validarNickname()) {
-            Jugador jugador= new Jugador(txtNickname.getText());
-            fmCrearPartida framePersonalizarPartida = new fmCrearPartida(jugador);
-            framePersonalizarPartida.setVisible(true);
-            this.setVisible(false);
-        } else {
-            lb_nickname.setText("*Ingresa tu nickname");
-        }
+
+       // Jugador jugador = new Jugador();
+        fmCrearPartida framePersonalizarPartida = new fmCrearPartida();
+        framePersonalizarPartida.setVisible(true);
+        this.setVisible(false);
+
 
     }//GEN-LAST:event_btnCrearPartidaActionPerformed
 
@@ -172,22 +156,13 @@ public boolean validarNickname() {
     }//GEN-LAST:event_btnCreditosActionPerformed
 
     private void btnIngresarPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarPartidaActionPerformed
-        if (validarNickname()) {
-            Jugador jugador= new Jugador(txtNickname.getText());
-            fmIngresarPartida frameIngresar = new fmIngresarPartida(jugador);
-            frameIngresar.setVisible(true);
-            this.setVisible(false);
-        } else {
-            lb_nickname.setText("*Ingresa tu nickname");
-        }
-    }//GEN-LAST:event_btnIngresarPartidaActionPerformed
 
-    private void txtNicknameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNicknameKeyTyped
-        char a = evt.getKeyChar();
-        if ((txtNickname.getText().length()>=10)) {//que sea menor a 10 letras
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtNicknameKeyTyped
+      //  Jugador jugador = new Jugador();
+        fmIngresarPartida frameIngresar = new fmIngresarPartida();
+        frameIngresar.setVisible(true);
+        this.setVisible(false);
+
+    }//GEN-LAST:event_btnIngresarPartidaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -238,15 +213,14 @@ public boolean validarNickname() {
     private javax.swing.JButton btnCrearPartida;
     private javax.swing.JButton btnCreditos;
     private javax.swing.JButton btnIngresarPartida;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanelMenuPrincipal;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lb_nickname;
     private javax.swing.JLabel lblFondo;
     private javax.swing.JLabel lblIcono;
-    private javax.swing.JLabel lblNickName;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTitulo1;
-    private javax.swing.JTextField txtNickname;
     // End of variables declaration//GEN-END:variables
 }

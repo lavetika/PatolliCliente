@@ -10,12 +10,13 @@ public class ClienteSocket {
     private final String SERVIDOR;
     private final int PUERTO;
     private Broker broker;
-
+    Partida partida;
     //Prueba
     public ClienteSocket(String servidor, int puerto) {
         this.SERVIDOR = servidor;
         this.PUERTO = puerto;
-        System.out.println("Creando el cliente...");     
+        System.out.println("Creando el cliente..."); 
+        partida = Partida.getInstance();
     }
     
     public void iniciar() throws IOException {
@@ -28,7 +29,9 @@ public class ClienteSocket {
             ComunicadorRedServidor hilo = new ComunicadorRedServidor(socket);
             hilo.start();
             broker = new Broker(hilo);
-            Partida.getInstance().addJugador(broker);
+            partida.addJugador(broker);
+            partida.addObserver(broker);
+       
 
             // ESTA BIEN, ENVIAR UN MENSAJE EN EL MÉTODO INICIAR?
             // ES POSIBLE ENVIAR OTRO MENSAJE DESPUÉS...?            

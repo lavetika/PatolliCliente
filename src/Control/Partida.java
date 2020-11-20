@@ -10,12 +10,13 @@ import broker.Broker;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 /**
  *
  * @author laura
  */
-public class Partida {
+public class Partida extends Observable{
     private static Partida partida;
     private List<Broker> jugadores;
     private int cantJugadores;
@@ -28,7 +29,8 @@ public class Partida {
         if (partida == null) {   //KK
             partida = new Partida();
         }
-        return partida;
+        return partida;   
+        
     }
     
     private Partida(){

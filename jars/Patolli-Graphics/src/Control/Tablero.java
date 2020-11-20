@@ -44,6 +44,7 @@ public final class Tablero extends JPanel{
     public Tablero(int tamanio, Canias canias, Frame frameTablero, Frame frameInicio) {
         setLayout(new GroupLayout(this));
         setSize(900, 800);
+        this.setLocation(150, 0);
         setBackground(new Color(105,2,5));
         this.cantidadTablero = tamanio;
         this.cantidadCasillasCentrales = 4;
@@ -91,7 +92,7 @@ public final class Tablero extends JPanel{
         //drawBase(g2d);
         showButtons();
         showPlayersIcons();
-        showBeans();
+        //showBeans();
         showGemas();
         showNicknames();
         showCodigo();

@@ -21,7 +21,7 @@ import javax.swing.JOptionPane;
  */
 public class PnlChat extends javax.swing.JPanel {
 
-    MultiCliente ClientThread;
+//    MultiCliente ClientThread;
     private final static String ENTER = "\n";
 
     /**
@@ -33,22 +33,22 @@ public class PnlChat extends javax.swing.JPanel {
 //        this.setSize(300, 580);
         initComponents();
         setSize(300, 600);
-        this.setLocation(900, 0);
+        this.setLocation(1050, 0);
 //        txtMensaje.setEnabled(false);
         txtContenido.setEditable(false);
 //        txtMensaje.setEditable(false);
-        try {
-            Socket s = new Socket("localhost", 3333);
-            ClientThread = new MultiCliente(s, this, jugador);
-            ClientThread.start();
-        } catch (UnknownHostException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
+//        try {
+//            Socket s = new Socket("localhost", 3333);
+//            ClientThread = new MultiCliente(s, this, jugador);
+//            ClientThread.start();
+//        } catch (UnknownHostException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        
     }
 
     /**
@@ -105,7 +105,7 @@ public class PnlChat extends javax.swing.JPanel {
             String texto = txtMensaje.getText();
            // texto = String.format("%clientSocket", event.getActionCommand());
 //            String text = txtMensaje.getText();
-            ClientThread.ClientOutServerIn(texto);
+            //ClientThread.ClientOutServerIn(texto);
             txtMensaje.setText("");
         }
     }//GEN-LAST:event_txtMensajeKeyReleased

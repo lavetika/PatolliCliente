@@ -36,7 +36,7 @@ public class Canias extends JPanel {
     public Canias() {
         setSize(300, 200);
         setBackground(new Color(105, 2, 5));
-        this.setLocation(900, 600);
+        this.setLocation(1050, 600);
         this.canias = new ArrayList<>();
         this.cania0 = new ImageIcon(new ImageIcon(getClass().getResource("/Images/cania_0_64px.png")).getImage());
         this.cania1 = new ImageIcon(new ImageIcon(getClass().getResource("/Images/cania_1_64px.png")).getImage());
