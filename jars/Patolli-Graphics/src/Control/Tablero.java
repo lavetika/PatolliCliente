@@ -94,8 +94,7 @@ public final class Tablero extends JPanel{
         showPlayersIcons();
         //showBeans();
         showGemas();
-        showNicknames();
-        showCodigo();
+        showNicknames();        
         showApuestaRestante();
         
         showFichasAzules();
@@ -343,8 +342,7 @@ public final class Tablero extends JPanel{
     }
     
     public void showButtons(){
-       
-    
+           
         JButton btnLanzar = new JButton ("Lanzar cañas");
         btnLanzar.setSize(150,35);
         btnLanzar.setVisible(true);
@@ -405,46 +403,46 @@ public final class Tablero extends JPanel{
         this.add(lblPlayerIcon4);
     }
     
-    public void showBeans(){
-        ImageIcon frijolActivado = new ImageIcon (new ImageIcon(getClass().getResource("/Images/frijol activado32px.png")).getImage());
-        ImageIcon frijolDesactivado = new ImageIcon (new ImageIcon(getClass().getResource("/Images/frijol desactivado32px.png")).getImage());
-        
-        JLabel lblBean1 = new JLabel();
-        lblBean1.setSize(40,40);
-        lblBean1.setLocation(25, 600);
-        lblBean1.setIcon(frijolActivado);
-        lblBean1.setVisible(true);
-        this.add(lblBean1);
-        
-        JLabel lblBean2 = new JLabel();
-        lblBean2.setSize(40,40);
-        lblBean2.setLocation(25, 640);
-        lblBean2.setIcon(frijolActivado);
-        lblBean2.setVisible(true);
-        this.add(lblBean2);
-        
-        JLabel lblBean3 = new JLabel();
-        lblBean3.setSize(40,40);
-        lblBean3.setLocation(65, 620);
-        lblBean3.setIcon(frijolDesactivado);
-        lblBean3.setVisible(true);
-        this.add(lblBean3);
-        
-        JLabel lblBean4 = new JLabel();
-        lblBean4.setSize(40,40);
-        lblBean4.setLocation(65, 660);
-        lblBean4.setIcon(frijolActivado);
-        lblBean4.setVisible(true);
-        this.add(lblBean4);
-        
-        JLabel lblBean5 = new JLabel();
-        lblBean5.setSize(40,40);
-        lblBean5.setLocation(105, 640);
-        lblBean5.setIcon(frijolDesactivado);
-        lblBean5.setVisible(true);
-        this.add(lblBean5);
-    }
-    
+//    public void showBeans(){
+//        ImageIcon frijolActivado = new ImageIcon (new ImageIcon(getClass().getResource("/Images/frijol activado32px.png")).getImage());
+//        ImageIcon frijolDesactivado = new ImageIcon (new ImageIcon(getClass().getResource("/Images/frijol desactivado32px.png")).getImage());
+//        
+//        JLabel lblBean1 = new JLabel();
+//        lblBean1.setSize(40,40);
+//        lblBean1.setLocation(25, 600);
+//        lblBean1.setIcon(frijolActivado);
+//        lblBean1.setVisible(true);
+//        this.add(lblBean1);
+//        
+//        JLabel lblBean2 = new JLabel();
+//        lblBean2.setSize(40,40);
+//        lblBean2.setLocation(25, 640);
+//        lblBean2.setIcon(frijolActivado);
+//        lblBean2.setVisible(true);
+//        this.add(lblBean2);
+//        
+//        JLabel lblBean3 = new JLabel();
+//        lblBean3.setSize(40,40);
+//        lblBean3.setLocation(65, 620);
+//        lblBean3.setIcon(frijolDesactivado);
+//        lblBean3.setVisible(true);
+//        this.add(lblBean3);
+//        
+//        JLabel lblBean4 = new JLabel();
+//        lblBean4.setSize(40,40);
+//        lblBean4.setLocation(65, 660);
+//        lblBean4.setIcon(frijolActivado);
+//        lblBean4.setVisible(true);
+//        this.add(lblBean4);
+//        
+//        JLabel lblBean5 = new JLabel();
+//        lblBean5.setSize(40,40);
+//        lblBean5.setLocation(105, 640);
+//        lblBean5.setIcon(frijolDesactivado);
+//        lblBean5.setVisible(true);
+//        this.add(lblBean5);
+//    }
+//    
     public void showGemas(){
         ImageIcon imageIcon1 = new ImageIcon (new ImageIcon(getClass().getResource("/Images/diamante32px.png")).getImage());
         
@@ -524,25 +522,7 @@ public final class Tablero extends JPanel{
         lblNickname4.setVisible(true);
         this.add(lblNickname4);
     }
-    
-    public void showCodigo(){
-        JLabel lblTituloCodigo = new JLabel("CÓDIGO");
-        lblTituloCodigo.setFont(new Font("PT Sans", Font.BOLD, 18));
-        lblTituloCodigo.setForeground(Color.BLACK);
-        lblTituloCodigo.setSize(100,40);
-        lblTituloCodigo.setLocation(30, 5);
-        lblTituloCodigo.setVisible(true);
-        this.add(lblTituloCodigo);
         
-        JLabel lblCodigo = new JLabel("18364");
-        lblCodigo.setFont(new Font("PT Sans", Font.PLAIN, 18));
-        lblCodigo.setForeground(new Color(250, 206, 71));
-        lblCodigo.setSize(100,40);
-        lblCodigo.setLocation(35, 30);
-        lblCodigo.setVisible(true);
-        this.add(lblCodigo);
-    }
-    
     public void showApuestaRestante(){
         JLabel lblTituloCodigo = new JLabel("12");
         lblTituloCodigo.setFont(new Font("PT Sans", Font.BOLD, 18));

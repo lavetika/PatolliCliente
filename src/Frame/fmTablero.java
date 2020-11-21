@@ -24,12 +24,10 @@ import javax.swing.JButton;
  */
 public class fmTablero extends javax.swing.JFrame {
 
-    fmTablero fmTablero;
+    
     int tamanio;
     Jugador jugador;
-    Panel jPanel;
-    JButton btnSalir;
-    JButton btnIniciar;
+     
 
     /**
      * Creates new form fmTablero
@@ -40,12 +38,8 @@ public class fmTablero extends javax.swing.JFrame {
     public fmTablero(int tamanio, Jugador jugador) {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.setTitle("Tablero");
-        this.jPanel = new Panel();
-        this.btnSalir = new JButton("Salir");
-        this.btnIniciar = new JButton("Iniciar");
+        this.setTitle("Tablero");     
         this.tamanio = tamanio;
-        this.fmTablero = this;
         initPantalla();
     }
 
@@ -80,17 +74,12 @@ public class fmTablero extends javax.swing.JFrame {
         Canias canias = new Canias();
         add(new PnlChat(jugador));
         add(new Tablero(tamanio, canias, this, new fmMenu()));
-        jPanel.setLayout(new GroupLayout(jPanel));
-        add(jPanel);
+        add(new PanelBotones(this));
         add(canias);
         setSize(1350, 800);
-        jPanel.setSize(150, 800);
-        jPanel.setBackground(new Color(105, 2, 5));
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        showButtons();
-        
+        setLocationRelativeTo(null);                
     }
 
     @Override
@@ -100,38 +89,7 @@ public class fmTablero extends javax.swing.JFrame {
 
         return retValue;
     }
-
- 
-    
-    
-    public void showButtons() {
-        btnSalir.setSize(90, 30);
-        //btnSalir.setVisible(true);
-        btnSalir.setLocation(15, 150);
-        btnSalir.setForeground(Color.BLACK);
-        btnSalir.setBackground(new Color(243, 255, 220));
-        btnSalir.setFont(new Font("Herculanum", Font.PLAIN, 12));
-        btnSalir.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                fmTablero.dispose();
-                fmMenu fmMenu = new fmMenu();
-                fmMenu.setVisible(true);
-            }
-        });
-       jPanel.add(btnSalir);
-      
-
-        btnIniciar.setSize(130, 30);
-        //btnIniciar.setVisible(true);
-        btnIniciar.setLocation(15, 100);
-        btnIniciar.setForeground(Color.BLACK);
-        btnIniciar.setBackground(new Color(243, 243, 220));
-        btnIniciar.setFont(new Font("Herculanum", Font.PLAIN, 12));
-       jPanel.add(btnIniciar);
-    }
-
-
+           
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

@@ -7,6 +7,7 @@ package Frame;
 
 import Dominio.Jugador;
 import Frame.MultiCliente;
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.Socket;
@@ -26,11 +27,13 @@ public class PnlChat extends javax.swing.JPanel {
 
     /**
      * Creates new form Chat
+     *
      * @param jugador
      */
     public PnlChat(Jugador jugador) {
         setLayout(new GroupLayout(this));
 //        this.setSize(300, 580);
+        this.setBackground(new Color(105, 2, 5));
         initComponents();
         setSize(300, 600);
         this.setLocation(1050, 0);
@@ -66,10 +69,12 @@ public class PnlChat extends javax.swing.JPanel {
 
         setName("ChaTolli"); // NOI18N
 
+        txtContenido.setBackground(new java.awt.Color(235, 222, 206));
         txtContenido.setColumns(20);
         txtContenido.setRows(5);
         jScrollPane1.setViewportView(txtContenido);
 
+        txtMensaje.setBackground(new java.awt.Color(235, 222, 206));
         txtMensaje.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtMensajeKeyReleased(evt);
@@ -81,13 +86,11 @@ public class PnlChat extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(txtMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addGap(6, 6, 6)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
+                    .addComponent(txtMensaje))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,13 +106,13 @@ public class PnlChat extends javax.swing.JPanel {
     private void txtMensajeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMensajeKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String texto = txtMensaje.getText();
-           // texto = String.format("%clientSocket", event.getActionCommand());
+            // texto = String.format("%clientSocket", event.getActionCommand());
 //            String text = txtMensaje.getText();
             //ClientThread.ClientOutServerIn(texto);
             txtMensaje.setText("");
         }
     }//GEN-LAST:event_txtMensajeKeyReleased
-public void setDisplay(String mensaje) {
+    public void setDisplay(String mensaje) {
         txtContenido.append(mensaje + ENTER);
     }
 
@@ -131,7 +134,6 @@ public void setDisplay(String mensaje) {
 ////                lbNombre.setVisible(false);
 //            }
 //        }
-
 //    if (evt.getKeyCode () 
 //        == KeyEvent.VK_ENTER) {
 //            String texto = txtCanal.getText();
@@ -145,7 +147,6 @@ public void setDisplay(String mensaje) {
 //            txtCanal.setText("");
 //            ClientThread.ClientOutServerIn("change channel");
 //        }
-
 //    public void setUserInChannel(String x) {
 //        UserNames.append(x + ENTER);
 //    }
