@@ -7,6 +7,7 @@ package Control;
 
 import Graphics.Forma;
 import broker.Broker;
+import callMessage.Mandadero;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,11 @@ public class Partida extends Observable{
         this.codigoPartida = codigoPartida;
         this.posicion = posicion;
     }
+    public void enviarMensaje(Mandadero mandadero){
+//        Mandadero mandadero=this.jugadores.get(0).recibirPedidoSHEIN();
+        
+    }
+    
     
     public int getCantJugadores() {
         return cantJugadores;

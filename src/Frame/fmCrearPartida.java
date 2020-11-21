@@ -174,8 +174,9 @@ public class fmCrearPartida extends javax.swing.JFrame {
         if (validarNickname()) {
             Jugador jugador = new Jugador(txtNickname.getText());
             jugador.setCodigoPartida(Integer.parseInt("12345"));
-            fmTablero frameTablero = new fmTablero((Integer) cbTamanioTablero1.getSelectedItem(), jugador);
             iniciarCliente(jugador);
+            fmTablero frameTablero = new fmTablero((Integer) cbTamanioTablero1.getSelectedItem(), jugador, cliente.getBroker());
+            
             frameTablero.setVisible(true);
             this.dispose();
 

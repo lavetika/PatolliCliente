@@ -1,5 +1,6 @@
 package conexionCliente;
 
+import Control.Partida;
 import callMessage.Mandadero;
 import enumServicio.EnumServicio;
 import java.io.IOException;
@@ -15,9 +16,11 @@ public class ComunicadorRedServidor extends Thread {
     private Socket socket;
     private ObjectOutputStream flujoSalidaDatos;
     private ObjectInputStream flujoEntradaDatos;
+    Partida partida;
 
     public ComunicadorRedServidor(Socket socket) throws IOException {
         this.socket = socket;
+        this.partida= Partida.getInstance();
         try{
             this.flujoSalidaDatos = new ObjectOutputStream(this.socket.getOutputStream());
             this.flujoEntradaDatos = new ObjectInputStream(this.socket.getInputStream());
@@ -26,6 +29,10 @@ public class ComunicadorRedServidor extends Thread {
             throw ex;
         }
     }
+    public Partida getPartida() {
+        return partida;
+    }
+    
     
     public void desconectar() throws IOException{
         try{
@@ -42,35 +49,24 @@ public class ComunicadorRedServidor extends Thread {
             this.flujoSalidaDatos.flush();
             this.socket.close();
         }catch(ClassCastException ex){
-            Logger.getLogger(ComunicadorRedServidor.class.getName()).log(Level.SEVERE, "El objeto recibido no es un mensaje válido", ex);
+            Logger.getLogger(ComunicadorRedServidor.class.getName()).log(Level.SEVERE, "El objeto recibido no es un mandadero válido", ex);
         }catch(IOException ex){
             Logger.getLogger(ComunicadorRedServidor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    @Override
-    public void run() {
-//        try {
-//            
-//            enviarPeticion();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+    public Mandadero recibirPeticion(){
+        Mandadero mandadero = null;
+        try {
+            mandadero=(Mandadero) this.flujoEntradaDatos.readObject();
+            
+            this.partida.notifyAll();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ComunicadorRedServidor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return mandadero;
     }
-//    try{
-//            HashMap<String, Object> lista= new HashMap<>();
-//            lista.put("Jugador", "Laura");
-//            Mandadero mandadero= new Mandadero(lista, EnumServicio.INGRESAR_PARTIDA);
-//            
-//            this.flujoSalidaDatos.writeObject(mandadero);
-//            this.flujoSalidaDatos.flush();
-//            this.socket.close();
-//
-//        }catch(ClassCastException ex){
-//            Logger.getLogger(ComunicadorRedServidor.class.getName()).log(Level.SEVERE, "El objeto recibido no es un mensaje válido", ex);
-//        }catch(IOException ex){
-//            Logger.getLogger(ComunicadorRedServidor.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    
-//    }
+
 }

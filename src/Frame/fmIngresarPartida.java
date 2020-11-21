@@ -161,8 +161,8 @@ public class fmIngresarPartida extends javax.swing.JFrame {
         if (validarNickname()) {
             Jugador jugador = new Jugador();
             jugador.setCodigoPartida(Integer.parseInt(txtCodigo.getText()));
-            fmTablero frameTablero = new fmTablero(44, jugador);
             iniciarCliente(jugador);
+            fmTablero frameTablero = new fmTablero(44, jugador, cliente.getBroker());
             frameTablero.setVisible(true);
             this.dispose();
         } else {

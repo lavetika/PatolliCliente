@@ -6,12 +6,12 @@
 package Frame;
 
 import Dominio.Jugador;
-import Frame.MultiCliente;
+import broker.Broker;
+import callMessage.Mandadero;
+import enumServicio.EnumServicio;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
-import java.net.Socket;
-import java.net.UnknownHostException;
+import java.util.HashMap;
 import javax.swing.GroupLayout;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -21,37 +21,24 @@ import javax.swing.JOptionPane;
  * @author Diana Jiménez
  */
 public class PnlChat extends javax.swing.JPanel {
-
-//    MultiCliente ClientThread;
+//observer del broker
     private final static String ENTER = "\n";
+    Jugador jugador;
+    Broker broker;
 
     /**
      * Creates new form Chat
      *
      * @param jugador
      */
-    public PnlChat(Jugador jugador) {
+    public PnlChat(Jugador jugador, Broker broker) {
         setLayout(new GroupLayout(this));
-//        this.setSize(300, 580);
         this.setBackground(new Color(105, 2, 5));
         initComponents();
         setSize(300, 600);
         this.setLocation(1050, 0);
-//        txtMensaje.setEnabled(false);
-        txtContenido.setEditable(false);
-//        txtMensaje.setEditable(false);
-//        try {
-//            Socket s = new Socket("localhost", 3333);
-//            ClientThread = new MultiCliente(s, this, jugador);
-//            ClientThread.start();
-//        } catch (UnknownHostException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//        
+        this.jugador=jugador;
+        this.broker=broker;
     }
 
     /**
@@ -69,9 +56,11 @@ public class PnlChat extends javax.swing.JPanel {
 
         setName("ChaTolli"); // NOI18N
 
+        txtContenido.setEditable(false);
         txtContenido.setBackground(new java.awt.Color(235, 222, 206));
         txtContenido.setColumns(20);
         txtContenido.setRows(5);
+        txtContenido.setFocusable(false);
         jScrollPane1.setViewportView(txtContenido);
 
         txtMensaje.setBackground(new java.awt.Color(235, 222, 206));
@@ -86,18 +75,18 @@ public class PnlChat extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
                     .addComponent(txtMensaje))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(txtMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -106,54 +95,20 @@ public class PnlChat extends javax.swing.JPanel {
     private void txtMensajeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMensajeKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String texto = txtMensaje.getText();
-            // texto = String.format("%clientSocket", event.getActionCommand());
-//            String text = txtMensaje.getText();
-            //ClientThread.ClientOutServerIn(texto);
+            HashMap<String, Object> params= new HashMap<>();
+            Mandadero mandadero= new Mandadero(params, EnumServicio.ENVIAR_MENSAJE);
+            mandadero.addParams("mensaje", texto);
+            mandadero.addParams("jugador", jugador);
+            this.broker.solicitarPedidoSHEIN(mandadero);
+            
             txtMensaje.setText("");
         }
     }//GEN-LAST:event_txtMensajeKeyReleased
     public void setDisplay(String mensaje) {
-        txtContenido.append(mensaje + ENTER);
+//        this.broker.recibirPedidoSHEIN().getParams().get("respuesta");
+        this.txtContenido.append(mensaje+ENTER);
+//        txtContenido.append(mensaje + ENTER);
     }
-
-//if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-//            String string= txtNombre.getText();
-//            if (string.matches("[0-9]*")) {
-//                JOptionPane.showMessageDialog(null, "formato no permitido");
-//                txtNombre.setText("");
-//            } else {
-//                ClientThread.setName(string);
-//                ClientThread.SetClient("channel0", string);
-//                JOptionPane.showMessageDialog(null, "Nombre de usuario: " + string);
-////                    txtNombre.setText("");
-//                txtNombre.setEditable(false);
-//                txtMensaje.setEnabled(true);
-//                txtMensaje.setEditable(true);
-//                txtCanal.setEditable(true);
-//                ClientThread.ClientOutServerIn("new user");
-////                lbNombre.setVisible(false);
-//            }
-//        }
-//    if (evt.getKeyCode () 
-//        == KeyEvent.VK_ENTER) {
-//            String texto = txtCanal.getText();
-////            texto = String.format("%clientSocket", event.getActionCommand());
-//        if (texto.matches("[a-z A-Z]")) {
-//            JOptionPane.showMessageDialog(null, "formato no permitido");
-//            txtCanal.setText("");
-//        } else {
-//            ClientThread.clientData.SetChannel("Canal" + texto);
-//            JOptionPane.showMessageDialog(null, "El canal se ha establecido a: canal" + texto);
-//            txtCanal.setText("");
-//            ClientThread.ClientOutServerIn("change channel");
-//        }
-//    public void setUserInChannel(String x) {
-//        UserNames.append(x + ENTER);
-//    }
-//
-//    public void ClearDisplay() {
-//        UserNames.setText("");
-//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;

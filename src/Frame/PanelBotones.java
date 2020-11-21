@@ -36,7 +36,7 @@ public class PanelBotones extends JPanel {
         lblTituloCodigo.setVisible(true);
         this.add(lblTituloCodigo);
 
-        JLabel lblCodigo = new JLabel("18364");
+        JLabel lblCodigo = new JLabel("12345");
         lblCodigo.setFont(new Font("PT Sans", Font.PLAIN, 18));
         lblCodigo.setForeground(new Color(250, 206, 71));
         lblCodigo.setSize(100, 40);

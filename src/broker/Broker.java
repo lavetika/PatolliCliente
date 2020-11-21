@@ -4,7 +4,6 @@ package broker;
 import Dominio.Jugador;
 import callMessage.Mandadero;
 import conexionCliente.ComunicadorRedServidor;
-import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -26,8 +25,11 @@ public class Broker implements Observer{
         this.socket = socket;
     }
     
-    public void recibirPedidoSHEIN(){
+    public Mandadero recibirPedidoSHEIN(){
         //Dos meses despues
+        
+        return socket.recibirPeticion();
+        
     }
     
     public void solicitarPedidoSHEIN(Mandadero mandadero){

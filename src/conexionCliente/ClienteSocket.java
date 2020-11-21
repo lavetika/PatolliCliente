@@ -10,13 +10,11 @@ public class ClienteSocket {
     private final String SERVIDOR;
     private final int PUERTO;
     private Broker broker;
-    Partida partida;
     //Prueba
     public ClienteSocket(String servidor, int puerto) {
         this.SERVIDOR = servidor;
         this.PUERTO = puerto;
-        System.out.println("Creando el cliente..."); 
-        partida = Partida.getInstance();
+        System.out.println("Creando el cliente...");
     }
     
     public void iniciar() throws IOException {
@@ -25,12 +23,11 @@ public class ClienteSocket {
             Socket socket = new Socket(this.SERVIDOR, this.PUERTO);
             System.out.printf("Cliente conectado con el servidor-> %s:%d... %n", this.SERVIDOR, this.PUERTO);
 
-            //Thread hilo = new Thread(new ComunicadorRedServidor(socket));
             ComunicadorRedServidor hilo = new ComunicadorRedServidor(socket);
             hilo.start();
             broker = new Broker(hilo);
-            partida.addJugador(broker);
-            partida.addObserver(broker);
+            hilo.getPartida().addJugador(broker);
+            hilo.getPartida().addObserver(broker);
        
 
             // ESTA BIEN, ENVIAR UN MENSAJE EN EL MÉTODO INICIAR?

@@ -8,15 +8,9 @@ package Frame;
 import Control.Tablero;
 import Dominio.Jugador;
 import Graphics.Canias;
-import java.awt.Color;
-import java.awt.Font;
+import broker.Broker;
 import java.awt.Image;
-import java.awt.Panel;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.GroupLayout;
-import javax.swing.JButton;
 
 /**
  *
@@ -27,19 +21,23 @@ public class fmTablero extends javax.swing.JFrame {
     
     int tamanio;
     Jugador jugador;
+    Broker broker;
      
 
     /**
      * Creates new form fmTablero
      *
      * @param tamanio
-     * @param <error>
+     * @param jugador
+     * @param broker
      */
-    public fmTablero(int tamanio, Jugador jugador) {
+    public fmTablero(int tamanio, Jugador jugador, Broker broker) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Tablero");     
         this.tamanio = tamanio;
+        this.jugador=jugador;
+        this.broker=broker;
         initPantalla();
     }
 
@@ -72,7 +70,7 @@ public class fmTablero extends javax.swing.JFrame {
 
     private void initPantalla() {
         Canias canias = new Canias();
-        add(new PnlChat(jugador));
+        add(new PnlChat(this.jugador, this.broker));
         add(new Tablero(tamanio, canias, this, new fmMenu()));
         add(new PanelBotones(this));
         add(canias);
