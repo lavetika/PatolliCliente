@@ -343,31 +343,7 @@ public final class Tablero extends JPanel{
     }
     
     public void showButtons(){
-        JButton btnSalir = new JButton ("Salir");
-        btnSalir.setSize(90,30);
-        btnSalir.setVisible(true);
-        btnSalir.setLocation(15, 105);
-        btnSalir.setForeground(Color.BLACK);
-        btnSalir.setBackground(new Color(243,243,220));
-        btnSalir.setFont(new Font("Herculanum", Font.PLAIN, 12));
-        btnSalir.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                frameTablero.dispose();
-                frameInicio.setVisible(true);
-                
-            }
-        });
-        this.add(btnSalir);
-        
-        JButton btnIniciar = new JButton ("Iniciar partida");
-        btnIniciar.setSize(130,30);
-        btnIniciar.setVisible(true);
-        btnIniciar.setLocation(15, 70);
-        btnIniciar.setForeground(Color.BLACK);
-        btnIniciar.setBackground(new Color(243,243,220));
-        btnIniciar.setFont(new Font("Herculanum", Font.PLAIN, 12));
-        this.add(btnIniciar);
+       
     
         JButton btnLanzar = new JButton ("Lanzar cañas");
         btnLanzar.setSize(150,35);
