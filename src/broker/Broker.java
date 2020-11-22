@@ -11,7 +11,7 @@ import java.util.Observer;
  *
  * @author Diana Jiménez <3 Diana Castro
  */
-public class Broker implements Observer{
+public class Broker extends Observable implements Observer{
 
     public Broker broker;
     ComunicadorRedServidor socket;
@@ -42,6 +42,9 @@ public class Broker implements Observer{
 
     @Override
     public void update(Observable o, Object o1) {
-        
+        Mandadero m = (Mandadero)o1;
+        this.setChanged();
+        this.notifyObservers(m);
+        this.clearChanged();
     }
 }

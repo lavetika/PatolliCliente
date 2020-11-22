@@ -29,9 +29,11 @@ public class Partida extends Observable{
     public static Partida getInstance(){
         if (partida == null) {   //KK
             partida = new Partida();
+            System.out.println("Esta es nueva, como chingas..");
+        }else{
+            System.out.println("Ya se instanceo, no enfades...");
         }
-        return partida;   
-        
+        return partida;
     }
     
     private Partida(){
@@ -45,9 +47,13 @@ public class Partida extends Observable{
         this.codigoPartida = codigoPartida;
         this.posicion = posicion;
     }
+    
     public void enviarMensaje(Mandadero mandadero){
-//        Mandadero mandadero=this.jugadores.get(0).recibirPedidoSHEIN();
+        this.setChanged();
+        this.notifyObservers(mandadero);
+        this.clearChanged();
         
+        System.out.println(mandadero.toString()+ " viene de partida");
     }
     
     

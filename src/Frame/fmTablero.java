@@ -9,20 +9,25 @@ import Control.Tablero;
 import Dominio.Jugador;
 import Graphics.Canias;
 import broker.Broker;
+import callMessage.Mandadero;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  *
  * @author laura
  */
-public class fmTablero extends javax.swing.JFrame {
+public class fmTablero extends javax.swing.JFrame implements Observer{
 
     
     int tamanio;
     Jugador jugador;
     Broker broker;
-     
+    PnlChat panelChat; 
+    Tablero tablero;
+    Canias canias;
 
     /**
      * Creates new form fmTablero
@@ -38,6 +43,11 @@ public class fmTablero extends javax.swing.JFrame {
         this.tamanio = tamanio;
         this.jugador=jugador;
         this.broker=broker;
+        this.broker.addObserver(this);
+        this.canias = new Canias();
+        this.panelChat = new PnlChat(this.jugador, this.broker);
+        this.tablero = new Tablero(tamanio, canias, this, new fmMenu());
+        
         initPantalla();
     }
 
@@ -69,9 +79,9 @@ public class fmTablero extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void initPantalla() {
-        Canias canias = new Canias();
-        add(new PnlChat(this.jugador, this.broker));
-        add(new Tablero(tamanio, canias, this, new fmMenu()));
+        
+        add(panelChat);
+        add(tablero);
         add(new PanelBotones(this));
         add(canias);
         setSize(1350, 800);
@@ -87,6 +97,24 @@ public class fmTablero extends javax.swing.JFrame {
 
         return retValue;
     }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        Mandadero m = (Mandadero)arg;
+        switch(m.getTipoServicio()){
+            
+            case ENVIAR_MENSAJE:
+                panelChat.setDisplay((String)m.getRespuesta().get("mensaje"));
+                
+                System.out.println(m.toString()+" viene de tablero");
+                break;
+       
+        }
+        
+    
+    }
+    
+    
            
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

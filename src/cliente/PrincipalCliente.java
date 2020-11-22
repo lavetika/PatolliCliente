@@ -1,6 +1,4 @@
 package cliente;
-
-import Control.Tablero;
 import broker.Broker;
 import callMessage.Mandadero;
 import conexionCliente.ClienteSocket;
@@ -20,12 +18,12 @@ public class PrincipalCliente {
             
             HashMap<String, Object> p = new HashMap<>();
             
-            Mandadero mandadero = new Mandadero(p, EnumServicio.CREAR_PARTIDA);
+            Mandadero mandadero = new Mandadero(EnumServicio.CREAR_PARTIDA);
             
-            mandadero.addParams("numJugadores", 4);
-            mandadero.addParams("cantGemas", 10);
-            mandadero.addParams("nickname", "Ludoviquito");
-            mandadero.addParams("Tablero", "Tablero");
+            mandadero.addPeticion("numJugadores", 4);
+            mandadero.addPeticion("cantGemas", 10);
+            mandadero.addPeticion("nickname", "Ludoviquito");
+            mandadero.addPeticion("Tablero", "Tablero");
             
             
             broker.solicitarPedidoSHEIN(mandadero);

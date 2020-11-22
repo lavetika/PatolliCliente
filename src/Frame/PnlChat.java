@@ -96,18 +96,17 @@ public class PnlChat extends javax.swing.JPanel {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String texto = txtMensaje.getText();
             HashMap<String, Object> params= new HashMap<>();
-            Mandadero mandadero= new Mandadero(params, EnumServicio.ENVIAR_MENSAJE);
-            mandadero.addParams("mensaje", texto);
-            mandadero.addParams("jugador", jugador);
+            Mandadero mandadero= new Mandadero(EnumServicio.ENVIAR_MENSAJE);
+            mandadero.addPeticion("mensaje", texto);
+            mandadero.addPeticion("jugador", jugador);
             this.broker.solicitarPedidoSHEIN(mandadero);
             
             txtMensaje.setText("");
+            
         }
     }//GEN-LAST:event_txtMensajeKeyReleased
     public void setDisplay(String mensaje) {
-//        this.broker.recibirPedidoSHEIN().getParams().get("respuesta");
         this.txtContenido.append(mensaje+ENTER);
-//        txtContenido.append(mensaje + ENTER);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
