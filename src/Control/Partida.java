@@ -17,7 +17,8 @@ import java.util.Observable;
  *
  * @author laura
  */
-public class Partida { //por el momento lo voy a quitar
+public class Partida {
+
     private static Partida partida;
     private List<Broker> jugadores;
     private int cantJugadores;
@@ -25,21 +26,20 @@ public class Partida { //por el momento lo voy a quitar
     private int codigoPartida;
     private List<Forma> posicion;
 
-    
-    public static Partida getInstance(){
-        if (partida == null) {   //KK
+    public static Partida getInstance() {
+        if (partida == null) {
             partida = new Partida();
             System.out.println("Esta es nueva, como chingas..");
-        }else{
+        } else {
             System.out.println("Ya se instanceo, no enfades...");
         }
         return partida;
     }
-    
-    private Partida(){
+
+    private Partida() {
         this.jugadores = new ArrayList<>();
     }
-    
+
     public void setPartida(int cantJugadores, Tablero tablero, int codigoPartida, List<Broker> jugadores, List<Forma> posicion) {
         this.cantJugadores = cantJugadores;
         this.jugadores = new ArrayList<>(cantJugadores);
@@ -47,16 +47,11 @@ public class Partida { //por el momento lo voy a quitar
         this.codigoPartida = codigoPartida;
         this.posicion = posicion;
     }
-    
-    public void enviarMensaje(Mandadero mandadero){
-//        this.setChanged();
-//        this.notifyObservers(mandadero);
-//        this.clearChanged();
-        
-        System.out.println(mandadero.toString()+ " viene de partida");
+
+    public void enviarMensaje(Mandadero mandadero) {
+        System.out.println(mandadero.toString() + " viene de partida");
     }
-    
-    
+
     public int getCantJugadores() {
         return cantJugadores;
     }
@@ -74,7 +69,6 @@ public class Partida { //por el momento lo voy a quitar
             return this.jugadores.add(jugador);
         }
         return false;
-
     }
 
     public void setJugadores(List<Broker> jugadores) {

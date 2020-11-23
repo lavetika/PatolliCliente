@@ -17,25 +17,21 @@ public class Broker extends Observable implements Observer{
     ComunicadorRedServidor socket;
     private Jugador jugador;
 
-    public Broker() { 
-        
+    public Broker() {         
     }
 
     public Broker(ComunicadorRedServidor socket) {
         this.socket = socket;
     }
     
-    public Mandadero recibirPedidoSHEIN(){
-        //Dos meses despues
-        
-        return socket.recibirPeticion();
-        
+    public Mandadero recibirPedido(){        
+        return socket.recibirPeticion();        
     }
     
-    public void solicitarPedidoSHEIN(Mandadero mandadero){
+    public void solicitarPedido(Mandadero mandadero){
         socket.enviarPeticion(mandadero);
     }
-    //voy a iniciar el server de nuevo
+        
     public void setJugador(Jugador jugador){
         this.jugador = jugador;
     }

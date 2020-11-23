@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Frame;
 
 import Control.Tablero;
@@ -15,12 +11,7 @@ import java.awt.Toolkit;
 import java.util.Observable;
 import java.util.Observer;
 
-/**
- *
- * @author laura
- */
 public class fmTablero extends javax.swing.JFrame implements Observer{
-
     
     int tamanio;
     Jugador jugador;
@@ -50,7 +41,7 @@ public class fmTablero extends javax.swing.JFrame implements Observer{
         
         initPantalla();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -102,17 +93,12 @@ public class fmTablero extends javax.swing.JFrame implements Observer{
     public void update(Observable o, Object arg) {
         Mandadero m = (Mandadero)arg;
         switch(m.getTipoServicio()){
-            //este sí lo necesitamos, aquí le llega
-            case ENVIAR_MENSAJE:
-                
+            
+            case ENVIAR_MENSAJE:                
                 panelChat.setDisplay((String)m.getRespuesta().get("mensaje"));
-                //sí lo necesita, sí
                 System.out.println(m.toString()+" viene de tablero");
-                break;
-       
+                break;       
         }
-        
-    
     }
     
     

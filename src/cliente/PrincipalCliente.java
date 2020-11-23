@@ -26,7 +26,7 @@ public class PrincipalCliente {
             mandadero.addPeticion("Tablero", "Tablero");
             
             
-            broker.solicitarPedidoSHEIN(mandadero);
+            broker.solicitarPedido(mandadero);
             
         } catch (IOException ex) {
             System.err.printf("Error: %s", ex.getMessage());

@@ -15,11 +15,10 @@ public class ComunicadorRedServidor extends Observable implements Runnable {
     private Socket socket;
     private ObjectOutputStream flujoSalidaDatos;
     private ObjectInputStream flujoEntradaDatos;
-   // Partida partida;
 
     public ComunicadorRedServidor(Socket socket) throws IOException {
         this.socket = socket;
-       // this.partida = Partida.getInstance();
+
         try {
             this.flujoSalidaDatos = new ObjectOutputStream(this.socket.getOutputStream());
             this.flujoEntradaDatos = new ObjectInputStream(this.socket.getInputStream());
@@ -28,10 +27,6 @@ public class ComunicadorRedServidor extends Observable implements Runnable {
             throw ex;
         }
     }
-
-//    public Partida getPartida() {
-//        return partida;
-//    }
 
     public void desconectar() throws IOException {
         try {
@@ -52,13 +47,11 @@ public class ComunicadorRedServidor extends Observable implements Runnable {
         } catch (IOException ex) {
             Logger.getLogger(ComunicadorRedServidor.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//waite
-//intentamos de nuevo, para ver si llegan?
+    }
 
-    public Mandadero recibirPeticion() { //espera aber
+    public Mandadero recibirPeticion() {
         Mandadero mandadero = null;
         try {
-            // nope, suicidó
             mandadero = (Mandadero) this.flujoEntradaDatos.readObject();
 //            this.partida.enviarMensaje(mandadero);
             System.out.println(mandadero.toString());
@@ -68,18 +61,14 @@ public class ComunicadorRedServidor extends Observable implements Runnable {
             Logger.getLogger(ComunicadorRedServidor.class.getName()).log(Level.SEVERE, null, ex);
         }
         return mandadero;
-    } //aqui no hay run
+    }
 
-    //somos unos genios caidos kk
-    //vamos creciendo, sí podemos
-    //qué
-    //sí funcionó qwq maso
-    // creo que puede ser problema del server también
     @Override
     public void run() {
         Mandadero mandadero;
 
         do {
+
             mandadero = recibirPeticion();
 
             this.setChanged();
@@ -87,9 +76,6 @@ public class ComunicadorRedServidor extends Observable implements Runnable {
             this.clearChanged();
 
         } while (!mandadero.getRespuesta().get("mensaje").equals("Adios"));
-        // estaba leyendo el otro código :c
-
-    }//fue porque cerré al cliente
-    //se va a morir toh
+    }
 
 }

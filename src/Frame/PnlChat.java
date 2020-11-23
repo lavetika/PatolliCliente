@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Frame;
 
 import Dominio.Jugador;
@@ -21,7 +17,7 @@ import javax.swing.JOptionPane;
  * @author Diana Jiménez
  */
 public class PnlChat extends javax.swing.JPanel {
-//observer del broker
+    
     private final static String ENTER = "\n";
     Jugador jugador;
     Broker broker;
@@ -94,17 +90,15 @@ public class PnlChat extends javax.swing.JPanel {
 
     private void txtMensajeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMensajeKeyReleased
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            String texto = txtMensaje.getText();
-            HashMap<String, Object> params= new HashMap<>();
+            String texto = txtMensaje.getText();            
             Mandadero mandadero= new Mandadero(EnumServicio.ENVIAR_MENSAJE);
             mandadero.addPeticion("mensaje", texto);
             mandadero.addPeticion("jugador", jugador);
-            this.broker.solicitarPedidoSHEIN(mandadero); //¿dónde? 
-//waiteame            //lo quitamos //llega dos veces a nosotros
-            txtMensaje.setText("");
-            
+            this.broker.solicitarPedido(mandadero);
+            txtMensaje.setText("");            
         }
     }//GEN-LAST:event_txtMensajeKeyReleased
+    
     public void setDisplay(String mensaje) {
         this.txtContenido.append(mensaje+ENTER);
     }

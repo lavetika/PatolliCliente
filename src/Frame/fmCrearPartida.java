@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Frame;
 
 import Dominio.Jugador;
@@ -13,10 +8,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author laura
- */
 public class fmCrearPartida extends javax.swing.JFrame {
 
     ClienteSocket cliente;
@@ -29,7 +20,6 @@ public class fmCrearPartida extends javax.swing.JFrame {
         this.llenarCmbJugadores();
         this.llenarCmbTablero();
         cliente = new ClienteSocket("localhost", 9090);
-
     }
 
     /**
@@ -176,15 +166,13 @@ public class fmCrearPartida extends javax.swing.JFrame {
             jugador.setCodigoPartida(Integer.parseInt("12345"));
             iniciarCliente(jugador);
             fmTablero frameTablero = new fmTablero((Integer) cbTamanioTablero1.getSelectedItem(), jugador, cliente.getBroker());
-            
+
             frameTablero.setVisible(true);
             this.dispose();
 
         } else {
             lblNickName.setText("*Ingresa tu nickname");
         }
-
-
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     public void iniciarCliente(Jugador jugador) {
@@ -231,7 +219,6 @@ public class fmCrearPartida extends javax.swing.JFrame {
         cbCantGemas.addItem(20);
         cbCantGemas.addItem(25);
         cbCantGemas.addItem(30);
-
     }
 
     private void llenarCmbTablero() {
@@ -240,6 +227,7 @@ public class fmCrearPartida extends javax.swing.JFrame {
         cbTamanioTablero1.addItem(44);
         cbTamanioTablero1.addItem(52);
     }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;

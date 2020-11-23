@@ -10,10 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-/**
- *
- * @author dianacastro
- */
 public class PanelBotones extends JPanel {
 
     fmTablero fmTablero;

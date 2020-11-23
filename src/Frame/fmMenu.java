@@ -1,23 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Frame;
 
 import Dominio.Jugador;
 import java.awt.Image;
 import java.awt.Toolkit;
 
-/**
- *
- * @author laura
- */
 public class fmMenu extends javax.swing.JFrame {
 
-    /**
-     * Creates new form fmMenu
-     */
     public fmMenu() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -135,12 +123,9 @@ public class fmMenu extends javax.swing.JFrame {
 
     private void btnCrearPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearPartidaActionPerformed
 
-       // Jugador jugador = new Jugador();
         fmCrearPartida framePersonalizarPartida = new fmCrearPartida();
         framePersonalizarPartida.setVisible(true);
         this.setVisible(false);
-
-
     }//GEN-LAST:event_btnCrearPartidaActionPerformed
 
     private void btnComoJugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComoJugarActionPerformed
@@ -156,12 +141,9 @@ public class fmMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCreditosActionPerformed
 
     private void btnIngresarPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarPartidaActionPerformed
-
-      //  Jugador jugador = new Jugador();
         fmIngresarPartida frameIngresar = new fmIngresarPartida();
         frameIngresar.setVisible(true);
         this.setVisible(false);
-
     }//GEN-LAST:event_btnIngresarPartidaActionPerformed
 
     /**

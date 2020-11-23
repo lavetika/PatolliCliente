@@ -88,11 +88,9 @@ public final class Tablero extends JPanel{
         rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
         g2d.setRenderingHints(rh);
-            
-        //drawBase(g2d);
+                    
         showButtons();
-        showPlayersIcons();
-        //showBeans();
+        showPlayersIcons();       
         showGemas();
         showNicknames();        
         showApuestaRestante();
@@ -402,47 +400,7 @@ public final class Tablero extends JPanel{
         lblPlayerIcon4.setLocation(185, 635);
         this.add(lblPlayerIcon4);
     }
-    
-//    public void showBeans(){
-//        ImageIcon frijolActivado = new ImageIcon (new ImageIcon(getClass().getResource("/Images/frijol activado32px.png")).getImage());
-//        ImageIcon frijolDesactivado = new ImageIcon (new ImageIcon(getClass().getResource("/Images/frijol desactivado32px.png")).getImage());
-//        
-//        JLabel lblBean1 = new JLabel();
-//        lblBean1.setSize(40,40);
-//        lblBean1.setLocation(25, 600);
-//        lblBean1.setIcon(frijolActivado);
-//        lblBean1.setVisible(true);
-//        this.add(lblBean1);
-//        
-//        JLabel lblBean2 = new JLabel();
-//        lblBean2.setSize(40,40);
-//        lblBean2.setLocation(25, 640);
-//        lblBean2.setIcon(frijolActivado);
-//        lblBean2.setVisible(true);
-//        this.add(lblBean2);
-//        
-//        JLabel lblBean3 = new JLabel();
-//        lblBean3.setSize(40,40);
-//        lblBean3.setLocation(65, 620);
-//        lblBean3.setIcon(frijolDesactivado);
-//        lblBean3.setVisible(true);
-//        this.add(lblBean3);
-//        
-//        JLabel lblBean4 = new JLabel();
-//        lblBean4.setSize(40,40);
-//        lblBean4.setLocation(65, 660);
-//        lblBean4.setIcon(frijolActivado);
-//        lblBean4.setVisible(true);
-//        this.add(lblBean4);
-//        
-//        JLabel lblBean5 = new JLabel();
-//        lblBean5.setSize(40,40);
-//        lblBean5.setLocation(105, 640);
-//        lblBean5.setIcon(frijolDesactivado);
-//        lblBean5.setVisible(true);
-//        this.add(lblBean5);
-//    }
-//    
+  
     public void showGemas(){
         ImageIcon imageIcon1 = new ImageIcon (new ImageIcon(getClass().getResource("/Images/diamante32px.png")).getImage());
         

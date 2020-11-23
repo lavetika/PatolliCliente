@@ -1,22 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Frame;
 
 import java.awt.Image;
 import java.awt.Toolkit;
 
-/**
- *
- * @author laura
- */
 public class fmCreditos extends javax.swing.JFrame {
 
-    /**
-     * Creates new form fmCreditos
-     */
     public fmCreditos() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -87,8 +75,7 @@ public class fmCreditos extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btnSalirActionPerformed
 
-    
-       @Override
+    @Override
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().
                 getImage(ClassLoader.getSystemResource("Images/azteca32px.png"));

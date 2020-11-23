@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Frame;
 
 import Dominio.Jugador;
@@ -13,23 +9,15 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author laura
- */
 public class fmIngresarPartida extends javax.swing.JFrame {
 
     ClienteSocket cliente;
-
-    /**
-     * Creates new form fmIngresarPartida
-     */
+ 
     public fmIngresarPartida() {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Ingresar partida");
         cliente = new ClienteSocket("localhost", 9090);
-
     }
 
     /**
@@ -141,9 +129,6 @@ public class fmIngresarPartida extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-//    public boolean validarCodigo(){
-//        return !txtCodigo.getText().isEmpty()&&txtCodigo.getText().length()==5;
-//    }
     public boolean validarNickname() {
         return !txtNickname.getText().isEmpty();
     }
@@ -168,7 +153,6 @@ public class fmIngresarPartida extends javax.swing.JFrame {
         } else {
             lblNickName.setText("*Ingresa tu nickname");
         }
-
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void txtCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyTyped
@@ -192,7 +176,6 @@ public class fmIngresarPartida extends javax.swing.JFrame {
 
         return retValue;
     }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
