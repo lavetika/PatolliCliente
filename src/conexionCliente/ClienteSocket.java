@@ -24,10 +24,11 @@ public class ClienteSocket {
             System.out.printf("Cliente conectado con el servidor-> %s:%d... %n", this.SERVIDOR, this.PUERTO);
 
             ComunicadorRedServidor hilo = new ComunicadorRedServidor(socket);
-            hilo.start();
+            Thread tempHilo = new Thread(hilo);  //yo creo que es esto, acepta uno y el siguiente ya no
+            tempHilo.start();
             broker = new Broker(hilo);
-            hilo.getPartida().addJugador(broker);
-            hilo.getPartida().addObserver(broker);
+            hilo.addObserver(broker);
+
        
 
             // ESTA BIEN, ENVIAR UN MENSAJE EN EL MÉTODO INICIAR?

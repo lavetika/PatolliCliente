@@ -102,10 +102,11 @@ public class fmTablero extends javax.swing.JFrame implements Observer{
     public void update(Observable o, Object arg) {
         Mandadero m = (Mandadero)arg;
         switch(m.getTipoServicio()){
-            
+            //este sí lo necesitamos, aquí le llega
             case ENVIAR_MENSAJE:
-                panelChat.setDisplay((String)m.getRespuesta().get("mensaje"));
                 
+                panelChat.setDisplay((String)m.getRespuesta().get("mensaje"));
+                //sí lo necesita, sí
                 System.out.println(m.toString()+" viene de tablero");
                 break;
        

@@ -17,7 +17,7 @@ import java.util.Observable;
  *
  * @author laura
  */
-public class Partida extends Observable{
+public class Partida { //por el momento lo voy a quitar
     private static Partida partida;
     private List<Broker> jugadores;
     private int cantJugadores;
@@ -49,9 +49,9 @@ public class Partida extends Observable{
     }
     
     public void enviarMensaje(Mandadero mandadero){
-        this.setChanged();
-        this.notifyObservers(mandadero);
-        this.clearChanged();
+//        this.setChanged();
+//        this.notifyObservers(mandadero);
+//        this.clearChanged();
         
         System.out.println(mandadero.toString()+ " viene de partida");
     }

@@ -38,7 +38,7 @@ public class PnlChat extends javax.swing.JPanel {
         setSize(300, 600);
         this.setLocation(1050, 0);
         this.jugador=jugador;
-        this.broker=broker;
+        this.broker=broker; 
     }
 
     /**
@@ -99,8 +99,8 @@ public class PnlChat extends javax.swing.JPanel {
             Mandadero mandadero= new Mandadero(EnumServicio.ENVIAR_MENSAJE);
             mandadero.addPeticion("mensaje", texto);
             mandadero.addPeticion("jugador", jugador);
-            this.broker.solicitarPedidoSHEIN(mandadero);
-            
+            this.broker.solicitarPedidoSHEIN(mandadero); //¿dónde? 
+//waiteame            //lo quitamos //llega dos veces a nosotros
             txtMensaje.setText("");
             
         }

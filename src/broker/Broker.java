@@ -35,7 +35,7 @@ public class Broker extends Observable implements Observer{
     public void solicitarPedidoSHEIN(Mandadero mandadero){
         socket.enviarPeticion(mandadero);
     }
-    
+    //voy a iniciar el server de nuevo
     public void setJugador(Jugador jugador){
         this.jugador = jugador;
     }
@@ -46,5 +46,6 @@ public class Broker extends Observable implements Observer{
         this.setChanged();
         this.notifyObservers(m);
         this.clearChanged();
+        
     }
 }
