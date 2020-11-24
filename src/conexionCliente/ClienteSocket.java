@@ -17,7 +17,7 @@ public class ClienteSocket {
         System.out.println("Creando el cliente...");
     }
 
-    public void iniciar() throws IOException {
+    public void iniciar() throws Exception {
         try {
             System.out.println("Conectando el cliente con el servidor");
             Socket socket = new Socket(this.SERVIDOR, this.PUERTO);
@@ -28,8 +28,8 @@ public class ClienteSocket {
             tempHilo.start();
             broker = new Broker(hilo);
             hilo.addObserver(broker);
-        } catch (IOException ex) {
-            System.err.printf("Error %s %n", ex.getMessage());
+        } catch (Exception ex) {
+//            System.err.printf("Error %s %n", ex.getMessage());
             throw ex;
         }
     }

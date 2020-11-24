@@ -44,7 +44,6 @@ public class Canias extends JPanel {
         
     }
     
-
     /**
      * Calcula la cantidad de casillas que avanzará el jugador en su turno.
      * @return 
@@ -56,7 +55,6 @@ public class Canias extends JPanel {
             imageCania(resultado);
             sum += resultado;
         }
-
         return sum;
     }
 
@@ -77,18 +75,13 @@ public class Canias extends JPanel {
      * 
      */
     public void mostrarCanias() {
-
         lblCania.setIcon(canias.get(0));
         lblCania2.setIcon(canias.get(1));
         lblCania3.setIcon(canias.get(2));
         lblCania4.setIcon(canias.get(3));
         lblCania5.setIcon(canias.get(4));
-        canias.removeAll(canias);
-        
+        canias.removeAll(canias);   
     }
-
-    
-    
     
     /**
      *  Crea y configura las etiquetas donde se mostrarán las cañas.

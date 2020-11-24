@@ -23,7 +23,7 @@ public class ComunicadorRedServidor extends Observable implements Runnable {
             this.flujoSalidaDatos = new ObjectOutputStream(this.socket.getOutputStream());
             this.flujoEntradaDatos = new ObjectInputStream(this.socket.getInputStream());
         } catch (IOException ex) {
-            Logger.getLogger(ComunicadorRedServidor.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(ComunicadorRedServidor.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
     }

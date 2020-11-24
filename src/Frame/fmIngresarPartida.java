@@ -135,10 +135,13 @@ public class fmIngresarPartida extends javax.swing.JFrame {
 
     public void iniciarCliente(Jugador jugador) {
         try {
+            
             cliente.iniciar();
             cliente.getBroker().setJugador(jugador);
         } catch (IOException ex) {
             Logger.getLogger(fmCrearPartida.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(fmIngresarPartida.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

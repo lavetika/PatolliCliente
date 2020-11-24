@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class fmCrearPartida extends javax.swing.JFrame {
 
@@ -164,24 +165,31 @@ public class fmCrearPartida extends javax.swing.JFrame {
         if (validarNickname()) {
             Jugador jugador = new Jugador(txtNickname.getText());
             jugador.setCodigoPartida(Integer.parseInt("12345"));
-            iniciarCliente(jugador);
-            fmTablero frameTablero = new fmTablero((Integer) cbTamanioTablero1.getSelectedItem(), jugador, cliente.getBroker());
+            
+            if (iniciarCliente(jugador)) {
+                fmTablero frameTablero = new fmTablero((Integer) cbTamanioTablero1.getSelectedItem(), jugador, cliente.getBroker());
 
-            frameTablero.setVisible(true);
-            this.dispose();
+                frameTablero.setVisible(true);
+                this.dispose();
+            }
 
         } else {
             lblNickName.setText("*Ingresa tu nickname");
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    public void iniciarCliente(Jugador jugador) {
+    public boolean iniciarCliente(Jugador jugador) {
         try {
             cliente.iniciar();
             cliente.getBroker().setJugador(jugador);
-        } catch (IOException ex) {
-            Logger.getLogger(fmCrearPartida.class.getName()).log(Level.SEVERE, null, ex);
+            return true;
+        } catch (Exception ex) {
+//            Logger.getLogger(fmCrearPartida.class.getName()).log(Level.SEVERE, null, ex);
+//            JOptionPane dialogo = new JOptionPane("Esta llena la partida");
+            JOptionPane.showMessageDialog(this, "Esta llena la partida");
         }
+        
+        return false;
     }
 
     private void cbTamanioTablero1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTamanioTablero1ActionPerformed
