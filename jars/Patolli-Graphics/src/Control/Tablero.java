@@ -5,6 +5,7 @@
  */
 package Control;
 
+import Dominio.Ficha;
 import Enum.EnumCasilla;
 import Enum.EnumDireccion;
 import Graphics.Cuadrangular;
@@ -366,6 +367,12 @@ public final class Tablero extends JPanel{
         btnApostar.setFont(new Font("Herculanum", Font.BOLD, 14));
         this.add(btnApostar);
     }
+    
+//    //Mover fichas
+//    
+//    public void moverBotones(){
+//        Ficha fichaAzul1 = new Ficha(ficha, SOMEBITS);
+//    }
     
     public void showPlayersIcons(){
         JLabel lblPlayerIcon1 = new JLabel();

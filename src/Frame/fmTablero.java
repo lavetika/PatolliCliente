@@ -73,7 +73,7 @@ public class fmTablero extends javax.swing.JFrame implements Observer{
         
         add(panelChat);
         add(tablero);
-        add(new PanelBotones(this));
+        add(new PanelBotones(this, broker));
         add(canias);
         setSize(1350, 800);
         setResizable(false);

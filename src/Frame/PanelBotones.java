@@ -1,8 +1,10 @@
 package Frame;
 
+import broker.Broker;
+import callMessage.Mandadero;
+import enumServicio.EnumServicio;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.GroupLayout;
@@ -13,12 +15,14 @@ import javax.swing.JPanel;
 public class PanelBotones extends JPanel {
 
     fmTablero fmTablero;
+    Broker b;
 
-    public PanelBotones(fmTablero frameTablero) {
+    public PanelBotones(fmTablero frameTablero, Broker b) {
         setLayout(new GroupLayout(this));
         this.setSize(150, 800);
         this.setBackground(new Color(105, 2, 5));
         this.fmTablero = frameTablero;
+        this.b = b;
         showButtons();
         showCodigo();
     }
@@ -49,7 +53,15 @@ public class PanelBotones extends JPanel {
         btnIniciar.setForeground(Color.BLACK);
         btnIniciar.setBackground(new Color(243, 243, 220));
         btnIniciar.setFont(new Font("Herculanum", Font.PLAIN, 12));
+        btnIniciar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                Mandadero m = new Mandadero(EnumServicio.ASIGNAR_TURNO);
+                b.solicitarPedido(m);
+            }
+        });
         this.add(btnIniciar);
+        
 
         JButton btnSalir = new JButton("Salir");
         btnSalir.setSize(90, 30);
