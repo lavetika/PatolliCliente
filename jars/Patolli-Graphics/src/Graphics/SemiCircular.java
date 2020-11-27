@@ -5,7 +5,8 @@
  */
 package Graphics;
 
-import Enum.EnumCasilla;
+import Dominio.Ficha;
+import Enumeration.EnumCasilla;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -29,5 +30,14 @@ public class SemiCircular extends Forma {
         g2d.fillArc(positionX, positionY, tamanio*2, tamanio*2, rotacion, 90);
         g2d.setColor(Color.BLACK);
         g2d.drawArc(positionX, positionY, tamanio*2, tamanio*2, rotacion, 90);
+    }
+    
+    @Override
+    public void drawFicha(Ficha ficha) {
+        
+    }
+
+    @Override
+    public void deleteFicha() {
     }
 }

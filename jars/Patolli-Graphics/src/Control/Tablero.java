@@ -6,8 +6,8 @@
 package Control;
 
 import Dominio.Ficha;
-import Enum.EnumCasilla;
-import Enum.EnumDireccion;
+import Enumeration.EnumCasilla;
+import Enumeration.EnumDireccion;
 import Graphics.Cuadrangular;
 import Graphics.Forma;
 import Graphics.SemiCircular;
@@ -43,8 +43,8 @@ public final class Tablero extends JPanel {
     Frame frameInicio;
     int tamanioCasilla;
     Canias lanzar;
-
-    ArrayList<JLabel> fichasAzules;
+    
+    ArrayList<Forma> casillas;
 
     public Tablero(int tamanio, Canias canias, Frame frameTablero, Frame frameInicio) {
         setLayout(new GroupLayout(this));
@@ -58,6 +58,7 @@ public final class Tablero extends JPanel {
         this.frameTablero = frameTablero;
         this.frameInicio = frameInicio;
         this.lanzar = canias;
+        this.casillas = new ArrayList<>();
 
         calcularTablero();
     }
@@ -101,6 +102,7 @@ public final class Tablero extends JPanel {
         showApuestaRestante();
         
         showFichasAzules();
+        
         showFichasRojas();
         showFichasVerdes();
         showFichasNaranja();
@@ -162,6 +164,11 @@ public final class Tablero extends JPanel {
 
         Forma casilla4 = new Cuadrangular(EnumCasilla.CENTRAL, x, y, tamanioCasilla);
         casilla4.draw(g2d);
+        
+        casillas.add(casilla);
+        casillas.add(casilla2);
+        casillas.add(casilla3);
+        casillas.add(casilla4);
 
     }
 
@@ -180,6 +187,7 @@ public final class Tablero extends JPanel {
             y = posicionar(x, y, EnumDireccion.ARRIBA);
             Forma casilla = new Cuadrangular(EnumCasilla.INICIO, x, y, tamanioCasilla);
             casilla.draw(g2d);
+            casillas.add(casilla);
         }
 
         x = posicionar(x, y, EnumDireccion.IZQUIERDA);
@@ -187,6 +195,7 @@ public final class Tablero extends JPanel {
             Forma casilla = new Cuadrangular(EnumCasilla.INICIO, x, y, tamanioCasilla);
             casilla.draw(g2d);
             y = posicionar(x, y, EnumDireccion.ABAJO);
+            casillas.add(casilla);
         }
 
         drawSemiCircular(g2d, EnumDireccion.ARRIBA);
@@ -205,6 +214,7 @@ public final class Tablero extends JPanel {
             y = posicionar(x, y, EnumDireccion.ABAJO);
             Forma casilla = new Cuadrangular(EnumCasilla.INICIO, x, y, tamanioCasilla);
             casilla.draw(g2d);
+            casillas.add(casilla);
         }
 
         x = posicionar(x, y, EnumDireccion.IZQUIERDA);
@@ -212,6 +222,7 @@ public final class Tablero extends JPanel {
             Forma casilla = new Cuadrangular(EnumCasilla.INICIO, x, y, tamanioCasilla);
             casilla.draw(g2d);
             y = posicionar(x, y, EnumDireccion.ARRIBA);
+            casillas.add(casilla);
         }
 
         drawSemiCircular(g2d, EnumDireccion.ABAJO);
@@ -232,6 +243,7 @@ public final class Tablero extends JPanel {
             x = posicionar(x, y, EnumDireccion.IZQUIERDA);
             Forma casilla = new Cuadrangular(EnumCasilla.INICIO, x, y, tamanioCasilla);
             casilla.draw(g2d);
+            casillas.add(casilla);
         }
 
         y = posicionar(x, y, EnumDireccion.ARRIBA);
@@ -241,6 +253,7 @@ public final class Tablero extends JPanel {
             Forma casilla = new Cuadrangular(EnumCasilla.INICIO, x, y, tamanioCasilla);
             casilla.draw(g2d);
             x = posicionar(x, y, EnumDireccion.DERECHA);
+            casillas.add(casilla);
         }
 
         drawSemiCircular(g2d, EnumDireccion.IZQUIERDA);
@@ -259,6 +272,7 @@ public final class Tablero extends JPanel {
             x = posicionar(x, y, EnumDireccion.DERECHA);
             Forma casilla = new Cuadrangular(EnumCasilla.INICIO, x, y, tamanioCasilla);
             casilla.draw(g2d);
+            casillas.add(casilla);
         }
 
         y = posicionar(x, y, EnumDireccion.ARRIBA);
@@ -268,6 +282,7 @@ public final class Tablero extends JPanel {
             Forma casilla = new Cuadrangular(EnumCasilla.INICIO, x, y, tamanioCasilla);
             casilla.draw(g2d);
             x = posicionar(x, y, EnumDireccion.IZQUIERDA);
+            casillas.add(casilla);
         }
 
         drawSemiCircular(g2d, EnumDireccion.DERECHA);
@@ -291,8 +306,10 @@ public final class Tablero extends JPanel {
             y = posicionar(x, y, EnumDireccion.ARRIBA);
             Forma mediaLuna1 = new SemiCircular(EnumCasilla.ESQUINA, x, y, tamanioCasilla, 90);
             mediaLuna1.draw(g2d);
+            casillas.add(mediaLuna1);
             Forma mediaLuna2 = new SemiCircular(EnumCasilla.ESQUINA, x, y, tamanioCasilla, 180);
             mediaLuna2.draw(g2d);
+            casillas.add(mediaLuna2);
 
         } else if (direccion == EnumDireccion.DERECHA) {
 
@@ -306,8 +323,10 @@ public final class Tablero extends JPanel {
             y = posicionar(x, y, EnumDireccion.ARRIBA);
             Forma mediaLuna1 = new SemiCircular(EnumCasilla.ESQUINA, x, y, tamanioCasilla, 0);
             mediaLuna1.draw(g2d);
+            casillas.add(mediaLuna1);
             Forma mediaLuna2 = new SemiCircular(EnumCasilla.ESQUINA, x, y, tamanioCasilla, 270);
             mediaLuna2.draw(g2d);
+            casillas.add(mediaLuna2);
 
         } else if (direccion == EnumDireccion.ARRIBA) {
             for (int i = 0; i < cantidadLado + 2; i++) {
@@ -316,9 +335,11 @@ public final class Tablero extends JPanel {
             x = posicionar(x, y, EnumDireccion.IZQUIERDA);
             Forma mediaLuna1 = new SemiCircular(EnumCasilla.ESQUINA, x, y, tamanioCasilla, 90);
             mediaLuna1.draw(g2d);
+            casillas.add(mediaLuna1);
 
             Forma mediaLuna2 = new SemiCircular(EnumCasilla.ESQUINA, x, y, tamanioCasilla, 360);
             mediaLuna2.draw(g2d);
+            casillas.add(mediaLuna2);
 
         } else {
             for (int i = 0; i < cantidadLado; i++) {
@@ -331,9 +352,11 @@ public final class Tablero extends JPanel {
             x = posicionar(x, y, EnumDireccion.IZQUIERDA);
             Forma mediaLuna1 = new SemiCircular(EnumCasilla.ESQUINA, x, y, tamanioCasilla, 180);
             mediaLuna1.draw(g2d);
+            casillas.add(mediaLuna1);
 
             Forma mediaLuna2 = new SemiCircular(EnumCasilla.ESQUINA, x, y, tamanioCasilla, 270);
             mediaLuna2.draw(g2d);
+            casillas.add(mediaLuna2);
         }
     }
 
@@ -346,7 +369,17 @@ public final class Tablero extends JPanel {
 
     public void showButtons(Graphics g) {
         JButton btnIniciar = new JButton("Iniciar juego");
-        JLabel fichaInicial = new JLabel("");
+        JLabel fichaAzul = new JLabel("");
+        JLabel fichaRoja = new JLabel("");
+        JLabel fichaVerde = new JLabel("");
+        JLabel fichaNaranjada = new JLabel("");
+        
+        ArrayList<JLabel> fichasPosicionar = new ArrayList<>();
+        
+        fichasPosicionar.add(fichaAzul);
+        fichasPosicionar.add(fichaRoja);
+        fichasPosicionar.add(fichaVerde);
+        fichasPosicionar.add(fichaNaranjada);
         
         btnIniciar.setSize(150, 35);
         btnIniciar.setVisible(true);
@@ -357,15 +390,19 @@ public final class Tablero extends JPanel {
         btnIniciar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                posicionarFichas(fichaInicial);
+                posicionarFichas(fichasPosicionar);
             }
         });
         this.add(btnIniciar);
-        this.add(fichaInicial);
+        
+        for (JLabel ficha : fichasPosicionar) {
+            this.add(ficha);
+        }
+        
         
         JButton btnLanzar = new JButton("Lanzar cañas");
         JLabel fichaNuevaPosicion;
-        fichaNuevaPosicion = fichaInicial;
+        fichaNuevaPosicion = fichasPosicionar.get(0);
         
         btnLanzar.setSize(150, 35);
         btnLanzar.setVisible(true);
@@ -519,30 +556,55 @@ public final class Tablero extends JPanel {
     }
 
     //Mover fichas
-    public void posicionarFichas(JLabel ficha){
+    public void posicionarFichas(ArrayList<JLabel> fichas){
         ImageIcon imageIcon1 = new ImageIcon (new ImageIcon(getClass().getResource("/Images/fichaazul32px.png")).getImage());
         
-        ficha.setIcon(imageIcon1);        
-        ficha.setSize(40,40);
-        Ficha fichaObject = new Ficha(ficha, 361, 415);
-        fichaObject.getFicha().setVisible(true);
+        fichas.get(0).setIcon(imageIcon1);        
+        fichas.get(0).setSize(40, 40);
+        Ficha fichaAzul1 = new Ficha(fichas.get(0));
+        
+        ImageIcon imageIcon2 = new ImageIcon(new ImageIcon(getClass().getResource("/Images/ficharoja32px.png")).getImage());
+        
+        fichas.get(1).setIcon(imageIcon2);
+        fichas.get(1).setSize(40, 40);
+        Ficha fichaRoja1 = new Ficha(fichas.get(1));
+        
+        ImageIcon imageIcon3 = new ImageIcon(new ImageIcon(getClass().getResource("/Images/fichaverde32px.png")).getImage());
+
+        fichas.get(2).setIcon(imageIcon3);
+        fichas.get(2).setSize(40, 40);
+        Ficha fichaVerde1 = new Ficha(fichas.get(2));
+        
+        ImageIcon imageIcon4 = new ImageIcon(new ImageIcon(getClass().getResource("/Images/fichanaranja32px.png")).getImage());
+
+        fichas.get(3).setIcon(imageIcon4);
+        fichas.get(3).setSize(40, 40);
+        Ficha fichaNaranja1 = new Ficha(fichas.get(3));
+
+        casillas.get(0).drawFicha(fichaVerde1);
+        casillas.get(1).drawFicha(fichaNaranja1);
+        casillas.get(2).drawFicha(fichaAzul1);
+        casillas.get(3).drawFicha(fichaRoja1);
+        
     }
     
     public void moverFicha(int numero, JLabel ficha){
-        if(((int)Math.round(ficha.getLocation().getX()-(numero*40)))
-                > 215){
-            
-            ficha.setLocation((int)Math.round(ficha.getLocation().getX()-(numero*40)), 
-                (int)Math.round(ficha.getLocation().getY()));
-        }else{
-            ficha.setLocation(215, 
-                (int)Math.round(ficha.getLocation().getY())+20);
-        }
+//        if(((int)Math.round(ficha.getLocation().getX()-(numero*40)))
+//                > 215){
+//            
+//            ficha.setLocation((int)Math.round(ficha.getLocation().getX()-(numero*40)), 
+//                (int)Math.round(ficha.getLocation().getY()));
+//        }else{
+//            ficha.setLocation(215, 
+//                (int)Math.round(ficha.getLocation().getY())+20);
+//        }
         
     }
     
     public void showFichasAzules() {
 
+        ArrayList<JLabel> fichas = new ArrayList<>();
+        
         ImageIcon imageIcon1 = new ImageIcon(new ImageIcon(getClass().getResource("/Images/fichaazul32px.png")).getImage());
         JLabel lblFichaAzul1 = new JLabel();
         lblFichaAzul1.setIcon(imageIcon1);
@@ -557,6 +619,7 @@ public final class Tablero extends JPanel {
         lblFichaAzul2.setLocation(310, 260);
         lblFichaAzul2.setVisible(true);
         this.add(lblFichaAzul2);
+        
 
         JLabel lblFichaAzul3 = new JLabel();
         lblFichaAzul3.setIcon(imageIcon1);
@@ -585,7 +648,6 @@ public final class Tablero extends JPanel {
         lblFichaAzul5.setLocation(270, 300);
         lblFichaAzul5.setVisible(true);
         this.add(lblFichaAzul5);
-        //Se agrega a la lista
     }
 
     public void showFichasRojas() {

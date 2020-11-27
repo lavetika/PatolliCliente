@@ -1,5 +1,5 @@
 
-package Enum;
+package Enumeration;
 
 /**
  *

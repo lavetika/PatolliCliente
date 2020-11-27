@@ -1,10 +1,12 @@
 
 package Graphics;
 
-import Enum.EnumCasilla;
+import Dominio.Ficha;
+import Enumeration.EnumCasilla;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.util.Locale;
 
 /**
  *
@@ -23,4 +25,21 @@ public class Cuadrangular extends Forma {
         g2d.setColor(Color.BLACK);
         g2d.drawRect(positionX, positionY, tamanio, tamanio);
     }
+
+    @Override
+    public void drawFicha(Ficha ficha) {
+        this.ficha = ficha;
+        this.ficha.getFicha().setLocation(positionX+5, positionY);
+        this.ficha.getFicha().setVisible(true);
+    }
+
+    @Override
+    public void deleteFicha() {
+    }
+    
+    
+    
+    
+    
+    
 }
