@@ -5,6 +5,8 @@ package broker;
 import conexionCliente.ClienteSocket;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -18,6 +20,8 @@ public class PrincipalBroker {
             new ClienteSocket("localhost", 9090).iniciar();
         } catch (IOException ex) {
             System.err.printf("Error: %s", ex.getMessage());
+        } catch (Exception ex) {
+            Logger.getLogger(PrincipalBroker.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

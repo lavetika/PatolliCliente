@@ -6,6 +6,8 @@ import enumServicio.EnumServicio;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PrincipalCliente {
 
@@ -30,6 +32,8 @@ public class PrincipalCliente {
             
         } catch (IOException ex) {
             System.err.printf("Error: %s", ex.getMessage());
+        } catch (Exception ex) {
+            Logger.getLogger(PrincipalCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         

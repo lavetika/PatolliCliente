@@ -35,6 +35,10 @@ public class Broker extends Observable implements Observer{
     public void setJugador(Jugador jugador){
         this.jugador = jugador;
     }
+    
+    public void confirmarExistencia(Mandadero mandadero){
+        socket.enviarPeticion(mandadero);
+    }
 
     @Override
     public void update(Observable o, Object o1) {

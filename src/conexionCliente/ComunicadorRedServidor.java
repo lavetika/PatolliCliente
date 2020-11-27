@@ -1,6 +1,5 @@
 package conexionCliente;
 
-import Control.Partida;
 import callMessage.Mandadero;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -23,7 +22,6 @@ public class ComunicadorRedServidor extends Observable implements Runnable {
             this.flujoSalidaDatos = new ObjectOutputStream(this.socket.getOutputStream());
             this.flujoEntradaDatos = new ObjectInputStream(this.socket.getInputStream());
         } catch (IOException ex) {
-//            Logger.getLogger(ComunicadorRedServidor.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
     }
@@ -41,7 +39,7 @@ public class ComunicadorRedServidor extends Observable implements Runnable {
         try {
             this.flujoSalidaDatos.writeObject(m);
             this.flujoSalidaDatos.flush();
-//            this.socket.close();
+
         } catch (ClassCastException ex) {
             Logger.getLogger(ComunicadorRedServidor.class.getName()).log(Level.SEVERE, "El objeto recibido no es un mandadero válido", ex);
         } catch (IOException ex) {
@@ -53,7 +51,6 @@ public class ComunicadorRedServidor extends Observable implements Runnable {
         Mandadero mandadero = null;
         try {
             mandadero = (Mandadero) this.flujoEntradaDatos.readObject();
-//            this.partida.enviarMensaje(mandadero);
             System.out.println(mandadero.toString());
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -66,16 +63,16 @@ public class ComunicadorRedServidor extends Observable implements Runnable {
     @Override
     public void run() {
         Mandadero mandadero;
-
         do {
 
             mandadero = recibirPeticion();
+            if (mandadero != null) {
+                this.setChanged();
+                this.notifyObservers(mandadero);
+                this.clearChanged();
+            }
 
-            this.setChanged();
-            this.notifyObservers(mandadero);
-            this.clearChanged();
-
-        } while (!mandadero.getRespuesta().get("mensaje").equals("Adios"));
+        } while (mandadero != null);
     }
 
 }

@@ -1,12 +1,12 @@
 package Frame;
 
 import Dominio.Jugador;
+import Dominio.TipoJugador;
+import callMessage.Mandadero;
 import conexionCliente.ClienteSocket;
+import enumServicio.EnumServicio;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class fmCrearPartida extends javax.swing.JFrame {
@@ -165,14 +165,19 @@ public class fmCrearPartida extends javax.swing.JFrame {
         if (validarNickname()) {
             Jugador jugador = new Jugador(txtNickname.getText());
             jugador.setCodigoPartida(Integer.parseInt("12345"));
+            jugador.setTipoJugador(TipoJugador.HOST);
             
             if (iniciarCliente(jugador)) {
+                Mandadero mandadero = new Mandadero(EnumServicio.CREAR_PARTIDA);
+                mandadero.addPeticion("cantJugadores", cbNumeroMaxJugadores.getSelectedItem());
+                mandadero.addPeticion("maxApuesta", cbTamanioTablero1.getSelectedItem());
+                mandadero.addPeticion("jugador", jugador);
+                cliente.getBroker().solicitarPedido(mandadero);
+                
                 fmTablero frameTablero = new fmTablero((Integer) cbTamanioTablero1.getSelectedItem(), jugador, cliente.getBroker());
-
                 frameTablero.setVisible(true);
                 this.dispose();
             }
-
         } else {
             lblNickName.setText("*Ingresa tu nickname");
         }
@@ -184,8 +189,7 @@ public class fmCrearPartida extends javax.swing.JFrame {
             cliente.getBroker().setJugador(jugador);
             return true;
         } catch (Exception ex) {
-//            Logger.getLogger(fmCrearPartida.class.getName()).log(Level.SEVERE, null, ex);
-//            JOptionPane dialogo = new JOptionPane("Esta llena la partida");
+
             JOptionPane.showMessageDialog(this, "Esta llena la partida");
         }
         
@@ -202,7 +206,7 @@ public class fmCrearPartida extends javax.swing.JFrame {
 
     private void txtNicknameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNicknameKeyTyped
         char a = evt.getKeyChar();
-        if ((txtNickname.getText().length() >= 10)) {//que sea menor a 10 letras
+        if ((txtNickname.getText().length() >= 10)) {
             evt.consume();
         }
     }//GEN-LAST:event_txtNicknameKeyTyped

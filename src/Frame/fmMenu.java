@@ -1,10 +1,20 @@
 package Frame;
 
 import Dominio.Jugador;
+import callMessage.Mandadero;
+import conexionCliente.ClienteSocket;
+import enumServicio.EnumServicio;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.util.Observable;
+import java.util.Observer;
+import javax.swing.JOptionPane;
 
-public class fmMenu extends javax.swing.JFrame {
+public class fmMenu extends javax.swing.JFrame implements Observer{
+    
+    private boolean estadoPartida;
+    private ClienteSocket clienteSocket;
+    
 
     public fmMenu() {
         initComponents();
@@ -22,8 +32,7 @@ public class fmMenu extends javax.swing.JFrame {
         lblTitulo = new javax.swing.JLabel();
         lblTitulo1 = new javax.swing.JLabel();
         lblIcono = new javax.swing.JLabel();
-        btnCrearPartida = new javax.swing.JButton();
-        btnIngresarPartida = new javax.swing.JButton();
+        btnJugar = new javax.swing.JButton();
         btnComoJugar = new javax.swing.JButton();
         btnCreditos = new javax.swing.JButton();
         lblFondo = new javax.swing.JLabel();
@@ -56,25 +65,15 @@ public class fmMenu extends javax.swing.JFrame {
         lblIcono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/calendario-azteca64px.png"))); // NOI18N
         jPanelMenuPrincipal.add(lblIcono, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, -1, -1));
 
-        btnCrearPartida.setBackground(new java.awt.Color(243, 243, 220));
-        btnCrearPartida.setFont(new java.awt.Font("Herculanum", 0, 14)); // NOI18N
-        btnCrearPartida.setText("Crear Partida");
-        btnCrearPartida.addActionListener(new java.awt.event.ActionListener() {
+        btnJugar.setBackground(new java.awt.Color(243, 243, 220));
+        btnJugar.setFont(new java.awt.Font("Herculanum", 0, 14)); // NOI18N
+        btnJugar.setText("Jugar");
+        btnJugar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCrearPartidaActionPerformed(evt);
+                btnJugarActionPerformed(evt);
             }
         });
-        jPanelMenuPrincipal.add(btnCrearPartida, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 230, 176, 49));
-
-        btnIngresarPartida.setBackground(new java.awt.Color(243, 243, 220));
-        btnIngresarPartida.setFont(new java.awt.Font("Herculanum", 0, 14)); // NOI18N
-        btnIngresarPartida.setText("Ingresar Partida");
-        btnIngresarPartida.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIngresarPartidaActionPerformed(evt);
-            }
-        });
-        jPanelMenuPrincipal.add(btnIngresarPartida, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 300, 176, 52));
+        jPanelMenuPrincipal.add(btnJugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 230, 176, 49));
 
         btnComoJugar.setBackground(new java.awt.Color(243, 243, 220));
         btnComoJugar.setFont(new java.awt.Font("Herculanum", 0, 14)); // NOI18N
@@ -84,7 +83,7 @@ public class fmMenu extends javax.swing.JFrame {
                 btnComoJugarActionPerformed(evt);
             }
         });
-        jPanelMenuPrincipal.add(btnComoJugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 370, 176, 45));
+        jPanelMenuPrincipal.add(btnComoJugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 300, 176, 45));
 
         btnCreditos.setBackground(new java.awt.Color(243, 243, 220));
         btnCreditos.setFont(new java.awt.Font("Herculanum", 0, 14)); // NOI18N
@@ -94,7 +93,7 @@ public class fmMenu extends javax.swing.JFrame {
                 btnCreditosActionPerformed(evt);
             }
         });
-        jPanelMenuPrincipal.add(btnCreditos, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 440, 176, 46));
+        jPanelMenuPrincipal.add(btnCreditos, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 370, 176, 46));
 
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/FED148.jpeg"))); // NOI18N
         jPanelMenuPrincipal.add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 360, 90));
@@ -113,20 +112,18 @@ public class fmMenu extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanelMenuPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanelMenuPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCrearPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearPartidaActionPerformed
-
-        fmCrearPartida framePersonalizarPartida = new fmCrearPartida();
-        framePersonalizarPartida.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_btnCrearPartidaActionPerformed
+    private void btnJugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJugarActionPerformed
+        clienteSocket = new ClienteSocket("localhost", 9090);
+        iniciarCliente(clienteSocket);
+        Mandadero mandadero = new Mandadero(EnumServicio.CREAR_PARTIDA);
+        clienteSocket.getBroker().confirmarExistencia(mandadero);
+    }//GEN-LAST:event_btnJugarActionPerformed
 
     private void btnComoJugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComoJugarActionPerformed
         fmComoJugar frameComoJugar = new fmComoJugar();
@@ -139,12 +136,6 @@ public class fmMenu extends javax.swing.JFrame {
         frameCreditos.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnCreditosActionPerformed
-
-    private void btnIngresarPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarPartidaActionPerformed
-        fmIngresarPartida frameIngresar = new fmIngresarPartida();
-        frameIngresar.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_btnIngresarPartidaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -188,13 +179,40 @@ public class fmMenu extends javax.swing.JFrame {
 
         return retValue;
     }
+    
+     public boolean iniciarCliente(ClienteSocket cliente) {
+        try {
+            System.out.println("iniciarCliente metodo");
+            cliente.iniciar();
+            cliente.getBroker().setJugador(new Jugador("soy la prueba"));
+            cliente.getBroker().addObserver(this);
+            
+            return true;
+        } catch (Exception ex) {
 
-
+            JOptionPane.showMessageDialog(this, "Esta llena la partida");
+        }
+        
+        return false;
+    }
+     
+     public void abrirSiguientePantalla(){
+            if (!estadoPartida) {
+            fmCrearPartida framePersonalizarPartida = new fmCrearPartida();
+            framePersonalizarPartida.setVisible(true);
+            this.setVisible(false);
+        } else {
+            fmIngresarPartida frameIngresar = new fmIngresarPartida();
+            frameIngresar.setVisible(true);
+            this.setVisible(false);
+        }
+        clienteSocket.cerrarSocket();
+     }
+     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnComoJugar;
-    private javax.swing.JButton btnCrearPartida;
     private javax.swing.JButton btnCreditos;
-    private javax.swing.JButton btnIngresarPartida;
+    private javax.swing.JButton btnJugar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanelMenuPrincipal;
@@ -205,4 +223,11 @@ public class fmMenu extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTitulo1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update(Observable o, Object o1) {
+        Mandadero mandadero = (Mandadero) o1;
+        this.estadoPartida = (boolean) mandadero.getRespuesta().get("respuesta");
+        abrirSiguientePantalla();
+    }
 }
