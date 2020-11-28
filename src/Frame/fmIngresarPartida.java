@@ -1,18 +1,23 @@
-
 package Frame;
 
 import Dominio.Jugador;
+import callMessage.Mandadero;
 import conexionCliente.ClienteSocket;
+import enumServicio.EnumServicio;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class fmIngresarPartida extends javax.swing.JFrame {
+public class fmIngresarPartida extends javax.swing.JFrame implements Observer {
 
-    ClienteSocket cliente;
- 
+    private ClienteSocket cliente;
+    private Jugador jugador;
+    private int tamTablero;
+
     public fmIngresarPartida() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -33,8 +38,6 @@ public class fmIngresarPartida extends javax.swing.JFrame {
         lblIngresarPartida = new javax.swing.JLabel();
         btnIngresar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        txtCodigo = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         lblFondo = new javax.swing.JLabel();
         lb_codigo = new javax.swing.JLabel();
@@ -72,20 +75,6 @@ public class fmIngresarPartida extends javax.swing.JFrame {
         });
         jPanelIngresarPartida.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 220, 131, -1));
 
-        jLabel1.setFont(new java.awt.Font("PT Sans", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(243, 243, 220));
-        jLabel1.setText("Código de la partida");
-        jPanelIngresarPartida.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 160, -1, -1));
-
-        txtCodigo.setBackground(new java.awt.Color(243, 243, 220));
-        txtCodigo.setFont(new java.awt.Font("PT Sans", 0, 18)); // NOI18N
-        txtCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtCodigoKeyTyped(evt);
-            }
-        });
-        jPanelIngresarPartida.add(txtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 150, 210, -1));
-
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/piramide-maya.png"))); // NOI18N
         jPanelIngresarPartida.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 30, -1, -1));
 
@@ -98,7 +87,7 @@ public class fmIngresarPartida extends javax.swing.JFrame {
         lblNickName.setFont(new java.awt.Font("PT Sans", 0, 18)); // NOI18N
         lblNickName.setForeground(new java.awt.Color(243, 243, 220));
         lblNickName.setText("Nickname*");
-        jPanelIngresarPartida.add(lblNickName, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, -1, -1));
+        jPanelIngresarPartida.add(lblNickName, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 140, -1, -1));
 
         txtNickname.setBackground(new java.awt.Color(243, 243, 220));
         txtNickname.setFont(new java.awt.Font("PT Sans", 0, 13)); // NOI18N
@@ -107,7 +96,7 @@ public class fmIngresarPartida extends javax.swing.JFrame {
                 txtNicknameKeyTyped(evt);
             }
         });
-        jPanelIngresarPartida.add(txtNickname, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 100, 180, 30));
+        jPanelIngresarPartida.add(txtNickname, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 140, 180, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -135,9 +124,10 @@ public class fmIngresarPartida extends javax.swing.JFrame {
 
     public void iniciarCliente(Jugador jugador) {
         try {
-            
+
             cliente.iniciar();
             cliente.getBroker().setJugador(jugador);
+            cliente.getBroker().addObserver(this);
         } catch (IOException ex) {
             Logger.getLogger(fmCrearPartida.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
@@ -145,25 +135,24 @@ public class fmIngresarPartida extends javax.swing.JFrame {
         }
     }
 
+    public void abrirSiguientePantalla() {
+        fmTablero frameTablero = new fmTablero(tamTablero, jugador, cliente.getBroker());
+        frameTablero.setVisible(true);
+        this.dispose();
+
+    }
+
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         if (validarNickname()) {
-            Jugador jugador = new Jugador();
-            jugador.setCodigoPartida(Integer.parseInt(txtCodigo.getText()));
+            jugador = new Jugador(txtNickname.getText());
             iniciarCliente(jugador);
-            fmTablero frameTablero = new fmTablero(44, jugador, cliente.getBroker());
-            frameTablero.setVisible(true);
-            this.dispose();
+            Mandadero mandadero = new Mandadero(EnumServicio.INGRESAR_PARTIDA);
+            cliente.getBroker().solicitarPedido(mandadero);
+
         } else {
             lblNickName.setText("*Ingresa tu nickname");
         }
     }//GEN-LAST:event_btnIngresarActionPerformed
-
-    private void txtCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyTyped
-        char a = evt.getKeyChar();
-        if ((!Character.isDigit(a) || txtCodigo.getText().length() >= 5)) {//que sean solo números
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtCodigoKeyTyped
 
     private void txtNicknameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNicknameKeyTyped
         char a = evt.getKeyChar();
@@ -183,14 +172,19 @@ public class fmIngresarPartida extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnIngresar;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanelIngresarPartida;
     private javax.swing.JLabel lb_codigo;
     private javax.swing.JLabel lblFondo;
     private javax.swing.JLabel lblIngresarPartida;
     private javax.swing.JLabel lblNickName;
-    private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtNickname;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update(Observable o, Object o1) {
+        Mandadero mandadero = (Mandadero) o1;
+        this.tamTablero = (int) mandadero.getRespuesta().get("tamTablero");
+        abrirSiguientePantalla();
+    }
 }

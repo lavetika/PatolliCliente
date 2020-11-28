@@ -166,14 +166,15 @@ public class fmCrearPartida extends javax.swing.JFrame {
             Jugador jugador = new Jugador(txtNickname.getText());
             jugador.setCodigoPartida(Integer.parseInt("12345"));
             jugador.setTipoJugador(TipoJugador.HOST);
-            
+
             if (iniciarCliente(jugador)) {
                 Mandadero mandadero = new Mandadero(EnumServicio.CREAR_PARTIDA);
                 mandadero.addPeticion("cantJugadores", cbNumeroMaxJugadores.getSelectedItem());
-                mandadero.addPeticion("maxApuesta", cbTamanioTablero1.getSelectedItem());
+                mandadero.addPeticion("maxApuesta", cbCantGemas.getSelectedItem());
+                mandadero.addPeticion("tamTablero", cbTamanioTablero1.getSelectedItem());
                 mandadero.addPeticion("jugador", jugador);
                 cliente.getBroker().solicitarPedido(mandadero);
-                
+
                 fmTablero frameTablero = new fmTablero((Integer) cbTamanioTablero1.getSelectedItem(), jugador, cliente.getBroker());
                 frameTablero.setVisible(true);
                 this.dispose();
@@ -192,7 +193,7 @@ public class fmCrearPartida extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(this, "Esta llena la partida");
         }
-        
+
         return false;
     }
 
