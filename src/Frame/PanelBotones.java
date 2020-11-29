@@ -74,6 +74,8 @@ public class PanelBotones extends JPanel {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 fmTablero.dispose();
+                Mandadero mandadero=new Mandadero(EnumServicio.ABANDONO_JUGADOR);
+                b.solicitarPedido(mandadero);
                 fmMenu fmMenu = new fmMenu();
                 fmMenu.setVisible(true);
             }

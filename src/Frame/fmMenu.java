@@ -189,7 +189,7 @@ public class fmMenu extends javax.swing.JFrame implements Observer{
             
             return true;
         } catch (Exception ex) {
-
+            System.out.println(ex.getMessage());
             JOptionPane.showMessageDialog(this, "Esta llena la partida");
         }
         

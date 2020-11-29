@@ -1,4 +1,3 @@
-
 package broker;
 
 import Dominio.Jugador;
@@ -11,41 +10,45 @@ import java.util.Observer;
  *
  * @author Diana Jiménez <3 Diana Castro
  */
-public class Broker extends Observable implements Observer{
+public class Broker extends Observable implements Observer {
 
     public Broker broker;
     ComunicadorRedServidor socket;
     private Jugador jugador;
 
-    public Broker() {         
+    public Broker() {
     }
 
     public Broker(ComunicadorRedServidor socket) {
         this.socket = socket;
     }
-    
-    public Mandadero recibirPedido(){        
-        return socket.recibirPeticion();        
+
+    public ComunicadorRedServidor getCliente() {
+        return socket;
     }
-    
-    public void solicitarPedido(Mandadero mandadero){
+
+    public Mandadero recibirPedido() {
+        return socket.recibirPeticion();
+    }
+
+    public void solicitarPedido(Mandadero mandadero) {
         socket.enviarPeticion(mandadero);
     }
-        
-    public void setJugador(Jugador jugador){
+
+    public void setJugador(Jugador jugador) {
         this.jugador = jugador;
     }
-    
-    public void confirmarExistencia(Mandadero mandadero){
+
+    public void confirmarExistencia(Mandadero mandadero) {
         socket.enviarPeticion(mandadero);
     }
 
     @Override
     public void update(Observable o, Object o1) {
-        Mandadero m = (Mandadero)o1;
+        Mandadero m = (Mandadero) o1;
         this.setChanged();
         this.notifyObservers(m);
         this.clearChanged();
-        
+
     }
 }

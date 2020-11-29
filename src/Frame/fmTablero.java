@@ -1,4 +1,3 @@
-
 package Frame;
 
 import Control.Tablero;
@@ -8,15 +7,19 @@ import broker.Broker;
 import callMessage.Mandadero;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
-public class fmTablero extends javax.swing.JFrame implements Observer{
-    
+public class fmTablero extends javax.swing.JFrame implements Observer {
+
     int tamanio;
     Jugador jugador;
     Broker broker;
-    PnlChat panelChat; 
+    PnlChat panelChat;
     Tablero tablero;
     Canias canias;
 
@@ -30,18 +33,18 @@ public class fmTablero extends javax.swing.JFrame implements Observer{
     public fmTablero(int tamanio, Jugador jugador, Broker broker) {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.setTitle("Tablero");     
+        this.setTitle("Tablero");
         this.tamanio = tamanio;
-        this.jugador=jugador;
-        this.broker=broker;
+        this.jugador = jugador;
+        this.broker = broker;
         this.broker.addObserver(this);
         this.canias = new Canias();
         this.panelChat = new PnlChat(this.jugador, this.broker);
         this.tablero = new Tablero(tamanio, canias, this, new fmMenu());
-        
+
         initPantalla();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -70,7 +73,7 @@ public class fmTablero extends javax.swing.JFrame implements Observer{
     }// </editor-fold>//GEN-END:initComponents
 
     private void initPantalla() {
-        
+
         add(panelChat);
         add(tablero);
         add(new PanelBotones(this, broker));
@@ -78,7 +81,7 @@ public class fmTablero extends javax.swing.JFrame implements Observer{
         setSize(1350, 800);
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);                
+        setLocationRelativeTo(null);
     }
 
     @Override
@@ -91,18 +94,25 @@ public class fmTablero extends javax.swing.JFrame implements Observer{
 
     @Override
     public void update(Observable o, Object arg) {
-        Mandadero m = (Mandadero)arg;
-        switch(m.getTipoServicio()){
-            
-            case ENVIAR_MENSAJE:                
-                panelChat.setDisplay((String)m.getRespuesta().get("mensaje"));
-                System.out.println(m.toString()+" viene de tablero");
-                break;       
+        Mandadero m = (Mandadero) arg;
+        switch (m.getTipoServicio()) {
+
+            case ENVIAR_MENSAJE:
+                panelChat.setDisplay((String) m.getRespuesta().get("mensaje"));
+                System.out.println(m.toString() + " viene de tablero");
+                break;
+            case ABANDONO_JUGADOR:
+                try {
+                    this.broker.getCliente().desconectar();
+                    JOptionPane.showMessageDialog(this, "Camarón que se duerme...");
+                } catch (IOException ex) {
+                    Logger.getLogger(fmTablero.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
         }
     }
-    
-    
-           
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

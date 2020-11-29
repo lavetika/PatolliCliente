@@ -184,7 +184,9 @@ public class fmIngresarPartida extends javax.swing.JFrame implements Observer {
     @Override
     public void update(Observable o, Object o1) {
         Mandadero mandadero = (Mandadero) o1;
-        this.tamTablero = (int) mandadero.getRespuesta().get("tamTablero");
-        abrirSiguientePantalla();
+        if (mandadero.getRespuesta().containsKey("tamTablero")) {
+            this.tamTablero = (int) mandadero.getRespuesta().get("tamTablero");
+            abrirSiguientePantalla();
+        }
     }
 }
