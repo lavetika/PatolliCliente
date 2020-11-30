@@ -35,16 +35,16 @@ import javax.swing.JPanel;
  */
 public final class Tablero extends JPanel {
 
-    int cantidadTablero;
-    int cantidadLado;
-    int cantidadCasillasCentrales;
-    int cantidadSemiCirculo;
-    Frame frameTablero;
-    Frame frameInicio;
-    int tamanioCasilla;
-    Canias lanzar;
-    
-    ArrayList<Forma> casillas;
+    private int cantidadTablero;
+    private int cantidadLado;
+    private int cantidadCasillasCentrales;
+    private int cantidadSemiCirculo;
+    private Frame frameTablero;
+    private Frame frameInicio;
+    private int tamanioCasilla;
+    private Canias lanzar;
+    private ArrayList<JButton> botones;
+    private ArrayList<Forma> casillas;
 
     public Tablero(int tamanio, Canias canias, Frame frameTablero, Frame frameInicio) {
         setLayout(new GroupLayout(this));
@@ -59,6 +59,7 @@ public final class Tablero extends JPanel {
         this.frameInicio = frameInicio;
         this.lanzar = canias;
         this.casillas = new ArrayList<>();
+        this.botones = new ArrayList<>();
 
         calcularTablero();
     }
@@ -100,9 +101,9 @@ public final class Tablero extends JPanel {
         showGemas();
         showNicknames();
         showApuestaRestante();
-        
+
         showFichasAzules();
-        
+
         showFichasRojas();
         showFichasVerdes();
         showFichasNaranja();
@@ -164,7 +165,7 @@ public final class Tablero extends JPanel {
 
         Forma casilla4 = new Cuadrangular(EnumCasilla.CENTRAL, x, y, tamanioCasilla);
         casilla4.draw(g2d);
-        
+
         casillas.add(casilla);
         casillas.add(casilla2);
         casillas.add(casilla3);
@@ -367,20 +368,24 @@ public final class Tablero extends JPanel {
         g.drawImage(imagen, 125, 75, null);
     }
 
+    public ArrayList<JButton> getBotones() {
+        return botones;
+    }
+
     public void showButtons(Graphics g) {
         JButton btnIniciar = new JButton("Iniciar juego");
         JLabel fichaAzul = new JLabel("");
         JLabel fichaRoja = new JLabel("");
         JLabel fichaVerde = new JLabel("");
         JLabel fichaNaranjada = new JLabel("");
-        
+        botones.add(btnIniciar);
         ArrayList<JLabel> fichasPosicionar = new ArrayList<>();
-        
+
         fichasPosicionar.add(fichaAzul);
         fichasPosicionar.add(fichaRoja);
         fichasPosicionar.add(fichaVerde);
         fichasPosicionar.add(fichaNaranjada);
-        
+
         btnIniciar.setSize(150, 35);
         btnIniciar.setVisible(true);
         btnIniciar.setLocation(740, 585);
@@ -388,22 +393,21 @@ public final class Tablero extends JPanel {
         btnIniciar.setBackground(new Color(250, 206, 71));
         btnIniciar.setFont(new Font("Herculanum", Font.BOLD, 14));
         btnIniciar.addActionListener(new ActionListener() {
-            @Override
+            @Override 
             public void actionPerformed(ActionEvent ae) {
                 posicionarFichas(fichasPosicionar);
             }
         });
         this.add(btnIniciar);
-        
+
         for (JLabel ficha : fichasPosicionar) {
             this.add(ficha);
         }
-        
-        
+
         JButton btnLanzar = new JButton("Lanzar cañas");
         JLabel fichaNuevaPosicion;
         fichaNuevaPosicion = fichasPosicionar.get(0);
-        
+
         btnLanzar.setSize(150, 35);
         btnLanzar.setVisible(true);
         btnLanzar.setLocation(740, 635);
@@ -420,15 +424,17 @@ public final class Tablero extends JPanel {
         });
         this.add(btnLanzar);
         this.add(fichaNuevaPosicion);
-
-        JButton btnApostar = new JButton("Apostar");
-        btnApostar.setSize(110, 35);
-        btnApostar.setVisible(true);
-        btnApostar.setLocation(780, 685);
-        btnApostar.setForeground(Color.BLACK);
-        btnApostar.setBackground(new Color(250, 206, 71));
-        btnApostar.setFont(new Font("Herculanum", Font.BOLD, 14));
-        this.add(btnApostar);
+        botones.add(btnLanzar);  
+        
+      
+//        JButton btnApostar = new JButton("Apostar");
+//        btnApostar.setSize(110, 35);
+//        btnApostar.setVisible(true);
+//        btnApostar.setLocation(780, 685);
+//        btnApostar.setForeground(Color.BLACK);
+//        btnApostar.setBackground(new Color(250, 206, 71));
+//        btnApostar.setFont(new Font("Herculanum", Font.BOLD, 14));
+//        this.add(btnApostar);
     }
 
     public void showPlayersIcons() {
@@ -556,25 +562,25 @@ public final class Tablero extends JPanel {
     }
 
     //Mover fichas
-    public void posicionarFichas(ArrayList<JLabel> fichas){
-        ImageIcon imageIcon1 = new ImageIcon (new ImageIcon(getClass().getResource("/Images/fichaazul32px.png")).getImage());
-        
-        fichas.get(0).setIcon(imageIcon1);        
+    public void posicionarFichas(ArrayList<JLabel> fichas) {
+        ImageIcon imageIcon1 = new ImageIcon(new ImageIcon(getClass().getResource("/Images/fichaazul32px.png")).getImage());
+
+        fichas.get(0).setIcon(imageIcon1);
         fichas.get(0).setSize(40, 40);
         Ficha fichaAzul1 = new Ficha(fichas.get(0));
-        
+
         ImageIcon imageIcon2 = new ImageIcon(new ImageIcon(getClass().getResource("/Images/ficharoja32px.png")).getImage());
-        
+
         fichas.get(1).setIcon(imageIcon2);
         fichas.get(1).setSize(40, 40);
         Ficha fichaRoja1 = new Ficha(fichas.get(1));
-        
+
         ImageIcon imageIcon3 = new ImageIcon(new ImageIcon(getClass().getResource("/Images/fichaverde32px.png")).getImage());
 
         fichas.get(2).setIcon(imageIcon3);
         fichas.get(2).setSize(40, 40);
         Ficha fichaVerde1 = new Ficha(fichas.get(2));
-        
+
         ImageIcon imageIcon4 = new ImageIcon(new ImageIcon(getClass().getResource("/Images/fichanaranja32px.png")).getImage());
 
         fichas.get(3).setIcon(imageIcon4);
@@ -585,10 +591,10 @@ public final class Tablero extends JPanel {
         casillas.get(1).drawFicha(fichaNaranja1);
         casillas.get(2).drawFicha(fichaAzul1);
         casillas.get(3).drawFicha(fichaRoja1);
-        
+
     }
-    
-    public void moverFicha(int numero, JLabel ficha){
+
+    public void moverFicha(int numero, JLabel ficha) {
 //        if(((int)Math.round(ficha.getLocation().getX()-(numero*40)))
 //                > 215){
 //            
@@ -598,13 +604,13 @@ public final class Tablero extends JPanel {
 //            ficha.setLocation(215, 
 //                (int)Math.round(ficha.getLocation().getY())+20);
 //        }
-        
+
     }
-    
+
     public void showFichasAzules() {
 
         ArrayList<JLabel> fichas = new ArrayList<>();
-        
+
         ImageIcon imageIcon1 = new ImageIcon(new ImageIcon(getClass().getResource("/Images/fichaazul32px.png")).getImage());
         JLabel lblFichaAzul1 = new JLabel();
         lblFichaAzul1.setIcon(imageIcon1);
@@ -612,14 +618,13 @@ public final class Tablero extends JPanel {
         lblFichaAzul1.setLocation(310, 300);
         lblFichaAzul1.setVisible(true);
         this.add(lblFichaAzul1);
-        
+
         JLabel lblFichaAzul2 = new JLabel();
         lblFichaAzul2.setIcon(imageIcon1);
         lblFichaAzul2.setSize(40, 40);
         lblFichaAzul2.setLocation(310, 260);
         lblFichaAzul2.setVisible(true);
         this.add(lblFichaAzul2);
-        
 
         JLabel lblFichaAzul3 = new JLabel();
         lblFichaAzul3.setIcon(imageIcon1);

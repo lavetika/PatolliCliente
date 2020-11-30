@@ -81,6 +81,26 @@ public class PanelBotones extends JPanel {
             }
         });
         this.add(btnSalir);
+        
+        
+        
+        JButton btnPrueba = new JButton("Prueba");
+        btnPrueba.setSize(90, 30);
+        btnPrueba.setVisible(true);
+        btnPrueba.setLocation(15, 160); 
+        btnPrueba.setForeground(Color.BLACK);
+        btnPrueba.setBackground(new Color(243, 255, 220));
+        btnPrueba.setFont(new Font("Herculanum", Font.PLAIN, 12));
+        btnPrueba.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                Mandadero mandadero=new Mandadero(EnumServicio.MOVIMIENTO_FICHA);
+                b.solicitarPedido(mandadero);
+            }
+        });
+        this.add(btnPrueba);
+        
+        
     }
 
 }

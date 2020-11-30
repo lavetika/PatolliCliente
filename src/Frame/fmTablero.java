@@ -8,20 +8,24 @@ import callMessage.Mandadero;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 public class fmTablero extends javax.swing.JFrame implements Observer {
 
-    int tamanio;
-    Jugador jugador;
-    Broker broker;
-    PnlChat panelChat;
-    Tablero tablero;
-    Canias canias;
+    private int tamanio;
+    private Jugador jugador;
+    private Broker broker;
+    private PnlChat panelChat;
+    private Tablero tablero;
+    private Canias canias;
+    private ArrayList<JButton> botones;
+    private boolean turno;
 
     /**
      * Creates new form fmTablero
@@ -41,6 +45,7 @@ public class fmTablero extends javax.swing.JFrame implements Observer {
         this.canias = new Canias();
         this.panelChat = new PnlChat(this.jugador, this.broker);
         this.tablero = new Tablero(tamanio, canias, this, new fmMenu());
+        this.botones = tablero.getBotones();
 
         initPantalla();
     }
@@ -82,6 +87,7 @@ public class fmTablero extends javax.swing.JFrame implements Observer {
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
     }
 
     @Override
@@ -92,9 +98,17 @@ public class fmTablero extends javax.swing.JFrame implements Observer {
         return retValue;
     }
 
+    public void enableButtons() {
+        boolean turno = this.turno;
+        for (JButton boton : botones) {
+            boton.setEnabled(turno);
+        }
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         Mandadero m = (Mandadero) arg;
+
         switch (m.getTipoServicio()) {
 
             case ENVIAR_MENSAJE:
@@ -109,6 +123,10 @@ public class fmTablero extends javax.swing.JFrame implements Observer {
                     Logger.getLogger(fmTablero.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 break;
+            case MOVIMIENTO_FICHA:
+                this.turno = (boolean) m.getRespuesta().get("turno");
+                this.enableButtons();
+                break;//TA WORKEAND
         }
     }
 
