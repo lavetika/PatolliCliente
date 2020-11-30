@@ -122,7 +122,10 @@ public class fmMenu extends javax.swing.JFrame implements Observer{
         clienteSocket = new ClienteSocket("localhost", 9090);
         iniciarCliente(clienteSocket);
         Mandadero mandadero = new Mandadero(EnumServicio.CREAR_PARTIDA);
-        clienteSocket.getBroker().confirmarExistencia(mandadero);
+        if (clienteSocket.getBroker() != null) {
+            clienteSocket.getBroker().confirmarExistencia(mandadero);
+        }
+
     }//GEN-LAST:event_btnJugarActionPerformed
 
     private void btnComoJugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComoJugarActionPerformed
