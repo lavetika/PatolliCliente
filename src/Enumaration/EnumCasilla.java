@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Enumeration;
+package Enumaration;
 
 /**
  *
  * @author laura
  */
-public enum EnumDireccion {
-    DERECHA, IZQUIERDA, ARRIBA, ABAJO  
+public enum EnumCasilla {
+    FINAL, APUESTA, INICIO, CENTRAL, ESQUINA 
 }

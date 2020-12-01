@@ -10,14 +10,12 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author Zannie
+ * @author laura
  */
-public class Chat extends JPanel {
-
+public class Chat extends JPanel{
     public Chat() {
         setSize(300, 600);
         setBackground(new Color(105, 2, 5));
         this.setLocation(900, 0);
     }
-
 }

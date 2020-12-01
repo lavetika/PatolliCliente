@@ -1,26 +1,42 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Graphics;
 
 import Dominio.Ficha;
-import Enumeration.EnumCasilla;
+import Enumaration.EnumCasilla;
+import Enumaration.EnumDireccion;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-
+/**
+ *
+ * @author laura
+ */
 public abstract class Forma {
     
     EnumCasilla forma;
+    EnumDireccion direccion;
     Ficha ficha;
     int positionX;
     int positionY;
+    int position;
     static Color colorHuesito = new Color(243, 243, 220);
     int tamanio;
+    int rotacion;
 
-    public Forma(EnumCasilla posicion, int positionX, int positionY, int tamanio) {
+    public Forma() {
+    }
+    
+    public Forma(EnumCasilla posicion, int positionX, int positionY, int tamanio, int position, EnumDireccion dirección) {
         this.forma = posicion;
         this.positionX = positionX;
         this.positionY = positionY;
         this.tamanio = tamanio;
+        this.position = position;
+        this.direccion = dirección;
     }
     
     public abstract void draw(Graphics2D g2d);
@@ -76,6 +92,32 @@ public abstract class Forma {
     public void setTamanio(int tamanio) {
         this.tamanio = tamanio;
     }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public EnumDireccion getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(EnumDireccion direccion) {
+        this.direccion = direccion;
+    }
+
+    public int getRotacion() {
+        return rotacion;
+    }
+
+    public void setRotacion(int rotacion) {
+        this.rotacion = rotacion;
+    }
+    
+    
     
     
 }

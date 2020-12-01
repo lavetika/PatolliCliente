@@ -6,19 +6,16 @@
 package Graphics;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.util.ArrayList;
-import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
  *
- * @author Zannie
+ * @author laura
  */
-public class Canias extends JPanel {
-
+public class Canias extends JPanel{
     public ImageIcon cania;
     public ArrayList<ImageIcon> canias;
     ImageIcon cania0;
@@ -43,6 +40,7 @@ public class Canias extends JPanel {
         crearLabels();
         
     }
+    
     
     /**
      * Calcula la cantidad de casillas que avanzará el jugador en su turno.
@@ -122,5 +120,4 @@ public class Canias extends JPanel {
         lblCania5.setLocation(1130, 560);
         this.add(lblCania5);
     }
-
 }

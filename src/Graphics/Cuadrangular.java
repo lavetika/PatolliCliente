@@ -1,12 +1,16 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Graphics;
 
 import Dominio.Ficha;
-import Enumeration.EnumCasilla;
+import Enumaration.EnumCasilla;
+import Enumaration.EnumDireccion;
+import static Graphics.Forma.colorHuesito;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.util.Locale;
 
 /**
  *
@@ -14,8 +18,13 @@ import java.util.Locale;
  */
 public class Cuadrangular extends Forma {
 
-    public Cuadrangular(EnumCasilla posicion, int positionX, int positionY, int tamanio) {
-        super(posicion, positionX, positionY, tamanio);
+    public Cuadrangular() {
+        super();
+    }
+
+
+    public Cuadrangular(EnumCasilla posicion, int positionX, int positionY, int tamanio, int position, EnumDireccion direccion) {
+        super(posicion, positionX, positionY, tamanio, position, direccion);
     }
   
     @Override
@@ -30,7 +39,10 @@ public class Cuadrangular extends Forma {
     public void drawFicha(Ficha ficha) {
         this.ficha = ficha;
         this.ficha.getFicha().setLocation(positionX+5, positionY);
+        this.ficha.setPosicionX(positionX+5);
+        this.ficha.setPosicionY(positionY);
         this.ficha.getFicha().setVisible(true);
+        
     }
 
     @Override

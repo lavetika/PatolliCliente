@@ -44,7 +44,7 @@ public class fmTablero extends javax.swing.JFrame implements Observer {
         this.broker.addObserver(this);
         this.canias = new Canias();
         this.panelChat = new PnlChat(this.jugador, this.broker);
-        this.tablero = new Tablero(tamanio, canias, this, new fmMenu());
+        this.tablero = new Tablero(broker, tamanio, canias);
         this.botones = tablero.getBotones();
 
         initPantalla();
