@@ -1,16 +1,12 @@
 
 package Frame;
 
-import Dominio.Jugador;
 import broker.Broker;
 import callMessage.Mandadero;
 import enumServicio.EnumServicio;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
-import java.util.HashMap;
 import javax.swing.GroupLayout;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,7 +15,6 @@ import javax.swing.JOptionPane;
 public class PnlChat extends javax.swing.JPanel {
     
     private final static String ENTER = "\n";
-    Jugador jugador;
     Broker broker;
 
     /**
@@ -27,13 +22,12 @@ public class PnlChat extends javax.swing.JPanel {
      *
      * @param jugador
      */
-    public PnlChat(Jugador jugador, Broker broker) {
+    public PnlChat( Broker broker) {
         setLayout(new GroupLayout(this));
         this.setBackground(new Color(105, 2, 5));
         initComponents();
         setSize(300, 600);
         this.setLocation(1050, 0);
-        this.jugador=jugador;
         this.broker=broker; 
     }
 
@@ -93,7 +87,7 @@ public class PnlChat extends javax.swing.JPanel {
             String texto = txtMensaje.getText();            
             Mandadero mandadero= new Mandadero(EnumServicio.ENVIAR_MENSAJE);
             mandadero.addPeticion("mensaje", texto);
-            mandadero.addPeticion("jugador", jugador);
+            mandadero.addPeticion("jugador",broker.getJugador());
             this.broker.solicitarPedido(mandadero);
             txtMensaje.setText("");            
         }

@@ -9,6 +9,7 @@ import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
@@ -18,6 +19,7 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 public class fmIngresarPartida extends javax.swing.JFrame implements Observer {
 
     private ClienteSocket cliente;
+    fmTablero frameTablero;
     private Jugador jugador;
     private int tamTablero;
 
@@ -148,10 +150,12 @@ public class fmIngresarPartida extends javax.swing.JFrame implements Observer {
         }
     }
 
-    public void abrirSiguientePantalla() {
-        fmTablero frameTablero = new fmTablero(tamTablero, jugador, cliente.getBroker());
+    public void abrirSiguientePantalla(Mandadero mandadero) {
+        this.frameTablero = new fmTablero(tamTablero, cliente.getBroker());
+        frameTablero.posicionarJugador((List)mandadero.getRespuesta().get("posiciones"));
         frameTablero.setVisible(true);
         this.dispose();
+        this.cliente.getBroker().deleteObserver(this);
 
     }
 
@@ -199,9 +203,9 @@ public class fmIngresarPartida extends javax.swing.JFrame implements Observer {
     @Override
     public void update(Observable o, Object o1) {
         Mandadero mandadero = (Mandadero) o1;
-        if (mandadero.getRespuesta().containsKey("tamTablero")) {
+        if (mandadero.getTipoServicio().equals(EnumServicio.INGRESAR_PARTIDA)) {
             this.tamTablero = (int) mandadero.getRespuesta().get("tamTablero");
-            abrirSiguientePantalla();
+            abrirSiguientePantalla(mandadero);
         }
     }
 }

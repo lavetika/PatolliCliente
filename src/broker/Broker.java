@@ -24,6 +24,10 @@ public class Broker extends Observable implements Observer {
         this.socket = socket;
     }
 
+    public Jugador getJugador() {
+        return jugador;
+    }
+    
     public ComunicadorRedServidor getCliente() {
         return socket;
     }

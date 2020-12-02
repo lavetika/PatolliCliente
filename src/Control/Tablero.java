@@ -5,7 +5,6 @@
  */
 package Control;
 
-
 import Dominio.Ficha;
 import Enumaration.EnumCasilla;
 import Enumaration.EnumDireccion;
@@ -40,13 +39,14 @@ import javax.swing.JPanel;
  */
 public final class Tablero extends JPanel {
 
-    int cantidadTablero;
-    int cantidadLado;
-    int cantidadCasillasCentrales;
-    int cantidadSemiCirculo;
-    int tamanioCasilla;
-    Canias lanzar;
-    
+    private int cantidadTablero;
+    private int cantidadLado;
+    private int cantidadCasillasCentrales;
+    private int cantidadSemiCirculo;
+    private int tamanioCasilla;
+    private Canias lanzar;
+
+    private ArrayList<JLabel> etiquetaJugadores;
     private ArrayList<JButton> botones;
     private ArrayList<Forma> casillas;
     private ArrayList<Ficha> fichas;
@@ -64,25 +64,71 @@ public final class Tablero extends JPanel {
         this.casillas = new ArrayList<>();
         this.fichas = new ArrayList<>();
         this.botones = new ArrayList<>();
-
+        this.etiquetaJugadores = new ArrayList<>();
         calcularTablero();
         generarCasillas();
+        showNicknames();
 
     }
 
+    public ArrayList<JLabel> getEtiquetaJugadores() {
+        return etiquetaJugadores;
+    }
+
     //Se generan las referencias de las casillas
-    public void generarCasillas(){
-        for (int i = 0; i < cantidadTablero; i++) {
-            if (i != 12 && i != 13
-                    && i != 22 && i != 23
-                    && i != 32 && i != 33
-                    && i != 42 && i != 43) {
-                casillas.add(new Cuadrangular());
-            } else {
-                casillas.add(new SemiCircular());
-            }
+    public void generarCasillas() {
+        switch (cantidadTablero) {
+            case 44:
+                for (int i = 0; i < cantidadTablero; i++) {
+                    if (i != 12 && i != 13
+                            && i != 22 && i != 23
+                            && i != 32 && i != 33
+                            && i != 42 && i != 43) {
+                        casillas.add(new Cuadrangular());
+                    } else {
+                        casillas.add(new SemiCircular());
+                    }
+                }
+                break;
+            case 28:
+                for (int i = 0; i < cantidadTablero; i++) {
+                    if (i != 8 && i != 9
+                            && i != 14 && i != 15
+                            && i != 20 && i != 21
+                            && i != 26 && i != 27) {
+                        casillas.add(new Cuadrangular());
+                    } else {
+                        casillas.add(new SemiCircular());
+                    }
+                }
+                break;
+            case 36:
+                for (int i = 0; i < cantidadTablero; i++) {
+                    if (i != 10 && i != 11
+                            && i != 18 && i != 19
+                            && i != 26 && i != 27
+                            && i != 34 && i != 35) {
+                        casillas.add(new Cuadrangular());
+                    } else {
+                        casillas.add(new SemiCircular());
+                    }
+                }
+                break;
+            case 52:
+                for (int i = 0; i < cantidadTablero; i++) {
+                    if (i != 14 && i != 15
+                            && i != 26 && i != 27
+                            && i != 38 && i != 39
+                            && i != 50 && i != 51) {
+                        casillas.add(new Cuadrangular());
+                    } else {
+                        casillas.add(new SemiCircular());
+                    }
+                }
+                break;
+            default:
+                break;
         }
-        
         //falta hacer dinamico ese 24 con la cantidad de jugadores en el juego
         for (int i = 0; i < 24; i++) {
             fichas.add(new Ficha());
@@ -130,7 +176,7 @@ public final class Tablero extends JPanel {
         showButtons(g);
         showPlayersIcons();
         showGemas();
-        showNicknames();
+//        showNicknames();
         showApuestaRestante();
 
         drawBaseTablero(g);
@@ -394,7 +440,7 @@ public final class Tablero extends JPanel {
                     break;
                 }
             }
-            
+
             //Obtener las casillas para volver a dibujarlas
             if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
                 for (int o = 0; o < casillas.size(); o++) {
@@ -404,7 +450,7 @@ public final class Tablero extends JPanel {
                     }
                 }
             }
-            
+
             y = posicionar(x, y, EnumDireccion.ARRIBA);
 
         }
@@ -438,7 +484,7 @@ public final class Tablero extends JPanel {
                     break;
                 }
             }
-            
+
             //Obtener las casillas para volver a dibujarlas
             if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
                 for (int o = 0; o < casillas.size(); o++) {
@@ -466,7 +512,7 @@ public final class Tablero extends JPanel {
                     break;
                 }
             }
-            
+
             //Obtener las casillas para volver a dibujarlas
             if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
                 for (int o = 0; o < casillas.size(); o++) {
@@ -494,7 +540,7 @@ public final class Tablero extends JPanel {
         y = y / 2;
 
         for (int i = 1; i <= cantidadLado; i++) {
-
+            x = posicionar(x, y, EnumDireccion.DERECHA);
             for (int e = 0; e < casillas.size(); e++) {
                 if (casillas.get(e).getTamanio() == 0) {
                     casillas.get(e).setForma(EnumCasilla.INICIO);
@@ -507,7 +553,7 @@ public final class Tablero extends JPanel {
                     break;
                 }
             }
-            
+
             //Obtener las casillas para volver a dibujarlas
             if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
                 for (int o = 0; o < casillas.size(); o++) {
@@ -517,7 +563,6 @@ public final class Tablero extends JPanel {
                     }
                 }
             }
-            x = posicionar(x, y, EnumDireccion.DERECHA);
 
         }
 
@@ -537,7 +582,7 @@ public final class Tablero extends JPanel {
                     break;
                 }
             }
-            
+
             //Obtener las casillas para volver a dibujarlas
             if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
                 for (int o = 0; o < casillas.size(); o++) {
@@ -584,19 +629,18 @@ public final class Tablero extends JPanel {
                     break;
                 }
             }
-            
+
             //Obtener las casillas para volver a dibujarlas
             if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
                 for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == 1 
-                            && casillas.get(o).getForma()== EnumCasilla.ESQUINA
+                    if (casillas.get(o).getPosition() == 1
+                            && casillas.get(o).getForma() == EnumCasilla.ESQUINA
                             && casillas.get(o).getDireccion() == EnumDireccion.IZQUIERDA) {
                         casillas.get(o).draw(g2d);
                         break;
                     }
                 }
             }
-            
 
             for (int e = 0; e < casillas.size(); e++) {
                 if (casillas.get(e).getTamanio() == 0) {
@@ -612,12 +656,12 @@ public final class Tablero extends JPanel {
                     break;
                 }
             }
-            
+
             //Obtener las casillas para volver a dibujarlas
             if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
                 for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == 2 
-                            && casillas.get(o).getForma()== EnumCasilla.ESQUINA
+                    if (casillas.get(o).getPosition() == 2
+                            && casillas.get(o).getForma() == EnumCasilla.ESQUINA
                             && casillas.get(o).getDireccion() == EnumDireccion.IZQUIERDA) {
                         casillas.get(o).draw(g2d);
                         break;
@@ -650,12 +694,12 @@ public final class Tablero extends JPanel {
                     break;
                 }
             }
-            
+
             //Obtener las casillas para volver a dibujarlas
             if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
                 for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == 1 
-                            && casillas.get(o).getForma()== EnumCasilla.ESQUINA
+                    if (casillas.get(o).getPosition() == 1
+                            && casillas.get(o).getForma() == EnumCasilla.ESQUINA
                             && casillas.get(o).getDireccion() == EnumDireccion.DERECHA) {
                         casillas.get(o).draw(g2d);
                         break;
@@ -677,12 +721,12 @@ public final class Tablero extends JPanel {
                     break;
                 }
             }
-            
+
             //Obtener las casillas para volver a dibujarlas
             if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
                 for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == 2 
-                            && casillas.get(o).getForma()== EnumCasilla.ESQUINA
+                    if (casillas.get(o).getPosition() == 2
+                            && casillas.get(o).getForma() == EnumCasilla.ESQUINA
                             && casillas.get(o).getDireccion() == EnumDireccion.DERECHA) {
                         casillas.get(o).draw(g2d);
                         break;
@@ -710,12 +754,12 @@ public final class Tablero extends JPanel {
                     break;
                 }
             }
-            
+
             //Obtener las casillas para volver a dibujarlas
             if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
                 for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == 1 
-                            && casillas.get(o).getForma()== EnumCasilla.ESQUINA
+                    if (casillas.get(o).getPosition() == 1
+                            && casillas.get(o).getForma() == EnumCasilla.ESQUINA
                             && casillas.get(o).getDireccion() == EnumDireccion.ARRIBA) {
                         casillas.get(o).draw(g2d);
                         break;
@@ -737,12 +781,12 @@ public final class Tablero extends JPanel {
                     break;
                 }
             }
-            
+
             //Obtener las casillas para volver a dibujarlas
             if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
                 for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == 2 
-                            && casillas.get(o).getForma()== EnumCasilla.ESQUINA
+                    if (casillas.get(o).getPosition() == 2
+                            && casillas.get(o).getForma() == EnumCasilla.ESQUINA
                             && casillas.get(o).getDireccion() == EnumDireccion.ARRIBA) {
                         casillas.get(o).draw(g2d);
                         break;
@@ -774,12 +818,12 @@ public final class Tablero extends JPanel {
                     break;
                 }
             }
-            
+
             //Obtener las casillas para volver a dibujarlas
             if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
                 for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == 1 
-                            && casillas.get(o).getForma()== EnumCasilla.ESQUINA
+                    if (casillas.get(o).getPosition() == 1
+                            && casillas.get(o).getForma() == EnumCasilla.ESQUINA
                             && casillas.get(o).getDireccion() == EnumDireccion.ABAJO) {
                         casillas.get(o).draw(g2d);
                         break;
@@ -801,12 +845,12 @@ public final class Tablero extends JPanel {
                     break;
                 }
             }
-            
+
             //Obtener las casillas para volver a dibujarlas
             if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
                 for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == 2 
-                            && casillas.get(o).getForma()== EnumCasilla.ESQUINA
+                    if (casillas.get(o).getPosition() == 2
+                            && casillas.get(o).getForma() == EnumCasilla.ESQUINA
                             && casillas.get(o).getDireccion() == EnumDireccion.ABAJO) {
                         casillas.get(o).draw(g2d);
                         break;
@@ -968,6 +1012,7 @@ public final class Tablero extends JPanel {
         lblNickname1.setLocation(650, 90);
         lblNickname1.setVisible(true);
         this.add(lblNickname1);
+        this.etiquetaJugadores.add(lblNickname1);
 
         JLabel lblNickname2 = new JLabel("GalloOro");
         lblNickname2.setFont(new Font("PT Sans", Font.PLAIN, 14));
@@ -976,6 +1021,7 @@ public final class Tablero extends JPanel {
         lblNickname2.setLocation(650, 675);
         lblNickname2.setVisible(true);
         this.add(lblNickname2);
+        this.etiquetaJugadores.add(lblNickname2);
 
         JLabel lblNickname3 = new JLabel("LudoVico");
         lblNickname3.setFont(new Font("PT Sans", Font.PLAIN, 14));
@@ -984,6 +1030,7 @@ public final class Tablero extends JPanel {
         lblNickname3.setLocation(190, 90);
         lblNickname3.setVisible(true);
         this.add(lblNickname3);
+        this.etiquetaJugadores.add(lblNickname3);
 
         JLabel lblNickname4 = new JLabel("Bebelin");
         lblNickname4.setFont(new Font("PT Sans", Font.PLAIN, 14));
@@ -992,6 +1039,8 @@ public final class Tablero extends JPanel {
         lblNickname4.setLocation(190, 675);
         lblNickname4.setVisible(true);
         this.add(lblNickname4);
+        this.etiquetaJugadores.add(lblNickname4);
+
     }
 
     public void showApuestaRestante() {
@@ -1014,14 +1063,14 @@ public final class Tablero extends JPanel {
     }
 
     public void moverFicha(int numero, Ficha ficha) {
-        
+
         for (Forma casilla : casillas) {
             if (casilla.getDireccion() == EnumDireccion.IZQUIERDA) {
                 /*
                 Solo estoy validando con la ficha azul que esa va a la derecha, en el EnumDireccion.Derecha es solo para el azul
                 aqui deberia de ir la direccion especifica que le toca al jugador que esta jugando.
                  */
-                
+
                 if (numero == casilla.getPosition()) {
                     casilla.drawFicha(ficha);
                 }
@@ -1036,9 +1085,9 @@ public final class Tablero extends JPanel {
         lblFichaAzul1.setSize(40, 40);
         lblFichaAzul1.setLocation(310, 300);
         lblFichaAzul1.setVisible(true);
-        
+
         for (int i = 0; i < fichas.size(); i++) {
-            if(fichas.get(i).getFicha() == null){
+            if (fichas.get(i).getFicha() == null) {
                 fichas.get(i).setFicha(lblFichaAzul1);
                 this.add(fichas.get(i).getFicha());
                 break;
@@ -1050,9 +1099,9 @@ public final class Tablero extends JPanel {
         lblFichaAzul2.setSize(40, 40);
         lblFichaAzul2.setLocation(310, 260);
         lblFichaAzul2.setVisible(true);
-        
+
         for (int i = 0; i < fichas.size(); i++) {
-            if(fichas.get(i).getFicha() == null){
+            if (fichas.get(i).getFicha() == null) {
                 fichas.get(i).setFicha(lblFichaAzul2);
                 this.add(fichas.get(i).getFicha());
                 break;
@@ -1064,9 +1113,9 @@ public final class Tablero extends JPanel {
         lblFichaAzul3.setSize(40, 40);
         lblFichaAzul3.setLocation(350, 220);
         lblFichaAzul3.setVisible(true);
-        
+
         for (int i = 0; i < fichas.size(); i++) {
-            if(fichas.get(i).getFicha() == null){
+            if (fichas.get(i).getFicha() == null) {
                 fichas.get(i).setFicha(lblFichaAzul3);
                 this.add(fichas.get(i).getFicha());
                 break;
@@ -1078,9 +1127,9 @@ public final class Tablero extends JPanel {
         lblFichaAzul6.setSize(40, 40);
         lblFichaAzul6.setLocation(350, 260);
         lblFichaAzul6.setVisible(true);
-        
+
         for (int i = 0; i < fichas.size(); i++) {
-            if(fichas.get(i).getFicha() == null){
+            if (fichas.get(i).getFicha() == null) {
                 fichas.get(i).setFicha(lblFichaAzul6);
                 this.add(fichas.get(i).getFicha());
                 break;
@@ -1092,31 +1141,31 @@ public final class Tablero extends JPanel {
         lblFichaAzul4.setSize(40, 40);
         lblFichaAzul4.setLocation(350, 300);
         lblFichaAzul4.setVisible(true);
-        
+
         for (int i = 0; i < fichas.size(); i++) {
-            if(fichas.get(i).getFicha() == null){
+            if (fichas.get(i).getFicha() == null) {
                 fichas.get(i).setFicha(lblFichaAzul4);
                 this.add(fichas.get(i).getFicha());
                 break;
             }
         }
-        
+
         JLabel lblFichaAzul5 = new JLabel();
         lblFichaAzul5.setIcon(imageIcon1);
         lblFichaAzul5.setSize(40, 40);
         lblFichaAzul5.setLocation(270, 300);
         lblFichaAzul5.setVisible(true);
-        
+
         for (int i = 0; i < fichas.size(); i++) {
-            if(fichas.get(i).getFicha() == null){
+            if (fichas.get(i).getFicha() == null) {
                 fichas.get(i).setFicha(lblFichaAzul5);
                 this.add(fichas.get(i).getFicha());
                 break;
             }
         }
-        
+
         //Para volver a pintar las fichas
-        if(fichas.get(fichas.size()-1).getFicha() != null){
+        if (fichas.get(fichas.size() - 1).getFicha() != null) {
             for (int i = 0; i < 6; i++) {
                 this.add(fichas.get(i).getFicha());
             }
@@ -1131,9 +1180,9 @@ public final class Tablero extends JPanel {
         lblFichaRoja1.setSize(40, 40);
         lblFichaRoja1.setLocation(555, 300);
         lblFichaRoja1.setVisible(true);
-        
+
         for (int i = 0; i < fichas.size(); i++) {
-            if(fichas.get(i).getFicha() == null){
+            if (fichas.get(i).getFicha() == null) {
                 fichas.get(i).setFicha(lblFichaRoja1);
                 this.add(fichas.get(i).getFicha());
                 break;
@@ -1145,9 +1194,9 @@ public final class Tablero extends JPanel {
         lblFichaRoja2.setSize(40, 40);
         lblFichaRoja2.setLocation(555, 260);
         lblFichaRoja2.setVisible(true);
-        
+
         for (int i = 0; i < fichas.size(); i++) {
-            if(fichas.get(i).getFicha() == null){
+            if (fichas.get(i).getFicha() == null) {
                 fichas.get(i).setFicha(lblFichaRoja2);
                 this.add(fichas.get(i).getFicha());
                 break;
@@ -1159,9 +1208,9 @@ public final class Tablero extends JPanel {
         lblFichaRoja3.setSize(40, 40);
         lblFichaRoja3.setLocation(515, 220);
         lblFichaRoja3.setVisible(true);
-        
+
         for (int i = 0; i < fichas.size(); i++) {
-            if(fichas.get(i).getFicha() == null){
+            if (fichas.get(i).getFicha() == null) {
                 fichas.get(i).setFicha(lblFichaRoja3);
                 this.add(fichas.get(i).getFicha());
                 break;
@@ -1173,9 +1222,9 @@ public final class Tablero extends JPanel {
         lblFichaRoja4.setSize(40, 40);
         lblFichaRoja4.setLocation(515, 260);
         lblFichaRoja4.setVisible(true);
-        
+
         for (int i = 0; i < fichas.size(); i++) {
-            if(fichas.get(i).getFicha() == null){
+            if (fichas.get(i).getFicha() == null) {
                 fichas.get(i).setFicha(lblFichaRoja4);
                 this.add(fichas.get(i).getFicha());
                 break;
@@ -1187,9 +1236,9 @@ public final class Tablero extends JPanel {
         lblFichaRoja5.setSize(40, 40);
         lblFichaRoja5.setLocation(515, 300);
         lblFichaRoja5.setVisible(true);
-        
+
         for (int i = 0; i < fichas.size(); i++) {
-            if(fichas.get(i).getFicha() == null){
+            if (fichas.get(i).getFicha() == null) {
                 fichas.get(i).setFicha(lblFichaRoja5);
                 this.add(fichas.get(i).getFicha());
                 break;
@@ -1201,16 +1250,16 @@ public final class Tablero extends JPanel {
         lblFichaRoja6.setSize(40, 40);
         lblFichaRoja6.setLocation(595, 300);
         lblFichaRoja6.setVisible(true);
-        
+
         for (int i = 0; i < fichas.size(); i++) {
-            if(fichas.get(i).getFicha() == null){
+            if (fichas.get(i).getFicha() == null) {
                 fichas.get(i).setFicha(lblFichaRoja6);
                 this.add(fichas.get(i).getFicha());
                 break;
             }
         }
         //Para volver a pintar las fichas
-        if(fichas.get(fichas.size()-1).getFicha() != null){
+        if (fichas.get(fichas.size() - 1).getFicha() != null) {
             for (int i = 6; i < 12; i++) {
                 this.add(fichas.get(i).getFicha());
             }
@@ -1226,9 +1275,9 @@ public final class Tablero extends JPanel {
         lblFichaVerde1.setSize(40, 40);
         lblFichaVerde1.setLocation(555, 460);
         lblFichaVerde1.setVisible(true);
-        
+
         for (int i = 0; i < fichas.size(); i++) {
-            if(fichas.get(i).getFicha() == null){
+            if (fichas.get(i).getFicha() == null) {
                 fichas.get(i).setFicha(lblFichaVerde1);
                 this.add(fichas.get(i).getFicha());
                 break;
@@ -1240,10 +1289,10 @@ public final class Tablero extends JPanel {
         lblFichaVerde2.setSize(40, 40);
         lblFichaVerde2.setLocation(555, 500);
         lblFichaVerde2.setVisible(true);
-        
+
         for (int i = 0; i < fichas.size(); i++) {
-            if(fichas.get(i).getFicha() == null){
-                fichas.get(i).setFicha(lblFichaVerde1);
+            if (fichas.get(i).getFicha() == null) {
+                fichas.get(i).setFicha(lblFichaVerde2);
                 this.add(fichas.get(i).getFicha());
                 break;
             }
@@ -1254,9 +1303,9 @@ public final class Tablero extends JPanel {
         lblFichaVerde3.setSize(40, 40);
         lblFichaVerde3.setLocation(515, 460);
         lblFichaVerde3.setVisible(true);
-        
+
         for (int i = 0; i < fichas.size(); i++) {
-            if(fichas.get(i).getFicha() == null){
+            if (fichas.get(i).getFicha() == null) {
                 fichas.get(i).setFicha(lblFichaVerde3);
                 this.add(fichas.get(i).getFicha());
                 break;
@@ -1268,9 +1317,9 @@ public final class Tablero extends JPanel {
         lblFichaVerde4.setSize(40, 40);
         lblFichaVerde4.setLocation(515, 500);
         lblFichaVerde4.setVisible(true);
-        
+
         for (int i = 0; i < fichas.size(); i++) {
-            if(fichas.get(i).getFicha() == null){
+            if (fichas.get(i).getFicha() == null) {
                 fichas.get(i).setFicha(lblFichaVerde4);
                 this.add(fichas.get(i).getFicha());
                 break;
@@ -1282,9 +1331,9 @@ public final class Tablero extends JPanel {
         lblFichaVerde5.setSize(40, 40);
         lblFichaVerde5.setLocation(515, 540);
         lblFichaVerde5.setVisible(true);
-        
+
         for (int i = 0; i < fichas.size(); i++) {
-            if(fichas.get(i).getFicha() == null){
+            if (fichas.get(i).getFicha() == null) {
                 fichas.get(i).setFicha(lblFichaVerde5);
                 this.add(fichas.get(i).getFicha());
                 break;
@@ -1296,16 +1345,16 @@ public final class Tablero extends JPanel {
         lblFichaVerde6.setSize(40, 40);
         lblFichaVerde6.setLocation(595, 460);
         lblFichaVerde6.setVisible(true);
-        
+
         for (int i = 0; i < fichas.size(); i++) {
-            if(fichas.get(i).getFicha() == null){
+            if (fichas.get(i).getFicha() == null) {
                 fichas.get(i).setFicha(lblFichaVerde6);
                 this.add(fichas.get(i).getFicha());
                 break;
             }
         }
         //Para volver a pintar las fichas
-        if(fichas.get(fichas.size()-1).getFicha() != null){
+        if (fichas.get(fichas.size() - 1).getFicha() != null) {
             for (int i = 12; i < 18; i++) {
                 this.add(fichas.get(i).getFicha());
             }
@@ -1321,9 +1370,9 @@ public final class Tablero extends JPanel {
         lblFichaNaranja1.setSize(40, 40);
         lblFichaNaranja1.setLocation(310, 460);
         lblFichaNaranja1.setVisible(true);
-        
+
         for (int i = 0; i < fichas.size(); i++) {
-            if(fichas.get(i).getFicha() == null){
+            if (fichas.get(i).getFicha() == null) {
                 fichas.get(i).setFicha(lblFichaNaranja1);
                 this.add(fichas.get(i).getFicha());
                 break;
@@ -1335,9 +1384,9 @@ public final class Tablero extends JPanel {
         lblFichaNaranja2.setSize(40, 40);
         lblFichaNaranja2.setLocation(310, 500);
         lblFichaNaranja2.setVisible(true);
-        
+
         for (int i = 0; i < fichas.size(); i++) {
-            if(fichas.get(i).getFicha() == null){
+            if (fichas.get(i).getFicha() == null) {
                 fichas.get(i).setFicha(lblFichaNaranja2);
                 this.add(fichas.get(i).getFicha());
                 break;
@@ -1349,9 +1398,9 @@ public final class Tablero extends JPanel {
         lblFichaNaranja3.setSize(40, 40);
         lblFichaNaranja3.setLocation(350, 460);
         lblFichaNaranja3.setVisible(true);
-        
+
         for (int i = 0; i < fichas.size(); i++) {
-            if(fichas.get(i).getFicha() == null){
+            if (fichas.get(i).getFicha() == null) {
                 fichas.get(i).setFicha(lblFichaNaranja3);
                 this.add(fichas.get(i).getFicha());
                 break;
@@ -1363,9 +1412,9 @@ public final class Tablero extends JPanel {
         lblFichaNaranja4.setSize(40, 40);
         lblFichaNaranja4.setLocation(350, 500);
         lblFichaNaranja4.setVisible(true);
-        
+
         for (int i = 0; i < fichas.size(); i++) {
-            if(fichas.get(i).getFicha() == null){
+            if (fichas.get(i).getFicha() == null) {
                 fichas.get(i).setFicha(lblFichaNaranja4);
                 this.add(fichas.get(i).getFicha());
                 break;
@@ -1377,9 +1426,9 @@ public final class Tablero extends JPanel {
         lblFichaNaranja5.setSize(40, 40);
         lblFichaNaranja5.setLocation(350, 540);
         lblFichaNaranja5.setVisible(true);
-        
+
         for (int i = 0; i < fichas.size(); i++) {
-            if(fichas.get(i).getFicha() == null){
+            if (fichas.get(i).getFicha() == null) {
                 fichas.get(i).setFicha(lblFichaNaranja5);
                 this.add(fichas.get(i).getFicha());
                 break;
@@ -1391,17 +1440,17 @@ public final class Tablero extends JPanel {
         lblFichaNaranja6.setSize(40, 40);
         lblFichaNaranja6.setLocation(270, 460);
         lblFichaNaranja6.setVisible(true);
-        
+
         for (int i = 0; i < fichas.size(); i++) {
-            if(fichas.get(i).getFicha() == null){
+            if (fichas.get(i).getFicha() == null) {
                 fichas.get(i).setFicha(lblFichaNaranja6);
                 this.add(fichas.get(i).getFicha());
                 break;
             }
         }
-        
+
         //Para volver a pintar las fichas
-        if(fichas.get(fichas.size()-1).getFicha() != null){
+        if (fichas.get(fichas.size() - 1).getFicha() != null) {
             for (int i = 18; i < 24; i++) {
                 this.add(fichas.get(i).getFicha());
             }
@@ -1411,10 +1460,9 @@ public final class Tablero extends JPanel {
     public Canias getLanzar() {
         return lanzar;
     }
-    
+
     public ArrayList<JButton> getBotones() {
         return botones;
     }
 
 }
-

@@ -9,12 +9,16 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.JOptionPane;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
-public class fmCrearPartida extends javax.swing.JFrame {
+public class fmCrearPartida extends javax.swing.JFrame implements Observer {
 
     ClienteSocket cliente;
+    fmTablero frameTablero;
 
     public fmCrearPartida() {
         initComponents();
@@ -25,7 +29,7 @@ public class fmCrearPartida extends javax.swing.JFrame {
         this.llenarCmbTablero();
         cliente = new ClienteSocket("localhost", 9090);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
+
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent event) {
@@ -186,11 +190,9 @@ public class fmCrearPartida extends javax.swing.JFrame {
                 mandadero.addPeticion("tamTablero", cbTamanioTablero1.getSelectedItem());
                 mandadero.addPeticion("jugador", jugador);
                 cliente.getBroker().solicitarPedido(mandadero);
-                
-
-                fmTablero frameTablero = new fmTablero((Integer) cbTamanioTablero1.getSelectedItem(), jugador, cliente.getBroker());
-                frameTablero.setVisible(true);
-                this.dispose();
+//                this.frameTablero = new fmTablero((Integer) cbTamanioTablero1.getSelectedItem(),cliente.getBroker());
+//                frameTablero.setVisible(true);
+//                this.dispose();
             }
         } else {
             lblNickName.setText("*Ingresa tu nickname");
@@ -201,6 +203,7 @@ public class fmCrearPartida extends javax.swing.JFrame {
         try {
             cliente.iniciar();
             cliente.getBroker().setJugador(jugador);
+            cliente.getBroker().addObserver(this);
             return true;
         } catch (Exception ex) {
 
@@ -270,4 +273,23 @@ public class fmCrearPartida extends javax.swing.JFrame {
     private javax.swing.JLabel lblTamanioTablero1;
     private javax.swing.JTextField txtNickname;
     // End of variables declaration//GEN-END:variables
+
+    public void abrirSiguientePantalla(Mandadero mandadero) {
+        this.frameTablero = new fmTablero((Integer) cbTamanioTablero1.getSelectedItem(), cliente.getBroker());
+//        frameTablero.setVisible(true);
+        frameTablero.posicionarJugador((List) mandadero.getRespuesta().get("posiciones"));
+        frameTablero.setVisible(true);
+        this.dispose();
+
+    }
+
+    @Override
+    public void update(Observable o, Object o1) {
+        Mandadero mandadero = (Mandadero) o1;
+
+        if (mandadero.getTipoServicio().equals(EnumServicio.CREAR_PARTIDA)) {
+            abrirSiguientePantalla(mandadero);
+        }
+
+    }
 }
