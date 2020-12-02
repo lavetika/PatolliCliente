@@ -7,7 +7,10 @@ import conexionCliente.ClienteSocket;
 import enumServicio.EnumServicio;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 public class fmCrearPartida extends javax.swing.JFrame {
 
@@ -21,6 +24,15 @@ public class fmCrearPartida extends javax.swing.JFrame {
         this.llenarCmbJugadores();
         this.llenarCmbTablero();
         cliente = new ClienteSocket("localhost", 9090);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent event) {
+                fmMenu fmMenu = new fmMenu();
+                fmMenu.setVisible(true);
+            }
+        });
     }
 
     /**
@@ -174,6 +186,7 @@ public class fmCrearPartida extends javax.swing.JFrame {
                 mandadero.addPeticion("tamTablero", cbTamanioTablero1.getSelectedItem());
                 mandadero.addPeticion("jugador", jugador);
                 cliente.getBroker().solicitarPedido(mandadero);
+                
 
                 fmTablero frameTablero = new fmTablero((Integer) cbTamanioTablero1.getSelectedItem(), jugador, cliente.getBroker());
                 frameTablero.setVisible(true);

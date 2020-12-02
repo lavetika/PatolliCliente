@@ -2,6 +2,9 @@ package Frame;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 public class fmComoJugar extends javax.swing.JFrame {
 
@@ -9,6 +12,16 @@ public class fmComoJugar extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Cómo jugar");
+        
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent event) {
+                fmMenu fmMenu = new fmMenu();
+                fmMenu.setVisible(true);
+            }
+        });
     }
 
     /**

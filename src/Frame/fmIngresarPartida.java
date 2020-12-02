@@ -6,11 +6,14 @@ import conexionCliente.ClienteSocket;
 import enumServicio.EnumServicio;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 public class fmIngresarPartida extends javax.swing.JFrame implements Observer {
 
@@ -23,6 +26,16 @@ public class fmIngresarPartida extends javax.swing.JFrame implements Observer {
         this.setLocationRelativeTo(null);
         this.setTitle("Ingresar partida");
         cliente = new ClienteSocket("localhost", 9090);
+        
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent event) {
+                fmMenu fmMenu = new fmMenu();
+                fmMenu.setVisible(true);
+            }
+        });
     }
 
     /**
@@ -147,7 +160,9 @@ public class fmIngresarPartida extends javax.swing.JFrame implements Observer {
             jugador = new Jugador(txtNickname.getText());
             iniciarCliente(jugador);
             Mandadero mandadero = new Mandadero(EnumServicio.INGRESAR_PARTIDA);
+            mandadero.addPeticion("jugador", jugador);
             cliente.getBroker().solicitarPedido(mandadero);
+            
 
         } else {
             lblNickName.setText("*Ingresa tu nickname");

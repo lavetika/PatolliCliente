@@ -5,8 +5,11 @@ import Dominio.Jugador;
 import Graphics.Canias;
 import broker.Broker;
 import callMessage.Mandadero;
+import enumServicio.EnumServicio;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -48,6 +51,16 @@ public class fmTablero extends javax.swing.JFrame implements Observer {
         this.botones = tablero.getBotones();
 
         initPantalla();
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent event) {
+                Mandadero mandadero = new Mandadero(EnumServicio.ABANDONO_JUGADOR);
+                broker.solicitarPedido(mandadero);
+            }
+        });
+        
+        
     }
 
     /**
@@ -77,6 +90,8 @@ public class fmTablero extends javax.swing.JFrame implements Observer {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    
     private void initPantalla() {
 
         add(panelChat);
@@ -118,7 +133,9 @@ public class fmTablero extends javax.swing.JFrame implements Observer {
             case ABANDONO_JUGADOR:
                 try {
                     this.broker.getCliente().desconectar();
-                    JOptionPane.showMessageDialog(this, "Camarón que se duerme...");
+                    fmMenu fmMenu = new fmMenu();
+                    fmMenu.setVisible(true);
+                    JOptionPane.showMessageDialog(this, "Has abandonado la partida:)");
                 } catch (IOException ex) {
                     Logger.getLogger(fmTablero.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -127,6 +144,10 @@ public class fmTablero extends javax.swing.JFrame implements Observer {
                 this.turno = (boolean) m.getRespuesta().get("turno");
                 this.enableButtons();
                 break;//TA WORKEAND
+                
+            
+            
+                
         }
     }
 
