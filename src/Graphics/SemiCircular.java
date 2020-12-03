@@ -40,7 +40,7 @@ public class SemiCircular extends Forma {
     public void drawFicha(Ficha ficha) {
         ficha.setPosicionActual(position);
         this.ficha = ficha;
-        this.ficha.getFicha().setLocation(positionX+5, positionY);
+        this.ficha.getFicha().setLocation(positionX+5, positionY+20);
         this.ficha.setPosicionX(positionX+5);
         this.ficha.setPosicionY(positionY);
         this.ficha.getFicha().setVisible(true);
