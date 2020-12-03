@@ -218,24 +218,14 @@ public final class Tablero extends JPanel {
 
         for (int i = 0; i < casillas.size(); i++) {
             if (casillas.get(i).getTamanio() == 0) {
+                casillas.get(i).setPosition(0);
                 casillas.get(i).setForma(EnumCasilla.CENTRAL);
                 casillas.get(i).setPositionX(x);
                 casillas.get(i).setPositionY(y);
                 casillas.get(i).setTamanio(tamanioCasilla);
-                casillas.get(i).setPosition(1);
                 casillas.get(i).setDireccion(EnumDireccion.CENTRO);
                 casillas.get(i).draw(g2d);
                 break;
-            }
-        }
-
-        //Obtener las casillas para volver a dibujarlas
-        if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
-            for (int o = 0; o < casillas.size(); o++) {
-                if (casillas.get(o).getPosition() == 1 && casillas.get(o).getForma() == EnumCasilla.CENTRAL) {
-                    casillas.get(o).draw(g2d);
-                    break;
-                }
             }
         }
 
@@ -244,24 +234,14 @@ public final class Tablero extends JPanel {
 
         for (int i = 0; i < casillas.size(); i++) {
             if (casillas.get(i).getTamanio() == 0) {
+                casillas.get(i).setPosition(0);
                 casillas.get(i).setForma(EnumCasilla.CENTRAL);
                 casillas.get(i).setPositionX(x);
                 casillas.get(i).setPositionY(y);
                 casillas.get(i).setTamanio(tamanioCasilla);
-                casillas.get(i).setPosition(2);
                 casillas.get(i).setDireccion(EnumDireccion.CENTRO);
                 casillas.get(i).draw(g2d);
                 break;
-            }
-        }
-
-        //Obtener las casillas para volver a dibujarlas
-        if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
-            for (int o = 0; o < casillas.size(); o++) {
-                if (casillas.get(o).getPosition() == 2 && casillas.get(o).getForma() == EnumCasilla.CENTRAL) {
-                    casillas.get(o).draw(g2d);
-                    break;
-                }
             }
         }
 
@@ -270,24 +250,15 @@ public final class Tablero extends JPanel {
 
         for (int i = 0; i < casillas.size(); i++) {
             if (casillas.get(i).getTamanio() == 0) {
+                casillas.get(i).setPosition(0);
                 casillas.get(i).setForma(EnumCasilla.CENTRAL);
                 casillas.get(i).setPositionX(x);
                 casillas.get(i).setPositionY(y);
                 casillas.get(i).setTamanio(tamanioCasilla);
-                casillas.get(i).setPosition(3);
+               
                 casillas.get(i).setDireccion(EnumDireccion.CENTRO);
                 casillas.get(i).draw(g2d);
                 break;
-            }
-        }
-
-        //Obtener las casillas para volver a dibujarlas
-        if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
-            for (int o = 0; o < casillas.size(); o++) {
-                if (casillas.get(o).getPosition() == 3 && casillas.get(o).getForma() == EnumCasilla.CENTRAL) {
-                    casillas.get(o).draw(g2d);
-                    break;
-                }
             }
         }
 
@@ -296,24 +267,15 @@ public final class Tablero extends JPanel {
 
         for (int i = 0; i < casillas.size(); i++) {
             if (casillas.get(i).getTamanio() == 0) {
+                casillas.get(i).setPosition(0);
                 casillas.get(i).setForma(EnumCasilla.CENTRAL);
                 casillas.get(i).setPositionX(x);
                 casillas.get(i).setPositionY(y);
                 casillas.get(i).setTamanio(tamanioCasilla);
-                casillas.get(i).setPosition(4);
+                
                 casillas.get(i).setDireccion(EnumDireccion.CENTRO);
                 casillas.get(i).draw(g2d);
                 break;
-            }
-        }
-
-        //Obtener las casillas para volver a dibujarlas
-        if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
-            for (int o = 0; o < casillas.size(); o++) {
-                if (casillas.get(o).getPosition() == 4 && casillas.get(o).getForma() == EnumCasilla.CENTRAL) {
-                    casillas.get(o).draw(g2d);
-                    break;
-                }
             }
         }
 
@@ -335,11 +297,12 @@ public final class Tablero extends JPanel {
 
             for (int e = 0; e < casillas.size(); e++) {
                 if (casillas.get(e).getTamanio() == 0) {
+                    casillas.get(e).setPosition(i + 1);
                     casillas.get(e).setForma(EnumCasilla.INICIO);
                     casillas.get(e).setPositionX(x);
                     casillas.get(e).setPositionY(y);
                     casillas.get(e).setTamanio(tamanioCasilla);
-                    casillas.get(e).setPosition(i + 1);
+                    
                     casillas.get(e).setDireccion(EnumDireccion.ARRIBA);
                     casillas.get(e).draw(g2d);
                     break;
@@ -361,11 +324,12 @@ public final class Tablero extends JPanel {
         for (int i = 1; i <= cantidadLado; i++) {
             for (int e = 0; e < casillas.size(); e++) {
                 if (casillas.get(e).getTamanio() == 0) {
+                    casillas.get(e).setPosition((i + cantidadLado)+2);
                     casillas.get(e).setForma(EnumCasilla.INICIO);
                     casillas.get(e).setPositionX(x);
                     casillas.get(e).setPositionY(y);
                     casillas.get(e).setTamanio(tamanioCasilla);
-                    casillas.get(e).setPosition(i + cantidadLado);
+                    
                     casillas.get(e).setDireccion(EnumDireccion.ARRIBA);
                     casillas.get(e).draw(g2d);
                     break;
@@ -375,7 +339,7 @@ public final class Tablero extends JPanel {
             //Obtener las casillas para volver a dibujarlas
             if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
                 for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == (i + cantidadLado) && casillas.get(o).getDireccion() == EnumDireccion.ARRIBA) {
+                    if (casillas.get(o).getPosition() == ((i + cantidadLado)+2) && casillas.get(o).getDireccion() == EnumDireccion.ARRIBA) {
                         casillas.get(o).draw(g2d);
                         break;
                     }
@@ -402,11 +366,12 @@ public final class Tablero extends JPanel {
 
             for (int e = 0; e < casillas.size(); e++) {
                 if (casillas.get(e).getTamanio() == 0) {
+                    casillas.get(e).setPosition(i);
                     casillas.get(e).setForma(EnumCasilla.INICIO);
                     casillas.get(e).setPositionX(x);
                     casillas.get(e).setPositionY(y);
                     casillas.get(e).setTamanio(tamanioCasilla);
-                    casillas.get(e).setPosition(i);
+                    
                     casillas.get(e).setDireccion(EnumDireccion.ABAJO);
                     casillas.get(e).draw(g2d);
                     break;
@@ -430,11 +395,12 @@ public final class Tablero extends JPanel {
 
             for (int e = 0; e < casillas.size(); e++) {
                 if (casillas.get(e).getTamanio() == 0) {
+                    casillas.get(e).setPosition((i + cantidadLado)+2);
                     casillas.get(e).setForma(EnumCasilla.INICIO);
                     casillas.get(e).setPositionX(x);
                     casillas.get(e).setPositionY(y);
                     casillas.get(e).setTamanio(tamanioCasilla);
-                    casillas.get(e).setPosition(i + cantidadLado);
+                    
                     casillas.get(e).setDireccion(EnumDireccion.ABAJO);
                     casillas.get(e).draw(g2d);
                     break;
@@ -444,7 +410,7 @@ public final class Tablero extends JPanel {
             //Obtener las casillas para volver a dibujarlas
             if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
                 for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == (i + cantidadLado) && casillas.get(o).getDireccion() == EnumDireccion.ABAJO) {
+                    if (casillas.get(o).getPosition() == ((i + cantidadLado)+2) && casillas.get(o).getDireccion() == EnumDireccion.ABAJO) {
                         casillas.get(o).draw(g2d);
                         break;
                     }
@@ -474,11 +440,12 @@ public final class Tablero extends JPanel {
 
             for (int e = 0; e < casillas.size(); e++) {
                 if (casillas.get(e).getTamanio() == 0) {
+                    casillas.get(e).setPosition(i + 1);
                     casillas.get(e).setForma(EnumCasilla.INICIO);
                     casillas.get(e).setPositionX(x);
                     casillas.get(e).setPositionY(y);
                     casillas.get(e).setTamanio(tamanioCasilla);
-                    casillas.get(e).setPosition(i + 1);
+                    
                     casillas.get(e).setDireccion(EnumDireccion.IZQUIERDA);
                     casillas.get(e).draw(g2d);
                     break;
@@ -502,11 +469,12 @@ public final class Tablero extends JPanel {
 
             for (int e = 0; e < casillas.size(); e++) {
                 if (casillas.get(e).getTamanio() == 0) {
+                    casillas.get(e).setPosition(((i + 1) + cantidadLado)+2);
                     casillas.get(e).setForma(EnumCasilla.INICIO);
                     casillas.get(e).setPositionX(x);
                     casillas.get(e).setPositionY(y);
                     casillas.get(e).setTamanio(tamanioCasilla);
-                    casillas.get(e).setPosition((i + 1) + cantidadLado);
+                    
                     casillas.get(e).setDireccion(EnumDireccion.IZQUIERDA);
                     casillas.get(e).draw(g2d);
                     break;
@@ -516,7 +484,7 @@ public final class Tablero extends JPanel {
             //Obtener las casillas para volver a dibujarlas
             if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
                 for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == ((i + 1) + cantidadLado) && casillas.get(o).getDireccion() == EnumDireccion.IZQUIERDA) {
+                    if (casillas.get(o).getPosition() == (((i + 1) + cantidadLado)+2) && casillas.get(o).getDireccion() == EnumDireccion.IZQUIERDA) {
                         casillas.get(o).draw(g2d);
                         break;
                     }
@@ -543,11 +511,12 @@ public final class Tablero extends JPanel {
             x = posicionar(x, y, EnumDireccion.DERECHA);
             for (int e = 0; e < casillas.size(); e++) {
                 if (casillas.get(e).getTamanio() == 0) {
+                    casillas.get(e).setPosition(i);
                     casillas.get(e).setForma(EnumCasilla.INICIO);
                     casillas.get(e).setPositionX(x);
                     casillas.get(e).setPositionY(y);
                     casillas.get(e).setTamanio(tamanioCasilla);
-                    casillas.get(e).setPosition(i);
+                    
                     casillas.get(e).setDireccion(EnumDireccion.DERECHA);
                     casillas.get(e).draw(g2d);
                     break;
@@ -572,11 +541,12 @@ public final class Tablero extends JPanel {
 
             for (int e = 0; e < casillas.size(); e++) {
                 if (casillas.get(e).getTamanio() == 0) {
+                    casillas.get(e).setPosition((i + cantidadLado)+2);
                     casillas.get(e).setForma(EnumCasilla.INICIO);
                     casillas.get(e).setPositionX(x);
                     casillas.get(e).setPositionY(y);
                     casillas.get(e).setTamanio(tamanioCasilla);
-                    casillas.get(e).setPosition(i + cantidadLado);
+                    
                     casillas.get(e).setDireccion(EnumDireccion.DERECHA);
                     casillas.get(e).draw(g2d);
                     break;
@@ -586,7 +556,7 @@ public final class Tablero extends JPanel {
             //Obtener las casillas para volver a dibujarlas
             if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
                 for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == (i + cantidadLado) && casillas.get(o).getDireccion() == EnumDireccion.DERECHA) {
+                    if (casillas.get(o).getPosition() == ((i + cantidadLado)+2) && casillas.get(o).getDireccion() == EnumDireccion.DERECHA) {
                         casillas.get(o).draw(g2d);
                         break;
                     }
@@ -617,13 +587,13 @@ public final class Tablero extends JPanel {
 
             for (int e = 0; e < casillas.size(); e++) {
                 if (casillas.get(e).getTamanio() == 0) {
-
+                    casillas.get(e).setPosition(5);
                     casillas.get(e).setForma(EnumCasilla.ESQUINA);
                     casillas.get(e).setPositionX(x);
                     casillas.get(e).setPositionY(y);
                     casillas.get(e).setTamanio(tamanioCasilla);
                     casillas.get(e).setRotacion(90);
-                    casillas.get(e).setPosition(1);
+                    
                     casillas.get(e).setDireccion(EnumDireccion.IZQUIERDA);
                     casillas.get(e).draw(g2d);
                     break;
@@ -633,7 +603,7 @@ public final class Tablero extends JPanel {
             //Obtener las casillas para volver a dibujarlas
             if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
                 for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == 1
+                    if (casillas.get(o).getPosition() == 5
                             && casillas.get(o).getForma() == EnumCasilla.ESQUINA
                             && casillas.get(o).getDireccion() == EnumDireccion.IZQUIERDA) {
                         casillas.get(o).draw(g2d);
@@ -644,13 +614,13 @@ public final class Tablero extends JPanel {
 
             for (int e = 0; e < casillas.size(); e++) {
                 if (casillas.get(e).getTamanio() == 0) {
-
+                    casillas.get(e).setPosition(6);
                     casillas.get(e).setForma(EnumCasilla.ESQUINA);
                     casillas.get(e).setPositionX(x);
                     casillas.get(e).setPositionY(y);
                     casillas.get(e).setTamanio(tamanioCasilla);
                     casillas.get(e).setRotacion(180);
-                    casillas.get(e).setPosition(2);
+                    
                     casillas.get(e).setDireccion(EnumDireccion.IZQUIERDA);
                     casillas.get(e).draw(g2d);
                     break;
@@ -660,7 +630,7 @@ public final class Tablero extends JPanel {
             //Obtener las casillas para volver a dibujarlas
             if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
                 for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == 2
+                    if (casillas.get(o).getPosition() == 6
                             && casillas.get(o).getForma() == EnumCasilla.ESQUINA
                             && casillas.get(o).getDireccion() == EnumDireccion.IZQUIERDA) {
                         casillas.get(o).draw(g2d);
@@ -682,13 +652,13 @@ public final class Tablero extends JPanel {
 
             for (int e = 0; e < casillas.size(); e++) {
                 if (casillas.get(e).getTamanio() == 0) {
-
+                    casillas.get(e).setPosition(5);
                     casillas.get(e).setForma(EnumCasilla.ESQUINA);
                     casillas.get(e).setPositionX(x);
                     casillas.get(e).setPositionY(y);
                     casillas.get(e).setTamanio(tamanioCasilla);
                     casillas.get(e).setRotacion(0);
-                    casillas.get(e).setPosition(1);
+                   
                     casillas.get(e).setDireccion(EnumDireccion.DERECHA);
                     casillas.get(e).draw(g2d);
                     break;
@@ -698,7 +668,7 @@ public final class Tablero extends JPanel {
             //Obtener las casillas para volver a dibujarlas
             if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
                 for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == 1
+                    if (casillas.get(o).getPosition() == 5
                             && casillas.get(o).getForma() == EnumCasilla.ESQUINA
                             && casillas.get(o).getDireccion() == EnumDireccion.DERECHA) {
                         casillas.get(o).draw(g2d);
@@ -709,13 +679,13 @@ public final class Tablero extends JPanel {
 
             for (int e = 0; e < casillas.size(); e++) {
                 if (casillas.get(e).getTamanio() == 0) {
-
+                    casillas.get(e).setPosition(6);
                     casillas.get(e).setForma(EnumCasilla.ESQUINA);
                     casillas.get(e).setPositionX(x);
                     casillas.get(e).setPositionY(y);
                     casillas.get(e).setTamanio(tamanioCasilla);
                     casillas.get(e).setRotacion(270);
-                    casillas.get(e).setPosition(2);
+                    
                     casillas.get(e).setDireccion(EnumDireccion.DERECHA);
                     casillas.get(e).draw(g2d);
                     break;
@@ -725,7 +695,7 @@ public final class Tablero extends JPanel {
             //Obtener las casillas para volver a dibujarlas
             if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
                 for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == 2
+                    if (casillas.get(o).getPosition() == 6
                             && casillas.get(o).getForma() == EnumCasilla.ESQUINA
                             && casillas.get(o).getDireccion() == EnumDireccion.DERECHA) {
                         casillas.get(o).draw(g2d);
@@ -742,13 +712,13 @@ public final class Tablero extends JPanel {
 
             for (int e = 0; e < casillas.size(); e++) {
                 if (casillas.get(e).getTamanio() == 0) {
-
+                    casillas.get(e).setPosition(5);
                     casillas.get(e).setForma(EnumCasilla.ESQUINA);
                     casillas.get(e).setPositionX(x);
                     casillas.get(e).setPositionY(y);
                     casillas.get(e).setTamanio(tamanioCasilla);
                     casillas.get(e).setRotacion(90);
-                    casillas.get(e).setPosition(1);
+                    
                     casillas.get(e).setDireccion(EnumDireccion.ARRIBA);
                     casillas.get(e).draw(g2d);
                     break;
@@ -758,7 +728,7 @@ public final class Tablero extends JPanel {
             //Obtener las casillas para volver a dibujarlas
             if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
                 for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == 1
+                    if (casillas.get(o).getPosition() == 5
                             && casillas.get(o).getForma() == EnumCasilla.ESQUINA
                             && casillas.get(o).getDireccion() == EnumDireccion.ARRIBA) {
                         casillas.get(o).draw(g2d);
@@ -769,13 +739,13 @@ public final class Tablero extends JPanel {
 
             for (int e = 0; e < casillas.size(); e++) {
                 if (casillas.get(e).getTamanio() == 0) {
-
+                    casillas.get(e).setPosition(6);
                     casillas.get(e).setForma(EnumCasilla.ESQUINA);
                     casillas.get(e).setPositionX(x);
                     casillas.get(e).setPositionY(y);
                     casillas.get(e).setTamanio(tamanioCasilla);
                     casillas.get(e).setRotacion(360);
-                    casillas.get(e).setPosition(2);
+                    
                     casillas.get(e).setDireccion(EnumDireccion.ARRIBA);
                     casillas.get(e).draw(g2d);
                     break;
@@ -785,7 +755,7 @@ public final class Tablero extends JPanel {
             //Obtener las casillas para volver a dibujarlas
             if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
                 for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == 2
+                    if (casillas.get(o).getPosition() == 6
                             && casillas.get(o).getForma() == EnumCasilla.ESQUINA
                             && casillas.get(o).getDireccion() == EnumDireccion.ARRIBA) {
                         casillas.get(o).draw(g2d);
@@ -806,13 +776,13 @@ public final class Tablero extends JPanel {
 
             for (int e = 0; e < casillas.size(); e++) {
                 if (casillas.get(e).getTamanio() == 0) {
-
+                    casillas.get(e).setPosition(5);
                     casillas.get(e).setForma(EnumCasilla.ESQUINA);
                     casillas.get(e).setPositionX(x);
                     casillas.get(e).setPositionY(y);
                     casillas.get(e).setTamanio(tamanioCasilla);
                     casillas.get(e).setRotacion(180);
-                    casillas.get(e).setPosition(1);
+                    
                     casillas.get(e).setDireccion(EnumDireccion.ABAJO);
                     casillas.get(e).draw(g2d);
                     break;
@@ -822,7 +792,7 @@ public final class Tablero extends JPanel {
             //Obtener las casillas para volver a dibujarlas
             if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
                 for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == 1
+                    if (casillas.get(o).getPosition() == 5
                             && casillas.get(o).getForma() == EnumCasilla.ESQUINA
                             && casillas.get(o).getDireccion() == EnumDireccion.ABAJO) {
                         casillas.get(o).draw(g2d);
@@ -833,13 +803,13 @@ public final class Tablero extends JPanel {
 
             for (int e = 0; e < casillas.size(); e++) {
                 if (casillas.get(e).getTamanio() == 0) {
-
+                    casillas.get(e).setPosition(6);
                     casillas.get(e).setForma(EnumCasilla.ESQUINA);
                     casillas.get(e).setPositionX(x);
                     casillas.get(e).setPositionY(y);
                     casillas.get(e).setTamanio(tamanioCasilla);
                     casillas.get(e).setRotacion(270);
-                    casillas.get(e).setPosition(2);
+                    
                     casillas.get(e).setDireccion(EnumDireccion.ABAJO);
                     casillas.get(e).draw(g2d);
                     break;
@@ -849,7 +819,7 @@ public final class Tablero extends JPanel {
             //Obtener las casillas para volver a dibujarlas
             if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
                 for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == 2
+                    if (casillas.get(o).getPosition() == 6
                             && casillas.get(o).getForma() == EnumCasilla.ESQUINA
                             && casillas.get(o).getDireccion() == EnumDireccion.ABAJO) {
                         casillas.get(o).draw(g2d);
@@ -879,7 +849,7 @@ public final class Tablero extends JPanel {
         btnIniciar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                posicionarFichas(fichas);
+                posicionarFichas();
             }
         });
         this.add(btnIniciar);
@@ -892,11 +862,8 @@ public final class Tablero extends JPanel {
         this.add(fichas.get(18).getFicha());
 
         JButton btnLanzar = new JButton("Lanzar cañas");
-        Ficha fichaNuevaPosicion;
+
         botones.add(btnLanzar);
-
-        fichaNuevaPosicion = fichas.get(0);
-
         btnLanzar.setSize(150, 35);
         btnLanzar.setVisible(true);
         btnLanzar.setLocation(740, 635);
@@ -908,11 +875,15 @@ public final class Tablero extends JPanel {
             public void actionPerformed(ActionEvent ae) {
                 int numero = lanzar.calcular();
                 lanzar.mostrarCanias();
-                moverFicha(numero, fichaNuevaPosicion);
+                moverFicha(numero, casillas.get(2).getFicha());
+                
             }
         });
         this.add(btnLanzar);
-        this.add(fichaNuevaPosicion.getFicha());
+        if(casillas.get(2).getFicha() != null){
+          this.add(casillas.get(2).getFicha().getFicha());
+        }
+        
 
 //        JButton btnApostar = new JButton("Apostar");
 //        btnApostar.setSize(110, 35);
@@ -923,6 +894,7 @@ public final class Tablero extends JPanel {
 //        btnApostar.setFont(new Font("Herculanum", Font.BOLD, 14));
 //        this.add(btnApostar);
     }
+
 
     public void showPlayersIcons() {
         JLabel lblPlayerIcon1 = new JLabel();
@@ -1053,7 +1025,7 @@ public final class Tablero extends JPanel {
         this.add(lblTituloCodigo);
     }
 
-    public void posicionarFichas(ArrayList<Ficha> fichas) {
+    public void posicionarFichas() {
 
         casillas.get(0).drawFicha(fichas.get(12));
         casillas.get(1).drawFicha(fichas.get(18));
@@ -1064,6 +1036,8 @@ public final class Tablero extends JPanel {
 
     public void moverFicha(int numero, Ficha ficha) {
 
+        int pos = ficha.getPosicionActual();
+        pos = pos + numero;
         for (Forma casilla : casillas) {
             if (casilla.getDireccion() == EnumDireccion.IZQUIERDA) {
                 /*
@@ -1071,11 +1045,15 @@ public final class Tablero extends JPanel {
                 aqui deberia de ir la direccion especifica que le toca al jugador que esta jugando.
                  */
 
-                if (numero == casilla.getPosition()) {
+                
+                if (pos == casilla.getPosition()) {
                     casilla.drawFicha(ficha);
+                    break;
                 }
+
             }
         }
+    
     }
 
     public void showFichasAzules() {

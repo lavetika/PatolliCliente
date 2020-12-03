@@ -37,6 +37,7 @@ public class Cuadrangular extends Forma {
 
     @Override
     public void drawFicha(Ficha ficha) {
+        ficha.setPosicionActual(position);
         this.ficha = ficha;
         this.ficha.getFicha().setLocation(positionX+5, positionY);
         this.ficha.setPosicionX(positionX+5);
