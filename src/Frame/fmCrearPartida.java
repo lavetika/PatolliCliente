@@ -276,7 +276,7 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
 
     public void abrirSiguientePantalla(Mandadero mandadero) {
         this.frameTablero = new fmTablero((Integer) cbTamanioTablero1.getSelectedItem(), cliente.getBroker());
-//        frameTablero.setVisible(true);
+        frameTablero.setVisible(true);
         frameTablero.posicionarJugador((List) mandadero.getRespuesta().get("posiciones"));
         frameTablero.setVisible(true);
         this.dispose();

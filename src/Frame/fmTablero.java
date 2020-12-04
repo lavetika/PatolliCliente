@@ -1,6 +1,6 @@
 package Frame;
 
-import Control.Tablero;
+import Control.TableroNew;
 import Graphics.Canias;
 import broker.Broker;
 import callMessage.Mandadero;
@@ -24,7 +24,7 @@ public class fmTablero extends javax.swing.JFrame implements Observer {
     private int tamanio;
     private Broker broker;
     private PnlChat panelChat;
-    private Tablero tablero;
+    private TableroNew tablero;
     private Canias canias;
     private ArrayList<JButton> botones;
     private boolean turno;
@@ -44,8 +44,8 @@ public class fmTablero extends javax.swing.JFrame implements Observer {
         this.broker.addObserver(this);
         this.canias = new Canias();
         this.panelChat = new PnlChat(this.broker);
-        this.tablero = new Tablero(this.broker, this.tamanio, canias);
-        this.botones = tablero.getBotones();
+        this.tablero = new TableroNew(this.broker, this.tamanio, canias);
+//        this.botones = tablero.getBotones();
 
         initPantalla();
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);

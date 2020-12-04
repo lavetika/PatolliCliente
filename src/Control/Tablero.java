@@ -76,60 +76,60 @@ public final class Tablero extends JPanel {
     public ArrayList<JLabel> getEtiquetaJugadores() {
         return etiquetaJugadores;
     }
+    
+   
 
-    
-    
     //Se generan las referencias de las casillas
     public void generarCasillas() {
         switch (cantidadTablero) {
             case 44:
                 for (int i = 0; i < cantidadTablero; i++) {
-                    if (i != 12 && i != 13
-                            && i != 22 && i != 23
-                            && i != 32 && i != 33
-                            && i != 42 && i != 43) {
+                    if (i != 5 && i != 6
+                            && i != 16 && i != 17
+                            && i != 27 && i != 28
+                            && i != 38 && i != 39) {
                         casillas.add(new Cuadrangular());
                     } else {
                         casillas.add(new SemiCircular());
                     }
                 }
                 break;
-            case 28:
-                for (int i = 0; i < cantidadTablero; i++) {
-                    if (i != 8 && i != 9
-                            && i != 14 && i != 15
-                            && i != 20 && i != 21
-                            && i != 26 && i != 27) {
-                        casillas.add(new Cuadrangular());
-                    } else {
-                        casillas.add(new SemiCircular());
-                    }
-                }
-                break;
-            case 36:
-                for (int i = 0; i < cantidadTablero; i++) {
-                    if (i != 10 && i != 11
-                            && i != 18 && i != 19
-                            && i != 26 && i != 27
-                            && i != 34 && i != 35) {
-                        casillas.add(new Cuadrangular());
-                    } else {
-                        casillas.add(new SemiCircular());
-                    }
-                }
-                break;
-            case 52:
-                for (int i = 0; i < cantidadTablero; i++) {
-                    if (i != 14 && i != 15
-                            && i != 26 && i != 27
-                            && i != 38 && i != 39
-                            && i != 50 && i != 51) {
-                        casillas.add(new Cuadrangular());
-                    } else {
-                        casillas.add(new SemiCircular());
-                    }
-                }
-                break;
+//            case 28:
+//                for (int i = 0; i < cantidadTablero; i++) {
+//                    if (i != 8 && i != 9
+//                            && i != 14 && i != 15
+//                            && i != 20 && i != 21
+//                            && i != 26 && i != 27) {
+//                        casillas.add(new Cuadrangular());
+//                    } else {
+//                        casillas.add(new SemiCircular());
+//                    }
+//                }
+//                break;
+//            case 36:
+//                for (int i = 0; i < cantidadTablero; i++) {
+//                    if (i != 10 && i != 11
+//                            && i != 18 && i != 19
+//                            && i != 26 && i != 27
+//                            && i != 34 && i != 35) {
+//                        casillas.add(new Cuadrangular());
+//                    } else {
+//                        casillas.add(new SemiCircular());
+//                    }
+//                }
+//                break;
+//            case 52:
+//                for (int i = 0; i < cantidadTablero; i++) {
+//                    if (i != 14 && i != 15
+//                            && i != 26 && i != 27
+//                            && i != 38 && i != 39
+//                            && i != 50 && i != 51) {
+//                        casillas.add(new Cuadrangular());
+//                    } else {
+//                        casillas.add(new SemiCircular());
+//                    }
+//                }
+//                break;
             default:
                 break;
         }
@@ -151,17 +151,7 @@ public final class Tablero extends JPanel {
         drawTablero(g);
     }
 
-    public void drawBase(Graphics2D g2d) {
-        Dimension tamano = getSize();
-
-        int w = (int) tamano.getWidth();
-        int h = (int) tamano.getHeight();
-
-        g2d.setColor(new Color(243, 188, 39));
-        g2d.fillOval(125, 75, 650, 650);
-        g2d.setColor(Color.BLACK);
-        g2d.drawOval(125, 75, 650, 650);
-    }
+   
 
     public void drawTablero(Graphics g) {
 
@@ -219,10 +209,11 @@ public final class Tablero extends JPanel {
         //Posicionarlo en el centro
         x = x / 2;
         y = y / 2;
+        
 
         for (int i = 0; i < casillas.size(); i++) {
             if (casillas.get(i).getTamanio() == 0) {
-                casillas.get(i).setPosition(0);
+                casillas.get(i).setPosition(i);
                 casillas.get(i).setForma(EnumCasilla.CENTRAL);
                 casillas.get(i).setPositionX(x);
                 casillas.get(i).setPositionY(y);
@@ -237,7 +228,7 @@ public final class Tablero extends JPanel {
                 casillas.get(0).draw(g2d);
                 break;
             }
-
+            
         }
 
         //Posicionarlo
@@ -305,6 +296,38 @@ public final class Tablero extends JPanel {
             }
         }
 
+    }
+    
+    public void dibujadoRuta(Graphics2D g2d){
+        Dimension tamano = getSize();
+        int x = (int) tamano.getWidth();
+        int y = (int) tamano.getHeight();
+
+        //Posicionarlo en el centro
+        x = x / 2;
+        y = y / 2;
+        
+        for (int i = 0; i < casillas.size(); i++) {
+            if (casillas.get(i).getTamanio() == 0) {
+                casillas.get(i).setPosition(i);
+                casillas.get(i).setForma(EnumCasilla.CENTRAL);
+                casillas.get(i).setPositionX(x);
+                casillas.get(i).setPositionY(y);
+                casillas.get(i).setTamanio(tamanioCasilla);
+                casillas.get(i).setDireccion(EnumDireccion.CENTRO);
+                casillas.get(i).draw(g2d);
+                break;
+            }
+
+            //Obtener las casillas para volver a dibujarlas
+            if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
+                casillas.get(0).draw(g2d);
+                break;
+            }
+            
+        }
+        
+        
     }
 
     public void drawArriba(Graphics2D g2d) {
