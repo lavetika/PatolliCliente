@@ -99,11 +99,13 @@ public class fmTablero extends javax.swing.JFrame implements Observer {
     }
 
     public void posicionarJugador(List<String> posicion) {
+        tablero.limpiarNicknames();
         for (int i = 0; i < posicion.size(); i++) {
             this.tablero.getEtiquetaJugadores().get(i)
-                .setText(posicion.get(i));
+                    .setText(posicion.get(i));
         }
-        
+        this.tablero.repaint();
+
     }
 
     @Override
@@ -132,11 +134,16 @@ public class fmTablero extends javax.swing.JFrame implements Observer {
                 System.out.println(m.toString() + " viene de tablero");
                 break;
             case ABANDONO_JUGADOR:
+                List nicknames = (List) m.getRespuesta().get("posiciones");
                 try {
-                    this.broker.getCliente().desconectar();
-                    fmMenu fmMenu = new fmMenu();
-                    fmMenu.setVisible(true);
-                    JOptionPane.showMessageDialog(this, "Has abandonado la partida:)");
+                    if (!nicknames.contains(this.broker.getJugador().getNickname())) {
+                        this.broker.getCliente().desconectar();
+                        fmMenu fmMenu = new fmMenu();
+                        fmMenu.setVisible(true);
+                        JOptionPane.showMessageDialog(this, "Has abandonado la partida:)");
+                    } else {
+                        this.posicionarJugador(nicknames);
+                    }
                 } catch (IOException ex) {
                     Logger.getLogger(fmTablero.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -146,7 +153,7 @@ public class fmTablero extends javax.swing.JFrame implements Observer {
                 this.enableButtons();
                 break;//TA WORKEAND
             case INGRESAR_PARTIDA:
-                this.posicionarJugador((List)m.getRespuesta().get("posiciones"));
+                this.posicionarJugador((List) m.getRespuesta().get("posiciones"));
                 break;
 
         }

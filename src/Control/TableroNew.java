@@ -72,6 +72,12 @@ public final class TableroNew extends JPanel {
     public ArrayList<JLabel> getEtiquetaJugadores() {
         return etiquetaJugadores;
     }
+    
+    public void limpiarNicknames(){
+        etiquetaJugadores.forEach((etiquetaJugador) -> {
+            etiquetaJugador.setText("");
+        });
+    }
 
     public void generarCasillas() {
         switch (cantidadTablero) {
