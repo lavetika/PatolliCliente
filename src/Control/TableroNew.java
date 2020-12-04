@@ -553,8 +553,9 @@ public final class TableroNew extends JPanel {
     }
 
     public void moverFicha(int numero, Ficha ficha) {
+       
         int pos = ficha.getPosicionActual();
-        if (pos != 0) {
+        if (pos != -1) {
             pos = pos + numero;
             for (Forma casilla : casillas) {
                 /*
@@ -568,7 +569,7 @@ public final class TableroNew extends JPanel {
                 }
             }
         } else if (numero == 1) {
-            pos = pos + numero;
+            pos = 0;
             for (Forma casilla : casillas) {
                 /*
                 Solo estoy validando con la ficha azul que esa va a la derecha, en el EnumDireccion.Derecha es solo para el azul

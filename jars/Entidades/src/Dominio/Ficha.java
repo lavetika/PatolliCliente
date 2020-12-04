@@ -32,7 +32,7 @@ public class Ficha implements Serializable{
     }
     
     public Ficha(){
-        
+        posicionActual = -1;
     }
 
     public JLabel getFicha() {
