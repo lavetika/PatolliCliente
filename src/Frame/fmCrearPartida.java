@@ -79,6 +79,11 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
         btnCancelar.setBackground(new java.awt.Color(243, 243, 220));
         btnCancelar.setFont(new java.awt.Font("Herculanum", 0, 16)); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCancelarMouseClicked(evt);
+            }
+        });
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
@@ -89,6 +94,11 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
         btnGuardar.setBackground(new java.awt.Color(243, 243, 220));
         btnGuardar.setFont(new java.awt.Font("Herculanum", 0, 16)); // NOI18N
         btnGuardar.setText("Crear Partida");
+        btnGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnGuardarMouseClicked(evt);
+            }
+        });
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
@@ -111,6 +121,11 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
         jPanelCrearPartida.add(lblCantGemas, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 250, 260, 33));
 
         cbNumeroMaxJugadores.setBackground(new java.awt.Color(243, 243, 220));
+        cbNumeroMaxJugadores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbNumeroMaxJugadoresActionPerformed(evt);
+            }
+        });
         jPanelCrearPartida.add(cbNumeroMaxJugadores, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 150, 50, 33));
 
         lblNumeroMaxJugadores.setFont(new java.awt.Font("PT Sans", 0, 18)); // NOI18N
@@ -240,13 +255,13 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
             cbCantApuesta.addItem(6);
             cbCantApuesta.addItem(8);
             cbCantApuesta.addItem(10);
-        }else{
+        } else {
             cbCantApuesta.addItem(2);
             cbCantApuesta.addItem(4);
             cbCantApuesta.addItem(6);
         }
     }
-    
+
     public void crearFichasJugador(Jugador jugador) {
         for (int i = 0; i < 6; i++) {
             jugador.getFichas().add(new Ficha());
@@ -261,7 +276,7 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
             return true;
         } catch (Exception ex) {
 
-            JOptionPane.showMessageDialog(this, "Esta llena la partida");
+            JOptionPane.showMessageDialog(this, "No puedes ingresar a la partida");
         }
 
         return false;
@@ -272,7 +287,7 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_cbTamanioTablero1ActionPerformed
 
     public boolean validar() {
-        return !txtNickname.getText().isEmpty()&&cbNumeroMaxJugadores.getSelectedIndex()!=0;
+        return !txtNickname.getText().isEmpty() && cbNumeroMaxJugadores.getSelectedIndex() != 0;
     }
 
     private void txtNicknameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNicknameKeyTyped
@@ -281,7 +296,8 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
             evt.consume();
         } else {
             lblNick.setText("");
-            lblJugadores.setText("");
+            this.lblJugadores.setText("");
+            this.btnGuardar.setEnabled(true);
         }
     }//GEN-LAST:event_txtNicknameKeyTyped
 
@@ -295,6 +311,20 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
             llenarCmbCantApuesta();
         }
     }//GEN-LAST:event_cbCantGemasItemStateChanged
+
+    private void btnGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseClicked
+        this.btnGuardar.setEnabled(false);
+    }//GEN-LAST:event_btnGuardarMouseClicked
+
+    private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
+        this.btnGuardar.setEnabled(false);
+    }//GEN-LAST:event_btnCancelarMouseClicked
+
+    private void cbNumeroMaxJugadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbNumeroMaxJugadoresActionPerformed
+        this.lblNick.setText("");
+        this.lblJugadores.setText("");
+        this.btnGuardar.setEnabled(true);
+    }//GEN-LAST:event_cbNumeroMaxJugadoresActionPerformed
 
     @Override
     public Image getIconImage() {
@@ -350,7 +380,11 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
     public void abrirSiguientePantalla(Mandadero mandadero) {
         this.frameTablero = new fmTablero((Integer) cbTamanioTablero1.getSelectedItem(), cliente.getBroker());
         frameTablero.posicionarJugador((List) mandadero.getRespuesta().get("posiciones"));
-        frameTablero.habilitarBoton((Jugador) mandadero.getRespuesta().get("host"));
+
+        Jugador jugadorHost = (Jugador) mandadero.getRespuesta().get("host");
+        boolean partidaIni = (boolean) mandadero.getRespuesta().get("iniciado");
+        this.frameTablero.habilitarBoton(jugadorHost, partidaIni);
+
         frameTablero.setVisible(true);
         this.dispose();
         cliente.getBroker().deleteObserver(this);
@@ -362,7 +396,7 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
         Mandadero mandadero = (Mandadero) o1;
 
         if (mandadero.getTipoServicio().equals(EnumServicio.POSICIONAR_JUGADOR)
-                ||mandadero.getTipoServicio().equals(enumServicio.EnumServicio.CREAR_PARTIDA)) {
+                || mandadero.getTipoServicio().equals(enumServicio.EnumServicio.CREAR_PARTIDA)) {
             abrirSiguientePantalla(mandadero);
         }
 

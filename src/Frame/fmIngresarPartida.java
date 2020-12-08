@@ -82,6 +82,11 @@ public class fmIngresarPartida extends javax.swing.JFrame implements Observer {
         btnIngresar.setBackground(new java.awt.Color(243, 243, 220));
         btnIngresar.setFont(new java.awt.Font("Herculanum", 0, 16)); // NOI18N
         btnIngresar.setText("Ingresar");
+        btnIngresar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnIngresarMouseClicked(evt);
+            }
+        });
         btnIngresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIngresarActionPerformed(evt);
@@ -92,6 +97,11 @@ public class fmIngresarPartida extends javax.swing.JFrame implements Observer {
         btnCancelar.setBackground(new java.awt.Color(243, 243, 220));
         btnCancelar.setFont(new java.awt.Font("Herculanum", 0, 16)); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCancelarMouseClicked(evt);
+            }
+        });
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
@@ -189,8 +199,13 @@ public class fmIngresarPartida extends javax.swing.JFrame implements Observer {
                 (int) cbCantApuesta.getSelectedItem());
         this.jugador.setApuesta(apuesta);
         this.frameTablero = new fmTablero(tamTablero, cliente.getBroker());
+
         frameTablero.posicionarJugador((List) mandadero.getRespuesta().get("posiciones"));
-        frameTablero.habilitarBoton((Jugador) mandadero.getRespuesta().get("host"));
+
+        Jugador jugadorHost = (Jugador) mandadero.getRespuesta().get("host");
+        boolean partidaIni = (boolean) mandadero.getRespuesta().get("iniciado");
+        this.frameTablero.habilitarBoton(jugadorHost, partidaIni);
+
         frameTablero.setVisible(true);
         this.dispose();
         this.cliente.getBroker().deleteObserver(this);
@@ -217,8 +232,17 @@ public class fmIngresarPartida extends javax.swing.JFrame implements Observer {
             evt.consume();
         } else {
             lb_nick.setText("");
+            this.btnIngresar.setEnabled(true);
         }
     }//GEN-LAST:event_txtNicknameKeyTyped
+
+    private void btnIngresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIngresarMouseClicked
+        this.btnIngresar.setEnabled(false);
+    }//GEN-LAST:event_btnIngresarMouseClicked
+
+    private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
+        this.btnCancelar.setEnabled(false);
+    }//GEN-LAST:event_btnCancelarMouseClicked
 
     @Override
     public Image getIconImage() {

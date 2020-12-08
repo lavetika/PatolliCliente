@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 public class fmTablero extends javax.swing.JFrame implements Observer {
 
@@ -50,12 +51,17 @@ public class fmTablero extends javax.swing.JFrame implements Observer {
 //        this.botones = tablero.getBotones();
 
         initPantalla();
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent event) {
-                Mandadero mandadero = new Mandadero(EnumServicio.ABANDONO_JUGADOR);
-                broker.solicitarPedido(mandadero);
+//                int resp = JOptionPane.showConfirmDialog(null, "¿Seguro que quieres salir?",
+//                        "Confirmar abandono de partida", JOptionPane.OK_CANCEL_OPTION);
+//                if (resp == JOptionPane.OK_OPTION) {
+                    dispose();
+                    Mandadero mandadero = new Mandadero(EnumServicio.ABANDONO_JUGADOR);
+                    broker.solicitarPedido(mandadero);
+//                }
             }
         });
 
@@ -165,6 +171,7 @@ public class fmTablero extends javax.swing.JFrame implements Observer {
             }
             fmMenu fmMenu = new fmMenu();
             fmMenu.setVisible(true);
+//            JOptionPane.showMessageDialog(this, "Has abandonado la partida. :)");
             break;
             case MOVIMIENTO_FICHA:
                 this.turno = (boolean) m.getRespuesta().get("turno");
@@ -172,7 +179,9 @@ public class fmTablero extends javax.swing.JFrame implements Observer {
                 break;
             case POSICIONAR_JUGADOR:
                 if (m.getRespuesta().containsKey("host")) {
-                    this.habilitarBoton((Jugador) m.getRespuesta().get("host"));
+                    Jugador jugador=(Jugador) m.getRespuesta().get("host");
+                    boolean partidaIniciada= (boolean) m.getRespuesta().get("iniciado");
+                    this.habilitarBoton(jugador,partidaIniciada);
                 }
                 this.posicionarJugador((List) m.getRespuesta().get("posiciones"));
                 break;
@@ -183,12 +192,15 @@ public class fmTablero extends javax.swing.JFrame implements Observer {
         }
     }
 
-    public void habilitarBoton(Jugador jugadorHost) {
+    public void habilitarBoton(Jugador jugadorHost, boolean partidaIniciada) {
         if (jugadorHost.getNickname().equals(this.broker.getJugador().getNickname())) {
             this.broker.getJugador().setTipoJugador(TipoJugador.HOST);
         }
         if (this.broker.getJugador().getTipoJugador().equals(TipoJugador.HOST)) {
             this.pb.getBotones().get(0).setVisible(true);
+            if(partidaIniciada){
+               this.pb.getBotones().get(0).setEnabled(false); 
+            }
         } else {
             this.pb.getBotones().get(0).setVisible(false);
         }

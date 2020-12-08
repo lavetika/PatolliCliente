@@ -70,10 +70,10 @@ public class fmCreditos extends javax.swing.JFrame {
 
         lblCreditos.setFont(new java.awt.Font("Herculanum", 0, 22)); // NOI18N
         lblCreditos.setText("Créditos");
-        jPanelCreditos.add(lblCreditos, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 10, -1, 59));
+        jPanelCreditos.add(lblCreditos, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, -1, 59));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/azteca32px.png"))); // NOI18N
-        jPanelCreditos.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 20, -1, 40));
+        jPanelCreditos.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 20, -1, 40));
 
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/FED148.jpeg"))); // NOI18N
         jPanelCreditos.add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 10, 80, 60));
@@ -81,6 +81,11 @@ public class fmCreditos extends javax.swing.JFrame {
         btnSalir.setBackground(new java.awt.Color(243, 243, 220));
         btnSalir.setFont(new java.awt.Font("Herculanum", 0, 14)); // NOI18N
         btnSalir.setText("Regresar");
+        btnSalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSalirMouseClicked(evt);
+            }
+        });
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalirActionPerformed(evt);
@@ -143,8 +148,8 @@ public class fmCreditos extends javax.swing.JFrame {
         jPanelCreditos.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 270, 90, 100));
 
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel17.setText("<html>QUE TE DUELEE, <br> amén</html>");
-        jPanelCreditos.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 270, 80, 50));
+        jLabel17.setText("<html>QUÉ TE DUELEE?, <br> amén</html>");
+        jPanelCreditos.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 270, 80, 60));
 
         jLabel18.setForeground(new java.awt.Color(255, 255, 255));
         jLabel18.setText("<html>loS HILOS,me caí, el observer...  </html>");
@@ -154,7 +159,7 @@ public class fmCreditos extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelCreditos, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+            .addComponent(jPanelCreditos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,6 +176,10 @@ public class fmCreditos extends javax.swing.JFrame {
         frameMenu.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalirMouseClicked
+        this.btnSalir.setEnabled(false);
+    }//GEN-LAST:event_btnSalirMouseClicked
 
     @Override
     public Image getIconImage() {

@@ -10,11 +10,11 @@ import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JOptionPane;
 
-public class fmMenu extends javax.swing.JFrame implements Observer{
-    
+public class fmMenu extends javax.swing.JFrame implements Observer {
+
     private boolean estadoPartida;
+    private boolean partidaIniciada;
     private ClienteSocket clienteSocket;
-    
 
     public fmMenu() {
         initComponents();
@@ -68,6 +68,11 @@ public class fmMenu extends javax.swing.JFrame implements Observer{
         btnJugar.setBackground(new java.awt.Color(243, 243, 220));
         btnJugar.setFont(new java.awt.Font("Herculanum", 0, 14)); // NOI18N
         btnJugar.setText("Jugar");
+        btnJugar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnJugarMouseClicked(evt);
+            }
+        });
         btnJugar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnJugarActionPerformed(evt);
@@ -78,6 +83,11 @@ public class fmMenu extends javax.swing.JFrame implements Observer{
         btnComoJugar.setBackground(new java.awt.Color(243, 243, 220));
         btnComoJugar.setFont(new java.awt.Font("Herculanum", 0, 14)); // NOI18N
         btnComoJugar.setText("Cómo Jugar");
+        btnComoJugar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnComoJugarMouseClicked(evt);
+            }
+        });
         btnComoJugar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnComoJugarActionPerformed(evt);
@@ -88,6 +98,11 @@ public class fmMenu extends javax.swing.JFrame implements Observer{
         btnCreditos.setBackground(new java.awt.Color(243, 243, 220));
         btnCreditos.setFont(new java.awt.Font("Herculanum", 0, 14)); // NOI18N
         btnCreditos.setText("Créditos");
+        btnCreditos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCreditosMouseClicked(evt);
+            }
+        });
         btnCreditos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCreditosActionPerformed(evt);
@@ -140,6 +155,19 @@ public class fmMenu extends javax.swing.JFrame implements Observer{
         this.setVisible(false);
     }//GEN-LAST:event_btnCreditosActionPerformed
 
+    private void btnJugarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnJugarMouseClicked
+        this.btnJugar.setEnabled(false);
+
+    }//GEN-LAST:event_btnJugarMouseClicked
+
+    private void btnComoJugarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnComoJugarMouseClicked
+        this.btnComoJugar.setEnabled(false);
+    }//GEN-LAST:event_btnComoJugarMouseClicked
+
+    private void btnCreditosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCreditosMouseClicked
+        this.btnCreditos.setEnabled(false);
+    }//GEN-LAST:event_btnCreditosMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -182,37 +210,43 @@ public class fmMenu extends javax.swing.JFrame implements Observer{
 
         return retValue;
     }
-    
-     public boolean iniciarCliente(ClienteSocket cliente) {
+
+    public boolean iniciarCliente(ClienteSocket cliente) {
         try {
             System.out.println("iniciarCliente metodo");
             cliente.iniciar();
             cliente.getBroker().setJugador(new Jugador("soy la prueba"));
             cliente.getBroker().addObserver(this);
-            
+
             return true;
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
-            JOptionPane.showMessageDialog(this, "Esta llena la partida");
+            JOptionPane.showMessageDialog(this, "Está llena la partida");
+            this.btnJugar.setEnabled(true);
         }
-        
+
         return false;
     }
-     
-     public void abrirSiguientePantalla(Mandadero mandadero) {
-        if (!estadoPartida) {
-            fmCrearPartida framePersonalizarPartida = new fmCrearPartida();
-            framePersonalizarPartida.setVisible(true);
-            this.setVisible(false);
-        } else {
-            int cantGemas = (int) mandadero.getRespuesta().get("cantGemas");
-            fmIngresarPartida frameIngresar = new fmIngresarPartida(cantGemas);
-            frameIngresar.setVisible(true);
-            this.setVisible(false);
+
+    public void abrirSiguientePantalla(Mandadero mandadero) {
+        if (!partidaIniciada) {
+            if (!estadoPartida) {
+                fmCrearPartida framePersonalizarPartida = new fmCrearPartida();
+                framePersonalizarPartida.setVisible(true);
+                this.setVisible(false);
+            } else {
+                int cantGemas = (int) mandadero.getRespuesta().get("cantGemas");
+                fmIngresarPartida frameIngresar = new fmIngresarPartida(cantGemas);
+                frameIngresar.setVisible(true);
+                this.setVisible(false);
+            }
+        }else{
+            JOptionPane.showMessageDialog(this, "La partida está en curso");
+            this.btnJugar.setEnabled(true);
         }
         clienteSocket.cerrarSocket();
-     }
-     
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnComoJugar;
     private javax.swing.JButton btnCreditos;
@@ -232,6 +266,7 @@ public class fmMenu extends javax.swing.JFrame implements Observer{
     public void update(Observable o, Object o1) {
         Mandadero mandadero = (Mandadero) o1;
         this.estadoPartida = (boolean) mandadero.getRespuesta().get("respuesta");
+        this.partidaIniciada = (boolean) mandadero.getRespuesta().get("iniciado");
         abrirSiguientePantalla(mandadero);
     }
 }
