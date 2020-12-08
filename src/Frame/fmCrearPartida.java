@@ -1,5 +1,7 @@
 package Frame;
 
+import Dominio.Apuesta;
+import Dominio.Ficha;
 import Dominio.Jugador;
 import Dominio.TipoJugador;
 import callMessage.Mandadero;
@@ -51,7 +53,7 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
         jPanelCrearPartida = new javax.swing.JPanel();
         btnCancelar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
-        cbCantGemas = new javax.swing.JComboBox<>();
+        cbCantApuesta = new javax.swing.JComboBox<>();
         lblCantGemas = new javax.swing.JLabel();
         cbNumeroMaxJugadores = new javax.swing.JComboBox<>();
         lblNumeroMaxJugadores = new javax.swing.JLabel();
@@ -60,8 +62,12 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
         lblTamanioTablero1 = new javax.swing.JLabel();
         lblFondo = new javax.swing.JLabel();
         cbTamanioTablero1 = new javax.swing.JComboBox<>();
-        lblNickName = new javax.swing.JLabel();
+        lblJugadores = new javax.swing.JLabel();
         txtNickname = new javax.swing.JTextField();
+        lblNickName1 = new javax.swing.JLabel();
+        cbCantGemas = new javax.swing.JComboBox<>();
+        lblCantGemas1 = new javax.swing.JLabel();
+        lblNick = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
@@ -78,7 +84,7 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
                 btnCancelarActionPerformed(evt);
             }
         });
-        jPanelCrearPartida.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 310, 160, -1));
+        jPanelCrearPartida.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 360, 160, -1));
 
         btnGuardar.setBackground(new java.awt.Color(243, 243, 220));
         btnGuardar.setFont(new java.awt.Font("Herculanum", 0, 16)); // NOI18N
@@ -88,29 +94,29 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
                 btnGuardarActionPerformed(evt);
             }
         });
-        jPanelCrearPartida.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 310, 160, -1));
+        jPanelCrearPartida.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 360, 160, -1));
 
-        cbCantGemas.setBackground(new java.awt.Color(243, 243, 220));
-        cbCantGemas.addActionListener(new java.awt.event.ActionListener() {
+        cbCantApuesta.setBackground(new java.awt.Color(243, 243, 220));
+        cbCantApuesta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbCantGemasActionPerformed(evt);
+                cbCantApuestaActionPerformed(evt);
             }
         });
-        jPanelCrearPartida.add(cbCantGemas, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 240, 60, 33));
+        jPanelCrearPartida.add(cbCantApuesta, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 300, 60, 33));
 
         lblCantGemas.setBackground(new java.awt.Color(105, 2, 5));
         lblCantGemas.setFont(new java.awt.Font("PT Sans", 0, 18)); // NOI18N
         lblCantGemas.setForeground(new java.awt.Color(243, 243, 220));
         lblCantGemas.setText("Cantidad de gemas");
-        jPanelCrearPartida.add(lblCantGemas, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 240, 260, 33));
+        jPanelCrearPartida.add(lblCantGemas, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 250, 260, 33));
 
         cbNumeroMaxJugadores.setBackground(new java.awt.Color(243, 243, 220));
-        jPanelCrearPartida.add(cbNumeroMaxJugadores, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 140, 50, 33));
+        jPanelCrearPartida.add(cbNumeroMaxJugadores, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 150, 50, 33));
 
         lblNumeroMaxJugadores.setFont(new java.awt.Font("PT Sans", 0, 18)); // NOI18N
         lblNumeroMaxJugadores.setForeground(new java.awt.Color(243, 243, 220));
         lblNumeroMaxJugadores.setText("Número máximo de jugadores");
-        jPanelCrearPartida.add(lblNumeroMaxJugadores, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 150, -1, 33));
+        jPanelCrearPartida.add(lblNumeroMaxJugadores, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 160, -1, 33));
 
         lblCrearPartida.setFont(new java.awt.Font("Herculanum", 0, 22)); // NOI18N
         lblCrearPartida.setText("Crear partida");
@@ -123,7 +129,7 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
         lblTamanioTablero1.setFont(new java.awt.Font("PT Sans", 0, 18)); // NOI18N
         lblTamanioTablero1.setForeground(new java.awt.Color(243, 243, 220));
         lblTamanioTablero1.setText("Tamaño del tablero");
-        jPanelCrearPartida.add(lblTamanioTablero1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 190, 277, 33));
+        jPanelCrearPartida.add(lblTamanioTablero1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 200, 277, 33));
 
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/FED148.jpeg"))); // NOI18N
         jPanelCrearPartida.add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 560, 50));
@@ -134,12 +140,11 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
                 cbTamanioTablero1ActionPerformed(evt);
             }
         });
-        jPanelCrearPartida.add(cbTamanioTablero1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, 60, 33));
+        jPanelCrearPartida.add(cbTamanioTablero1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 200, 60, 33));
 
-        lblNickName.setFont(new java.awt.Font("PT Sans", 0, 18)); // NOI18N
-        lblNickName.setForeground(new java.awt.Color(243, 243, 220));
-        lblNickName.setText("Nickname*");
-        jPanelCrearPartida.add(lblNickName, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, -1, -1));
+        lblJugadores.setFont(new java.awt.Font("PT Sans", 0, 12)); // NOI18N
+        lblJugadores.setForeground(new java.awt.Color(243, 243, 220));
+        jPanelCrearPartida.add(lblJugadores, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 160, 130, 10));
 
         txtNickname.setBackground(new java.awt.Color(243, 243, 220));
         txtNickname.setFont(new java.awt.Font("PT Sans", 0, 13)); // NOI18N
@@ -149,6 +154,34 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
             }
         });
         jPanelCrearPartida.add(txtNickname, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 90, 180, 30));
+
+        lblNickName1.setFont(new java.awt.Font("PT Sans", 0, 18)); // NOI18N
+        lblNickName1.setForeground(new java.awt.Color(243, 243, 220));
+        lblNickName1.setText("Nickname*");
+        jPanelCrearPartida.add(lblNickName1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, -1, -1));
+
+        cbCantGemas.setBackground(new java.awt.Color(243, 243, 220));
+        cbCantGemas.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbCantGemasItemStateChanged(evt);
+            }
+        });
+        cbCantGemas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbCantGemasActionPerformed(evt);
+            }
+        });
+        jPanelCrearPartida.add(cbCantGemas, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 250, 60, 33));
+
+        lblCantGemas1.setBackground(new java.awt.Color(105, 2, 5));
+        lblCantGemas1.setFont(new java.awt.Font("PT Sans", 0, 18)); // NOI18N
+        lblCantGemas1.setForeground(new java.awt.Color(243, 243, 220));
+        lblCantGemas1.setText("Cantidad apuesta");
+        jPanelCrearPartida.add(lblCantGemas1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 300, 260, 33));
+
+        lblNick.setFont(new java.awt.Font("PT Sans", 0, 12)); // NOI18N
+        lblNick.setForeground(new java.awt.Color(243, 243, 220));
+        jPanelCrearPartida.add(lblNick, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 120, 130, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -160,15 +193,15 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelCrearPartida, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+            .addComponent(jPanelCrearPartida, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cbCantGemasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCantGemasActionPerformed
+    private void cbCantApuestaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCantApuestaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbCantGemasActionPerformed
+    }//GEN-LAST:event_cbCantApuestaActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         fmMenu frameMenu = new fmMenu();
@@ -178,26 +211,47 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
-        if (validarNickname()) {
+        if (validar()) {
             Jugador jugador = new Jugador(txtNickname.getText());
-            jugador.setCodigoPartida(Integer.parseInt("12345"));
             jugador.setTipoJugador(TipoJugador.HOST);
+            jugador.setApuesta(new Apuesta((int) cbCantGemas.getSelectedItem(), (int) cbCantApuesta.getSelectedItem()));
+            crearFichasJugador(jugador);
 
             if (iniciarCliente(jugador)) {
                 Mandadero mandadero = new Mandadero(EnumServicio.CREAR_PARTIDA);
-                mandadero.addPeticion("cantJugadores", cbNumeroMaxJugadores.getSelectedItem());
+                mandadero.addPeticion("cantJugadores", cbNumeroMaxJugadores.getSelectedIndex());
                 mandadero.addPeticion("maxApuesta", cbCantGemas.getSelectedItem());
                 mandadero.addPeticion("tamTablero", cbTamanioTablero1.getSelectedItem());
                 mandadero.addPeticion("jugador", jugador);
                 cliente.getBroker().solicitarPedido(mandadero);
-//                this.frameTablero = new fmTablero((Integer) cbTamanioTablero1.getSelectedItem(),cliente.getBroker());
-//                frameTablero.setVisible(true);
-//                this.dispose();
+
             }
         } else {
-            lblNickName.setText("*Ingresa tu nickname");
+            lblNick.setText("*Ingresa tu nickname");
+            lblJugadores.setText("Selecciona cant jugadores");
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    public void llenarCmbCantApuesta() {
+        int cantGemas = (int) cbCantGemas.getSelectedItem();
+        if (cantGemas >= 20) {
+            cbCantApuesta.addItem(2);
+            cbCantApuesta.addItem(4);
+            cbCantApuesta.addItem(6);
+            cbCantApuesta.addItem(8);
+            cbCantApuesta.addItem(10);
+        }else{
+            cbCantApuesta.addItem(2);
+            cbCantApuesta.addItem(4);
+            cbCantApuesta.addItem(6);
+        }
+    }
+    
+    public void crearFichasJugador(Jugador jugador) {
+        for (int i = 0; i < 6; i++) {
+            jugador.getFichas().add(new Ficha());
+        }
+    }
 
     public boolean iniciarCliente(Jugador jugador) {
         try {
@@ -217,16 +271,30 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbTamanioTablero1ActionPerformed
 
-    public boolean validarNickname() {
-        return !txtNickname.getText().isEmpty();
+    public boolean validar() {
+        return !txtNickname.getText().isEmpty()&&cbNumeroMaxJugadores.getSelectedIndex()!=0;
     }
 
     private void txtNicknameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNicknameKeyTyped
         char a = evt.getKeyChar();
-        if ((txtNickname.getText().length() >= 10)) {
+        if ((txtNickname.getText().length() >= 10) || !Character.isLetter(a)) {
             evt.consume();
+        } else {
+            lblNick.setText("");
+            lblJugadores.setText("");
         }
     }//GEN-LAST:event_txtNicknameKeyTyped
+
+    private void cbCantGemasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbCantGemasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbCantGemasActionPerformed
+
+    private void cbCantGemasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbCantGemasItemStateChanged
+        if (evt.getStateChange() == evt.SELECTED) {
+            cbCantApuesta.removeAllItems();
+            llenarCmbCantApuesta();
+        }
+    }//GEN-LAST:event_cbCantGemasItemStateChanged
 
     @Override
     public Image getIconImage() {
@@ -237,6 +305,7 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
     }
 
     private void llenarCmbJugadores() {
+        cbNumeroMaxJugadores.addItem(0);
         cbNumeroMaxJugadores.addItem(2);
         cbNumeroMaxJugadores.addItem(3);
         cbNumeroMaxJugadores.addItem(4);
@@ -260,15 +329,19 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JComboBox<Integer> cbCantApuesta;
     private javax.swing.JComboBox<Integer> cbCantGemas;
     private javax.swing.JComboBox<Integer> cbNumeroMaxJugadores;
     private javax.swing.JComboBox<Integer> cbTamanioTablero1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanelCrearPartida;
     private javax.swing.JLabel lblCantGemas;
+    private javax.swing.JLabel lblCantGemas1;
     private javax.swing.JLabel lblCrearPartida;
     private javax.swing.JLabel lblFondo;
-    private javax.swing.JLabel lblNickName;
+    private javax.swing.JLabel lblJugadores;
+    private javax.swing.JLabel lblNick;
+    private javax.swing.JLabel lblNickName1;
     private javax.swing.JLabel lblNumeroMaxJugadores;
     private javax.swing.JLabel lblTamanioTablero1;
     private javax.swing.JTextField txtNickname;
@@ -276,10 +349,11 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
 
     public void abrirSiguientePantalla(Mandadero mandadero) {
         this.frameTablero = new fmTablero((Integer) cbTamanioTablero1.getSelectedItem(), cliente.getBroker());
-        frameTablero.setVisible(true);
         frameTablero.posicionarJugador((List) mandadero.getRespuesta().get("posiciones"));
+        frameTablero.habilitarBoton((Jugador) mandadero.getRespuesta().get("host"));
         frameTablero.setVisible(true);
         this.dispose();
+        cliente.getBroker().deleteObserver(this);
 
     }
 
@@ -287,7 +361,8 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
     public void update(Observable o, Object o1) {
         Mandadero mandadero = (Mandadero) o1;
 
-        if (mandadero.getTipoServicio().equals(EnumServicio.CREAR_PARTIDA)) {
+        if (mandadero.getTipoServicio().equals(EnumServicio.POSICIONAR_JUGADOR)
+                ||mandadero.getTipoServicio().equals(enumServicio.EnumServicio.CREAR_PARTIDA)) {
             abrirSiguientePantalla(mandadero);
         }
 

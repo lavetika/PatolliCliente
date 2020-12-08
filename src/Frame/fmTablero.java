@@ -1,6 +1,9 @@
 package Frame;
 
-import Control.TableroNew;
+import Control.Tablero;
+import Dominio.Ficha;
+import Dominio.Jugador;
+import Dominio.TipoJugador;
 import Graphics.Canias;
 import broker.Broker;
 import callMessage.Mandadero;
@@ -14,17 +17,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 
 public class fmTablero extends javax.swing.JFrame implements Observer {
 
     private int tamanio;
     private Broker broker;
     private PnlChat panelChat;
-    private TableroNew tablero;
+    private Tablero tablero;
+    private PanelBotones pb;
     private Canias canias;
     private ArrayList<JButton> botones;
     private boolean turno;
@@ -44,7 +45,8 @@ public class fmTablero extends javax.swing.JFrame implements Observer {
         this.broker.addObserver(this);
         this.canias = new Canias();
         this.panelChat = new PnlChat(this.broker);
-        this.tablero = new TableroNew(this.broker, this.tamanio, canias);
+        this.tablero = new Tablero(this.broker, this.tamanio, canias);
+        this.pb = new PanelBotones(this, broker);
 //        this.botones = tablero.getBotones();
 
         initPantalla();
@@ -90,7 +92,7 @@ public class fmTablero extends javax.swing.JFrame implements Observer {
 
         add(panelChat);
         add(tablero);
-        add(new PanelBotones(this, broker));
+        add(pb);
         add(canias);
         setSize(1350, 800);
         setResizable(false);
@@ -98,16 +100,33 @@ public class fmTablero extends javax.swing.JFrame implements Observer {
 
     }
 
-    public void posicionarJugador(List<String> posicion) {
+    public void posicionarJugador(List<Jugador> posicion) {
         tablero.limpiarNicknames();
         for (int i = 0; i < posicion.size(); i++) {
-            this.tablero.getEtiquetaJugadores().get(i)
-                    .setText(posicion.get(i));
+            this.tablero.getEtiquetaJugadores().get(i).setText(posicion.get(i).getNickname());
         }
         this.tablero.repaint();
 
     }
 
+    public void posicionarFichas(List<Jugador> jugadores) {
+        for (int i = 0; i < jugadores.size(); i++) {//recorrer jugador
+
+            for (int j = 0; j < jugadores.get(i).getFichas().size(); j++) {//recorrer fichas de jugador
+                jugadores.get(i).getFichas().get(j).getFicha().setIcon(this.tablero.getIconosFichas().get(i));
+                this.tablero.getFichas().add(jugadores.get(i).getFichas().get(j));
+            }
+        }
+        tablero.colocarFichasTablero();
+        tablero.repaint();
+    }
+
+//    public void asignarColorFichas(Jugador jugador) {
+//        for (int i = 0; i < jugador.getFichas().size(); i++) {
+//            jugador.getFichas().get(i).setFicha(this.tablero.getEtiquetaFichas().get(i));
+//        }
+//        
+//    }
     @Override
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().
@@ -123,6 +142,10 @@ public class fmTablero extends javax.swing.JFrame implements Observer {
         }
     }
 
+    public List<Ficha> getFichas() {
+        return this.tablero.getFichas();
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         Mandadero m = (Mandadero) arg;
@@ -131,35 +154,45 @@ public class fmTablero extends javax.swing.JFrame implements Observer {
 
             case ENVIAR_MENSAJE:
                 panelChat.setDisplay((String) m.getRespuesta().get("mensaje"));
-                System.out.println(m.toString() + " viene de tablero");
+//                System.out.println(m.toString() + " viene de tablero");
                 break;
-            case ABANDONO_JUGADOR:
-                List nicknames = (List) m.getRespuesta().get("posiciones");
+            case ABANDONO_JUGADOR: {
                 try {
-                    if (!nicknames.contains(this.broker.getJugador().getNickname())) {
-                        this.broker.getCliente().desconectar();
-                        fmMenu fmMenu = new fmMenu();
-                        fmMenu.setVisible(true);
-                        JOptionPane.showMessageDialog(this, "Has abandonado la partida:)");
-                    } else {
-                        this.posicionarJugador(nicknames);
-                    }
+                    this.broker.getCliente().desconectar();
                 } catch (IOException ex) {
-                    Logger.getLogger(fmTablero.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("Error en el abandono jugador de frmTablero.");
                 }
-                break;
+            }
+            fmMenu fmMenu = new fmMenu();
+            fmMenu.setVisible(true);
+            break;
             case MOVIMIENTO_FICHA:
                 this.turno = (boolean) m.getRespuesta().get("turno");
                 this.enableButtons();
-                break;//TA WORKEAND
-            case INGRESAR_PARTIDA:
+                break;
+            case POSICIONAR_JUGADOR:
+                if (m.getRespuesta().containsKey("host")) {
+                    this.habilitarBoton((Jugador) m.getRespuesta().get("host"));
+                }
                 this.posicionarJugador((List) m.getRespuesta().get("posiciones"));
+                break;
+            case ASIGNAR_TURNO:
+                this.posicionarFichas((List) m.getRespuesta().get("posiciones"));
                 break;
 
         }
     }
 
-
+    public void habilitarBoton(Jugador jugadorHost) {
+        if (jugadorHost.getNickname().equals(this.broker.getJugador().getNickname())) {
+            this.broker.getJugador().setTipoJugador(TipoJugador.HOST);
+        }
+        if (this.broker.getJugador().getTipoJugador().equals(TipoJugador.HOST)) {
+            this.pb.getBotones().get(0).setVisible(true);
+        } else {
+            this.pb.getBotones().get(0).setVisible(false);
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

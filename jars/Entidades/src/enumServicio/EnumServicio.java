@@ -15,4 +15,6 @@ public enum EnumServicio implements Serializable {
     TERMINAR_PARTIDA,
     RECIBIR_MENSAJE,
     ENVIAR_MENSAJE,
+    ASIGNAR_FICHAS,
+    POSICIONAR_JUGADOR
 }

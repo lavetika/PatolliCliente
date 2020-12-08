@@ -9,9 +9,15 @@ public class Apuesta implements Serializable{
      private int cantApuesta;
     private int montoTotal;
     
-    public Apuesta(int total) {
-        this.montoTotal=total;
+      public Apuesta(int total, int cantApuesta) {
+        this.montoTotal = total;
+        this.cantApuesta = cantApuesta;
     }
+
+    public Apuesta(int cantApuesta) {
+        this.cantApuesta = cantApuesta;
+    }
+
     
     public int getMontoTotal() {
         return montoTotal;

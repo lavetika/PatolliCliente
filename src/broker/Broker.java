@@ -27,7 +27,7 @@ public class Broker extends Observable implements Observer {
     public Jugador getJugador() {
         return jugador;
     }
-    
+
     public ComunicadorRedServidor getCliente() {
         return socket;
     }
@@ -50,15 +50,11 @@ public class Broker extends Observable implements Observer {
 
     @Override
     public void update(Observable o, Object o1) {
-        
+
         Mandadero m = (Mandadero) o1;
-        if(m.getTipoServicio() == EnumServicio.CREAR_PARTIDA || 
-                m.getTipoServicio() == EnumServicio.INGRESAR_PARTIDA){
-            System.out.println(m.getRespuesta());
-        }
+        
         this.setChanged();
         this.notifyObservers(m);
         this.clearChanged();
-
     }
 }

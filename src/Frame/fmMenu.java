@@ -199,13 +199,14 @@ public class fmMenu extends javax.swing.JFrame implements Observer{
         return false;
     }
      
-     public void abrirSiguientePantalla(){
-            if (!estadoPartida) {
+     public void abrirSiguientePantalla(Mandadero mandadero) {
+        if (!estadoPartida) {
             fmCrearPartida framePersonalizarPartida = new fmCrearPartida();
             framePersonalizarPartida.setVisible(true);
             this.setVisible(false);
         } else {
-            fmIngresarPartida frameIngresar = new fmIngresarPartida();
+            int cantGemas = (int) mandadero.getRespuesta().get("cantGemas");
+            fmIngresarPartida frameIngresar = new fmIngresarPartida(cantGemas);
             frameIngresar.setVisible(true);
             this.setVisible(false);
         }
@@ -231,6 +232,6 @@ public class fmMenu extends javax.swing.JFrame implements Observer{
     public void update(Observable o, Object o1) {
         Mandadero mandadero = (Mandadero) o1;
         this.estadoPartida = (boolean) mandadero.getRespuesta().get("respuesta");
-        abrirSiguientePantalla();
+        abrirSiguientePantalla(mandadero);
     }
 }

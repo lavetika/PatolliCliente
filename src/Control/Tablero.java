@@ -8,10 +8,6 @@ package Control;
 import Dominio.Ficha;
 import Enumaration.EnumCasilla;
 import Enumaration.EnumDireccion;
-import static Enumaration.EnumDireccion.ABAJO;
-import static Enumaration.EnumDireccion.ARRIBA;
-import static Enumaration.EnumDireccion.IZQUIERDA;
-
 import Graphics.Canias;
 import Graphics.Cuadrangular;
 import Graphics.Forma;
@@ -45,14 +41,17 @@ public final class Tablero extends JPanel {
     private int cantidadSemiCirculo;
     private int tamanioCasilla;
     private Canias lanzar;
+    private Broker broker;
 
+    private ArrayList<ImageIcon> iconosFichas;
     private ArrayList<JLabel> etiquetaJugadores;
     private ArrayList<JButton> botones;
     private ArrayList<Forma> casillas;
     private ArrayList<Ficha> fichas;
-    private ArrayList<Forma> casillasRuta;
+    private int[] valoresX;
+    private int[] valoresY;
 
-    public Tablero(Broker b, int tamanio, Canias canias) {
+    public Tablero(Broker broker, int tamanio, Canias canias) {
         setLayout(new GroupLayout(this));
         setSize(900, 800);
         this.setLocation(150, 0);
@@ -63,23 +62,70 @@ public final class Tablero extends JPanel {
         this.tamanioCasilla = 40;
         this.lanzar = canias;
         this.casillas = new ArrayList<>();
-        this.casillasRuta = new ArrayList<>();
         this.fichas = new ArrayList<>();
         this.botones = new ArrayList<>();
         this.etiquetaJugadores = new ArrayList<>();
-        calcularTablero();
+        this.broker = broker;
+        this.iconosFichas = new ArrayList<>();
+        incializarArreglosPos();
         generarCasillas();
+        calcularTablero();
         showNicknames();
+        inicializarIconos();
 
+    }
+
+    public void incializarArreglosPos() {
+        this.valoresX = new int[]{555, 555, 515, 515, 515, 595, 555, 555, 515, 515,
+            515, 595, 310, 310, 350, 350, 350, 270, 310, 310, 350, 350, 350, 270};
+
+        this.valoresY = new int[]{300, 260, 220, 260, 300, 300, 460, 500, 460, 500,
+            540, 460, 300, 260, 220, 260, 300, 300, 460, 500, 460, 500, 540, 460};
+
+    }
+
+    public void colocarFichasTablero() {
+        for (int i = 0; i < fichas.size(); i++) {
+            fichas.get(i).getFicha().setSize(40, 40);
+            fichas.get(i).getFicha().setLocation(this.valoresX[i], this.valoresY[i]);
+            fichas.get(i).getFicha().setVisible(true);
+            this.add(fichas.get(i).getFicha());
+        }
+    }
+
+    public void inicializarIconos() {
+
+        ImageIcon imageIcon1 = new ImageIcon(new ImageIcon(getClass().getResource("/Images/fichaazul32px.png")).getImage());
+        this.iconosFichas.add(imageIcon1);
+
+        ImageIcon imageIcon2 = new ImageIcon(new ImageIcon(getClass().getResource("/Images/fichaverde32px.png")).getImage());
+        this.iconosFichas.add(imageIcon2);
+
+        ImageIcon imageIcon3 = new ImageIcon(new ImageIcon(getClass().getResource("/Images/ficharoja32px.png")).getImage());
+        this.iconosFichas.add(imageIcon3);
+
+        ImageIcon imageIcon4 = new ImageIcon(new ImageIcon(getClass().getResource("/Images/fichanaranja32px.png")).getImage());
+        this.iconosFichas.add(imageIcon4);
+    }
+
+    public ArrayList<ImageIcon> getIconosFichas() {
+        return iconosFichas;
+    }
+
+    public void setIconosFichas(ArrayList<ImageIcon> iconosFichas) {
+        this.iconosFichas = iconosFichas;
     }
 
     public ArrayList<JLabel> getEtiquetaJugadores() {
         return etiquetaJugadores;
     }
-    
-   
 
-    //Se generan las referencias de las casillas
+    public void limpiarNicknames() {
+        etiquetaJugadores.forEach((etiquetaJugador) -> {
+            etiquetaJugador.setText("");
+        });
+    }
+
     public void generarCasillas() {
         switch (cantidadTablero) {
             case 44:
@@ -94,48 +140,42 @@ public final class Tablero extends JPanel {
                     }
                 }
                 break;
-//            case 28:
-//                for (int i = 0; i < cantidadTablero; i++) {
-//                    if (i != 8 && i != 9
-//                            && i != 14 && i != 15
-//                            && i != 20 && i != 21
-//                            && i != 26 && i != 27) {
-//                        casillas.add(new Cuadrangular());
-//                    } else {
-//                        casillas.add(new SemiCircular());
-//                    }
-//                }
-//                break;
-//            case 36:
-//                for (int i = 0; i < cantidadTablero; i++) {
-//                    if (i != 10 && i != 11
-//                            && i != 18 && i != 19
-//                            && i != 26 && i != 27
-//                            && i != 34 && i != 35) {
-//                        casillas.add(new Cuadrangular());
-//                    } else {
-//                        casillas.add(new SemiCircular());
-//                    }
-//                }
-//                break;
-//            case 52:
-//                for (int i = 0; i < cantidadTablero; i++) {
-//                    if (i != 14 && i != 15
-//                            && i != 26 && i != 27
-//                            && i != 38 && i != 39
-//                            && i != 50 && i != 51) {
-//                        casillas.add(new Cuadrangular());
-//                    } else {
-//                        casillas.add(new SemiCircular());
-//                    }
-//                }
-//                break;
-            default:
+            case 36:
+                for (int i = 0; i < cantidadTablero; i++) {
+                    if (i != 4 && i != 5
+                            && i != 13 && i != 14
+                            && i != 22 && i != 23
+                            && i != 31 && i != 32) {
+                        casillas.add(new Cuadrangular());
+                    } else {
+                        casillas.add(new SemiCircular());
+                    }
+                }
                 break;
-        }
-        //falta hacer dinamico ese 24 con la cantidad de jugadores en el juego
-        for (int i = 0; i < 24; i++) {
-            fichas.add(new Ficha());
+            case 28:
+                for (int i = 0; i < cantidadTablero; i++) {
+                    if (i != 3 && i != 4
+                            && i != 10 && i != 11
+                            && i != 17 && i != 18
+                            && i != 24 && i != 25) {
+                        casillas.add(new Cuadrangular());
+                    } else {
+                        casillas.add(new SemiCircular());
+                    }
+                }
+                break;
+            case 52:
+                for (int i = 0; i < cantidadTablero; i++) {
+                    if (i != 6 && i != 7
+                            && i != 19 && i != 20
+                            && i != 32 && i != 33
+                            && i != 45 && i != 46) {
+                        casillas.add(new Cuadrangular());
+                    } else {
+                        casillas.add(new SemiCircular());
+                    }
+                }
+                break;
         }
     }
 
@@ -151,10 +191,7 @@ public final class Tablero extends JPanel {
         drawTablero(g);
     }
 
-   
-
     public void drawTablero(Graphics g) {
-
         Graphics2D g2d = (Graphics2D) g;
 
         RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -162,25 +199,21 @@ public final class Tablero extends JPanel {
 
         g2d.setRenderingHints(rh);
 
-        showFichasAzules();
-        showFichasRojas();
-        showFichasVerdes();
-        showFichasNaranja();
-
         showButtons(g);
         showPlayersIcons();
         showGemas();
-//        showNicknames();
+        
         showApuestaRestante();
-
         drawBaseTablero(g);
-        drawCentral(g2d);
-        drawArriba(g2d);
-        drawAbajo(g2d);
+        drawCasillas(g2d);
 
-        drawDerecha(g2d);
-        drawIzquierda(g2d);
+    }
 
+    public void drawBaseTablero(Graphics g) {
+        ImageIcon imageIcon = new ImageIcon(new ImageIcon(getClass().getResource("/Images/CalendarioDelSolFondoNegro.png")).getImage());
+        Image imagen = imageIcon.getImage();
+
+        g.drawImage(imagen, 125, 75, null);
     }
 
     public int posicionar(int x, int y, EnumDireccion direccion) {
@@ -201,7 +234,7 @@ public final class Tablero extends JPanel {
         }
     }
 
-    public void drawCentral(Graphics2D g2d) {
+    public void drawCasillas(Graphics2D g2d) {
         Dimension tamano = getSize();
         int x = (int) tamano.getWidth();
         int y = (int) tamano.getHeight();
@@ -209,10 +242,14 @@ public final class Tablero extends JPanel {
         //Posicionarlo en el centro
         x = x / 2;
         y = y / 2;
-        
+
+        int divido = cantidadTablero / 4;
+        int div = divido / 2;
+        int pos = div;
+        int semi = div;
 
         for (int i = 0; i < casillas.size(); i++) {
-            if (casillas.get(i).getTamanio() == 0) {
+            if (i == 0) {
                 casillas.get(i).setPosition(i);
                 casillas.get(i).setForma(EnumCasilla.CENTRAL);
                 casillas.get(i).setPositionX(x);
@@ -220,696 +257,225 @@ public final class Tablero extends JPanel {
                 casillas.get(i).setTamanio(tamanioCasilla);
                 casillas.get(i).setDireccion(EnumDireccion.CENTRO);
                 casillas.get(i).draw(g2d);
-                break;
-            }
-
-            //Obtener las casillas para volver a dibujarlas
-            if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
-                casillas.get(0).draw(g2d);
-                break;
-            }
-            
-        }
-
-        //Posicionarlo
-        x = posicionar(x, y, EnumDireccion.IZQUIERDA);
-
-        for (int i = 0; i < casillas.size(); i++) {
-            if (casillas.get(i).getTamanio() == 0) {
-                casillas.get(i).setPosition(0);
-                casillas.get(i).setForma(EnumCasilla.CENTRAL);
-                casillas.get(i).setPositionX(x);
-                casillas.get(i).setPositionY(y);
-                casillas.get(i).setTamanio(tamanioCasilla);
-                casillas.get(i).setDireccion(EnumDireccion.CENTRO);
-                casillas.get(i).draw(g2d);
-                break;
-            }
-            //Obtener las casillas para volver a dibujarlas
-            if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
-                casillas.get(1).draw(g2d);
-                break;
-            }
-        }
-
-        //Posicionarlo
-        y = posicionar(x, y, EnumDireccion.ARRIBA);
-
-        for (int i = 0; i < casillas.size(); i++) {
-            if (casillas.get(i).getTamanio() == 0) {
-                casillas.get(i).setPosition(0);
-                casillas.get(i).setForma(EnumCasilla.CENTRAL);
-                casillas.get(i).setPositionX(x);
-                casillas.get(i).setPositionY(y);
-                casillas.get(i).setTamanio(tamanioCasilla);
-
-                casillas.get(i).setDireccion(EnumDireccion.CENTRO);
-                casillas.get(i).draw(g2d);
-                break;
-            }
-            //Obtener las casillas para volver a dibujarlas
-            if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
-                casillas.get(2).draw(g2d);
-                break;
-            }
-        }
-
-        //Posicionarlo
-        x = posicionar(x, y, EnumDireccion.DERECHA);
-
-        for (int i = 0; i < casillas.size(); i++) {
-            if (casillas.get(i).getTamanio() == 0) {
-                casillas.get(i).setPosition(0);
-                casillas.get(i).setForma(EnumCasilla.CENTRAL);
-                casillas.get(i).setPositionX(x);
-                casillas.get(i).setPositionY(y);
-                casillas.get(i).setTamanio(tamanioCasilla);
-
-                casillas.get(i).setDireccion(EnumDireccion.CENTRO);
-                casillas.get(i).draw(g2d);
-                break;
-            }
-            //Obtener las casillas para volver a dibujarlas
-            if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
-                casillas.get(3).draw(g2d);
-                break;
-            }
-        }
-
-    }
-    
-    public void dibujadoRuta(Graphics2D g2d){
-        Dimension tamano = getSize();
-        int x = (int) tamano.getWidth();
-        int y = (int) tamano.getHeight();
-
-        //Posicionarlo en el centro
-        x = x / 2;
-        y = y / 2;
-        
-        for (int i = 0; i < casillas.size(); i++) {
-            if (casillas.get(i).getTamanio() == 0) {
-                casillas.get(i).setPosition(i);
-                casillas.get(i).setForma(EnumCasilla.CENTRAL);
-                casillas.get(i).setPositionX(x);
-                casillas.get(i).setPositionY(y);
-                casillas.get(i).setTamanio(tamanioCasilla);
-                casillas.get(i).setDireccion(EnumDireccion.CENTRO);
-                casillas.get(i).draw(g2d);
-                break;
-            }
-
-            //Obtener las casillas para volver a dibujarlas
-            if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
-                casillas.get(0).draw(g2d);
-                break;
-            }
-            
-        }
-        
-        
-    }
-
-    public void drawArriba(Graphics2D g2d) {
-        Dimension tamano = getSize();
-        int x = (int) tamano.getWidth();
-        int y = (int) tamano.getHeight();
-
-        //Posicion inicial
-        x = x / 2;
-        y = y / 2;
-
-        y = posicionar(x, y, EnumDireccion.ARRIBA);
-
-        for (int i = 0; i < cantidadLado; i++) {
-            y = posicionar(x, y, EnumDireccion.ARRIBA);
-
-            for (int e = 0; e < casillas.size(); e++) {
-                if (casillas.get(e).getTamanio() == 0) {
-                    casillas.get(e).setPosition(i + 1);
-                    casillas.get(e).setForma(EnumCasilla.INICIO);
-                    casillas.get(e).setPositionX(x);
-                    casillas.get(e).setPositionY(y);
-                    casillas.get(e).setTamanio(tamanioCasilla);
-
-                    casillas.get(e).setDireccion(EnumDireccion.ARRIBA);
-                    casillas.get(e).draw(g2d);
-                    break;
-                }
-            }
-
-            //Obtener las casillas para volver a dibujarlas
-            if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
-                for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == (i + 1) && casillas.get(o).getDireccion() == EnumDireccion.ARRIBA) {
-                        casillas.get(o).draw(g2d);
-                        break;
-                    }
-                }
-            }
-        }
-
-        x = posicionar(x, y, EnumDireccion.IZQUIERDA);
-        for (int i = 1; i <= cantidadLado; i++) {
-            for (int e = 0; e < casillas.size(); e++) {
-                if (casillas.get(e).getTamanio() == 0) {
-                    casillas.get(e).setPosition((i + cantidadLado) + 2);
-                    casillas.get(e).setForma(EnumCasilla.INICIO);
-                    casillas.get(e).setPositionX(x);
-                    casillas.get(e).setPositionY(y);
-                    casillas.get(e).setTamanio(tamanioCasilla);
-
-                    casillas.get(e).setDireccion(EnumDireccion.ARRIBA);
-                    casillas.get(e).draw(g2d);
-                    break;
-                }
-            }
-
-            //Obtener las casillas para volver a dibujarlas
-            if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
-                for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == ((i + cantidadLado) + 2) && casillas.get(o).getDireccion() == EnumDireccion.ARRIBA) {
-                        casillas.get(o).draw(g2d);
-                        break;
-                    }
-                }
-            }
-
-            y = posicionar(x, y, EnumDireccion.ABAJO);
-        }
-
-        drawSemiCircular(g2d, EnumDireccion.ARRIBA);
-    }
-
-    public void drawAbajo(Graphics2D g2d) {
-        Dimension tamano = getSize();
-        int x = (int) tamano.getWidth();
-        int y = (int) tamano.getHeight();
-
-        //Posicion inicial
-        x = (x / 2) - 40;
-        y = y / 2;
-
-        for (int i = 1; i <= cantidadLado; i++) {
-            y = posicionar(x, y, EnumDireccion.ABAJO);
-
-            for (int e = 0; e < casillas.size(); e++) {
-                if (casillas.get(e).getTamanio() == 0) {
-                    casillas.get(e).setPosition(i);
-                    casillas.get(e).setForma(EnumCasilla.INICIO);
-                    casillas.get(e).setPositionX(x);
-                    casillas.get(e).setPositionY(y);
-                    casillas.get(e).setTamanio(tamanioCasilla);
-
-                    casillas.get(e).setDireccion(EnumDireccion.ABAJO);
-                    casillas.get(e).draw(g2d);
-                    break;
-                }
-
-                //Obtener las casillas para volver a dibujarlas
-                if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
-                    for (int o = 0; o < casillas.size(); o++) {
-                        if (casillas.get(o).getPosition() == i && casillas.get(o).getDireccion() == EnumDireccion.ABAJO) {
-                            casillas.get(o).draw(g2d);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        x = posicionar(x, y, EnumDireccion.DERECHA);
-
-        for (int i = 1; i <= cantidadLado; i++) {
-
-            for (int e = 0; e < casillas.size(); e++) {
-                if (casillas.get(e).getTamanio() == 0) {
-                    casillas.get(e).setPosition((i + cantidadLado) + 2);
-                    casillas.get(e).setForma(EnumCasilla.INICIO);
-                    casillas.get(e).setPositionX(x);
-                    casillas.get(e).setPositionY(y);
-                    casillas.get(e).setTamanio(tamanioCasilla);
-
-                    casillas.get(e).setDireccion(EnumDireccion.ABAJO);
-                    casillas.get(e).draw(g2d);
-                    break;
-                }
-            }
-
-            //Obtener las casillas para volver a dibujarlas
-            if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
-                for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == ((i + cantidadLado) + 2) && casillas.get(o).getDireccion() == EnumDireccion.ABAJO) {
-                        casillas.get(o).draw(g2d);
-                        break;
-                    }
-                }
-            }
-
-            y = posicionar(x, y, EnumDireccion.ARRIBA);
-
-        }
-
-        drawSemiCircular(g2d, EnumDireccion.ABAJO);
-    }
-
-    public void drawIzquierda(Graphics2D g2d) {
-        Dimension tamano = getSize();
-        int x = (int) tamano.getWidth();
-        int y = (int) tamano.getHeight();
-
-        //Posicion inicial
-        x = x / 2;
-        y = (y / 2) - 40;
-
-        x = posicionar(x, y, EnumDireccion.IZQUIERDA);
-
-        for (int i = 0; i < cantidadLado; i++) {
-            x = posicionar(x, y, EnumDireccion.IZQUIERDA);
-
-            for (int e = 0; e < casillas.size(); e++) {
-                if (casillas.get(e).getTamanio() == 0) {
-                    casillas.get(e).setPosition(i + 1);
-                    casillas.get(e).setForma(EnumCasilla.INICIO);
-                    casillas.get(e).setPositionX(x);
-                    casillas.get(e).setPositionY(y);
-                    casillas.get(e).setTamanio(tamanioCasilla);
-
-                    casillas.get(e).setDireccion(EnumDireccion.IZQUIERDA);
-                    casillas.get(e).draw(g2d);
-                    break;
-                }
-            }
-
-            //Obtener las casillas para volver a dibujarlas
-            if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
-                for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == (i + 1) && casillas.get(o).getDireccion() == EnumDireccion.IZQUIERDA) {
-                        casillas.get(o).draw(g2d);
-                        break;
-                    }
-                }
-            }
-        }
-
-        y = posicionar(x, y, EnumDireccion.ABAJO);
-
-        for (int i = 0; i < cantidadLado; i++) {
-
-            for (int e = 0; e < casillas.size(); e++) {
-                if (casillas.get(e).getTamanio() == 0) {
-                    casillas.get(e).setPosition(((i + 1) + cantidadLado) + 2);
-                    casillas.get(e).setForma(EnumCasilla.INICIO);
-                    casillas.get(e).setPositionX(x);
-                    casillas.get(e).setPositionY(y);
-                    casillas.get(e).setTamanio(tamanioCasilla);
-
-                    casillas.get(e).setDireccion(EnumDireccion.IZQUIERDA);
-                    casillas.get(e).draw(g2d);
-                    break;
-                }
-            }
-
-            //Obtener las casillas para volver a dibujarlas
-            if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
-                for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == (((i + 1) + cantidadLado) + 2) && casillas.get(o).getDireccion() == EnumDireccion.IZQUIERDA) {
-                        casillas.get(o).draw(g2d);
-                        break;
-                    }
-                }
-            }
-
-            x = posicionar(x, y, EnumDireccion.DERECHA);
-
-        }
-
-        drawSemiCircular(g2d, EnumDireccion.IZQUIERDA);
-    }
-
-    public void drawDerecha(Graphics2D g2d) {
-        Dimension tamano = getSize();
-        int x = (int) tamano.getWidth();
-        int y = (int) tamano.getHeight();
-
-        //Posicion inicial
-        x = x / 2;
-        y = y / 2;
-
-        for (int i = 1; i <= cantidadLado; i++) {
-            x = posicionar(x, y, EnumDireccion.DERECHA);
-            for (int e = 0; e < casillas.size(); e++) {
-                if (casillas.get(e).getTamanio() == 0) {
-                    casillas.get(e).setPosition(i);
-                    casillas.get(e).setForma(EnumCasilla.INICIO);
-                    casillas.get(e).setPositionX(x);
-                    casillas.get(e).setPositionY(y);
-                    casillas.get(e).setTamanio(tamanioCasilla);
-
-                    casillas.get(e).setDireccion(EnumDireccion.DERECHA);
-                    casillas.get(e).draw(g2d);
-                    break;
-                }
-            }
-
-            //Obtener las casillas para volver a dibujarlas
-            if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
-                for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == i && casillas.get(o).getDireccion() == EnumDireccion.DERECHA) {
-                        casillas.get(o).draw(g2d);
-                        break;
-                    }
-                }
-            }
-
-        }
-
-        y = posicionar(x, y, EnumDireccion.ARRIBA);
-
-        for (int i = 1; i <= cantidadLado; i++) {
-
-            for (int e = 0; e < casillas.size(); e++) {
-                if (casillas.get(e).getTamanio() == 0) {
-                    casillas.get(e).setPosition((i + cantidadLado) + 2);
-                    casillas.get(e).setForma(EnumCasilla.INICIO);
-                    casillas.get(e).setPositionX(x);
-                    casillas.get(e).setPositionY(y);
-                    casillas.get(e).setTamanio(tamanioCasilla);
-
-                    casillas.get(e).setDireccion(EnumDireccion.DERECHA);
-                    casillas.get(e).draw(g2d);
-                    break;
-                }
-            }
-
-            //Obtener las casillas para volver a dibujarlas
-            if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
-                for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == ((i + cantidadLado) + 2) && casillas.get(o).getDireccion() == EnumDireccion.DERECHA) {
-                        casillas.get(o).draw(g2d);
-                        break;
-                    }
-                }
-            }
-            x = posicionar(x, y, EnumDireccion.IZQUIERDA);
-        }
-
-        drawSemiCircular(g2d, EnumDireccion.DERECHA);
-    }
-
-    public void drawSemiCircular(Graphics2D g2d, Enum direccion) {
-
-        Dimension tamano = getSize();
-        int x = (int) tamano.getWidth();
-        int y = (int) tamano.getHeight();
-
-        //Posicion inicial
-        x = x / 2;
-        y = y / 2;
-
-        if (direccion == EnumDireccion.IZQUIERDA) {
-            for (int i = 0; i < cantidadLado + 2; i++) {
-                x = posicionar(x, y, EnumDireccion.IZQUIERDA);
-            }
-
-            y = posicionar(x, y, EnumDireccion.ARRIBA);
-
-            for (int e = 0; e < casillas.size(); e++) {
-                if (casillas.get(e).getTamanio() == 0) {
-                    casillas.get(e).setPosition(5);
-                    casillas.get(e).setForma(EnumCasilla.ESQUINA);
-                    casillas.get(e).setPositionX(x);
-                    casillas.get(e).setPositionY(y);
-                    casillas.get(e).setTamanio(tamanioCasilla);
-                    casillas.get(e).setRotacion(90);
-
-                    casillas.get(e).setDireccion(EnumDireccion.IZQUIERDA);
-                    casillas.get(e).draw(g2d);
-                    break;
-                }
-            }
-
-            //Obtener las casillas para volver a dibujarlas
-            if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
-                for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == 5
-                            && casillas.get(o).getForma() == EnumCasilla.ESQUINA
-                            && casillas.get(o).getDireccion() == EnumDireccion.IZQUIERDA) {
-                        casillas.get(o).draw(g2d);
-                        break;
-                    }
-                }
-            }
-
-            for (int e = 0; e < casillas.size(); e++) {
-                if (casillas.get(e).getTamanio() == 0) {
-                    casillas.get(e).setPosition(6);
-                    casillas.get(e).setForma(EnumCasilla.ESQUINA);
-                    casillas.get(e).setPositionX(x);
-                    casillas.get(e).setPositionY(y);
-                    casillas.get(e).setTamanio(tamanioCasilla);
-                    casillas.get(e).setRotacion(180);
-
-                    casillas.get(e).setDireccion(EnumDireccion.IZQUIERDA);
-                    casillas.get(e).draw(g2d);
-                    break;
-                }
-            }
-
-            //Obtener las casillas para volver a dibujarlas
-            if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
-                for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == 6
-                            && casillas.get(o).getForma() == EnumCasilla.ESQUINA
-                            && casillas.get(o).getDireccion() == EnumDireccion.IZQUIERDA) {
-                        casillas.get(o).draw(g2d);
-                        break;
-                    }
-                }
-            }
-
-        } else if (direccion == EnumDireccion.DERECHA) {
-
-            for (int i = 0; i < cantidadLado; i++) {
                 x = posicionar(x, y, EnumDireccion.DERECHA);
-            }
+            } else if (i > 0 && i < pos) {
+                casillas.get(i).setPosition(i);
+                casillas.get(i).setForma(EnumCasilla.INICIO);
+                casillas.get(i).setPositionX(x);
+                casillas.get(i).setPositionY(y);
+                casillas.get(i).setTamanio(tamanioCasilla);
+                casillas.get(i).setDireccion(EnumDireccion.DERECHA);
+                casillas.get(i).draw(g2d);
+                x = posicionar(x, y, EnumDireccion.DERECHA);
+            } else if (i == semi) {
+                x = x + 1;
+                x = posicionar(x, y, EnumDireccion.IZQUIERDA);
+                y = posicionar(x, y, EnumDireccion.ARRIBA);
+                casillas.get(i).setPosition(i);
+                casillas.get(i).setForma(EnumCasilla.ESQUINA);
+                casillas.get(i).setPositionX(x);
+                casillas.get(i).setPositionY(y);
+                casillas.get(i).setTamanio(tamanioCasilla);
+                casillas.get(i).setRotacion(0);
+                casillas.get(i).setDireccion(EnumDireccion.DERECHA);
+                casillas.get(i).draw(g2d);
+            } else if (i == (semi+1)) {
+                casillas.get(i).setPosition(i);
+                casillas.get(i).setForma(EnumCasilla.ESQUINA);
+                casillas.get(i).setPositionX(x);
+                casillas.get(i).setPositionY(y);
+                casillas.get(i).setTamanio(tamanioCasilla);
+                casillas.get(i).setRotacion(270);
+                casillas.get(i).setDireccion(EnumDireccion.DERECHA);
+                casillas.get(i).draw(g2d);
+                x = x - 1;
+                pos = (semi + 1);
+            } else if (i > pos && i < (pos + div)) {
+                casillas.get(i).setPosition(i);
+                casillas.get(i).setForma(EnumCasilla.INICIO);
+                casillas.get(i).setPositionX(x);
+                casillas.get(i).setPositionY(y);
+                casillas.get(i).setTamanio(tamanioCasilla);
+                casillas.get(i).setDireccion(EnumDireccion.DERECHA);
+                casillas.get(i).draw(g2d);
+                x = posicionar(x, y, EnumDireccion.IZQUIERDA);
+                
+            } else if (i == (pos + div)) {
+                casillas.get(i).setPosition(i);
+                casillas.get(i).setForma(EnumCasilla.CENTRAL);
+                casillas.get(i).setPositionX(x);
+                casillas.get(i).setPositionY(y);
+                casillas.get(i).setTamanio(tamanioCasilla);
+                casillas.get(i).setDireccion(EnumDireccion.CENTRO);
+                casillas.get(i).draw(g2d);
+                y = posicionar(x, y, EnumDireccion.ARRIBA);
+               
+            } else if (i > (pos + div) && i < ((pos + div) + div)) {
+                casillas.get(i).setPosition(i);
+                casillas.get(i).setForma(EnumCasilla.INICIO);
+                casillas.get(i).setPositionX(x);
+                casillas.get(i).setPositionY(y);
+                casillas.get(i).setTamanio(tamanioCasilla);
+                casillas.get(i).setDireccion(EnumDireccion.ARRIBA);
+                casillas.get(i).draw(g2d);
+                y = posicionar(x, y, EnumDireccion.ARRIBA);
+                
+            } else if (i == ((pos + div) + div)) {
 
-            //Para que no tape la rayita
-            x = x + 1;
-
-            y = posicionar(x, y, EnumDireccion.ARRIBA);
-
-            for (int e = 0; e < casillas.size(); e++) {
-                if (casillas.get(e).getTamanio() == 0) {
-                    casillas.get(e).setPosition(5);
-                    casillas.get(e).setForma(EnumCasilla.ESQUINA);
-                    casillas.get(e).setPositionX(x);
-                    casillas.get(e).setPositionY(y);
-                    casillas.get(e).setTamanio(tamanioCasilla);
-                    casillas.get(e).setRotacion(0);
-
-                    casillas.get(e).setDireccion(EnumDireccion.DERECHA);
-                    casillas.get(e).draw(g2d);
-                    break;
-                }
-            }
-
-            //Obtener las casillas para volver a dibujarlas
-            if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
-                for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == 5
-                            && casillas.get(o).getForma() == EnumCasilla.ESQUINA
-                            && casillas.get(o).getDireccion() == EnumDireccion.DERECHA) {
-                        casillas.get(o).draw(g2d);
-                        break;
-                    }
-                }
-            }
-
-            for (int e = 0; e < casillas.size(); e++) {
-                if (casillas.get(e).getTamanio() == 0) {
-                    casillas.get(e).setPosition(6);
-                    casillas.get(e).setForma(EnumCasilla.ESQUINA);
-                    casillas.get(e).setPositionX(x);
-                    casillas.get(e).setPositionY(y);
-                    casillas.get(e).setTamanio(tamanioCasilla);
-                    casillas.get(e).setRotacion(270);
-
-                    casillas.get(e).setDireccion(EnumDireccion.DERECHA);
-                    casillas.get(e).draw(g2d);
-                    break;
-                }
-            }
-
-            //Obtener las casillas para volver a dibujarlas
-            if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
-                for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == 6
-                            && casillas.get(o).getForma() == EnumCasilla.ESQUINA
-                            && casillas.get(o).getDireccion() == EnumDireccion.DERECHA) {
-                        casillas.get(o).draw(g2d);
-                        break;
-                    }
-                }
-            }
-
-        } else if (direccion == EnumDireccion.ARRIBA) {
-            for (int i = 0; i < cantidadLado + 2; i++) {
+                x = posicionar(x, y, EnumDireccion.IZQUIERDA);
+                casillas.get(i).setPosition(i);
+                casillas.get(i).setForma(EnumCasilla.ESQUINA);
+                casillas.get(i).setPositionX(x);
+                casillas.get(i).setPositionY(y);
+                casillas.get(i).setTamanio(tamanioCasilla);
+                casillas.get(i).setRotacion(360);
+                casillas.get(i).setDireccion(EnumDireccion.ARRIBA);
+                casillas.get(i).draw(g2d);
+            } else if (i == (((pos + div) + div))+1) {
+                casillas.get(i).setPosition(i);
+                casillas.get(i).setForma(EnumCasilla.ESQUINA);
+                casillas.get(i).setPositionX(x);
+                casillas.get(i).setPositionY(y);
+                casillas.get(i).setTamanio(tamanioCasilla);
+                casillas.get(i).setRotacion(90);
+                casillas.get(i).setDireccion(EnumDireccion.DERECHA);
+                casillas.get(i).draw(g2d);
+                y = posicionar(x, y, EnumDireccion.ABAJO);
+            } else if (i > (((pos + div) + div))+1 && i < ((((pos + div) + div))+1 + div)) {
+                casillas.get(i).setPosition(i);
+                casillas.get(i).setForma(EnumCasilla.INICIO);
+                casillas.get(i).setPositionX(x);
+                casillas.get(i).setPositionY(y);
+                casillas.get(i).setTamanio(tamanioCasilla);
+                casillas.get(i).setDireccion(EnumDireccion.DERECHA);
+                casillas.get(i).draw(g2d);
+                y = posicionar(x, y, EnumDireccion.ABAJO);
+            } else if (i == ((((pos + div) + div))+1 + div)) {
+                casillas.get(i).setPosition(i);
+                casillas.get(i).setForma(EnumCasilla.CENTRAL);
+                casillas.get(i).setPositionX(x);
+                casillas.get(i).setPositionY(y);
+                casillas.get(i).setTamanio(tamanioCasilla);
+                casillas.get(i).setDireccion(EnumDireccion.CENTRO);
+                casillas.get(i).draw(g2d);
+                x = posicionar(x, y, EnumDireccion.IZQUIERDA);
+            } else if (i > ((((pos + div) + div))+1 + div) && i < (((((pos + div) + div))+1 + div) + div)) {
+                casillas.get(i).setPosition(i);
+                casillas.get(i).setForma(EnumCasilla.INICIO);
+                casillas.get(i).setPositionX(x);
+                casillas.get(i).setPositionY(y);
+                casillas.get(i).setTamanio(tamanioCasilla);
+                casillas.get(i).setDireccion(EnumDireccion.IZQUIERDA);
+                casillas.get(i).draw(g2d);
+                x = posicionar(x, y, EnumDireccion.IZQUIERDA);
+            } else if (i == (((((pos + div) + div))+1 + div) + div)) {
+                casillas.get(i).setPosition(i);
+                casillas.get(i).setForma(EnumCasilla.ESQUINA);
+                casillas.get(i).setPositionX(x);
+                casillas.get(i).setPositionY(y);
+                casillas.get(i).setTamanio(tamanioCasilla);
+                casillas.get(i).setRotacion(90);
+                casillas.get(i).setDireccion(EnumDireccion.IZQUIERDA);
+                casillas.get(i).draw(g2d);
+                semi = semi + 1;
+            } else if (i == ((((((pos + div) + div))+1 + div) + div))+1) {
+                casillas.get(i).setPosition(i);
+                casillas.get(i).setForma(EnumCasilla.ESQUINA);
+                casillas.get(i).setPositionX(x);
+                casillas.get(i).setPositionY(y);
+                casillas.get(i).setTamanio(tamanioCasilla);
+                casillas.get(i).setRotacion(180);
+                casillas.get(i).setDireccion(EnumDireccion.IZQUIERDA);
+                casillas.get(i).draw(g2d);
+                x = posicionar(x, y, EnumDireccion.DERECHA);
+                y = posicionar(x, y, EnumDireccion.ABAJO);
+            } else if (i > ((((((pos + div) + div))+1 + div) + div))+1 && i < ((((((((pos + div) + div))+1 + div) + div))+1) + div)) {
+                casillas.get(i).setPosition(i);
+                casillas.get(i).setForma(EnumCasilla.INICIO);
+                casillas.get(i).setPositionX(x);
+                casillas.get(i).setPositionY(y);
+                casillas.get(i).setTamanio(tamanioCasilla);
+                casillas.get(i).setDireccion(EnumDireccion.IZQUIERDA);
+                casillas.get(i).draw(g2d);
+                x = posicionar(x, y, EnumDireccion.DERECHA);
+            } else if (i == ((((((((pos + div) + div))+1 + div) + div))+1) + div)) {
+                casillas.get(i).setPosition(i);
+                casillas.get(i).setForma(EnumCasilla.CENTRAL);
+                casillas.get(i).setPositionX(x);
+                casillas.get(i).setPositionY(y);
+                casillas.get(i).setTamanio(tamanioCasilla);
+                casillas.get(i).setDireccion(EnumDireccion.CENTRO);
+                casillas.get(i).draw(g2d);
+                y = posicionar(x, y, EnumDireccion.ABAJO);
+               
+            } else if (i > ((((((((pos + div) + div))+1 + div) + div))+1) + div) && i < ((((((((((pos + div) + div))+1 + div) + div))+1) + div)) + div)) {
+                casillas.get(i).setPosition(i);
+                casillas.get(i).setForma(EnumCasilla.INICIO);
+                casillas.get(i).setPositionX(x);
+                casillas.get(i).setPositionY(y);
+                casillas.get(i).setTamanio(tamanioCasilla);
+                casillas.get(i).setDireccion(EnumDireccion.ABAJO);
+                casillas.get(i).draw(g2d);
+                y = posicionar(x, y, EnumDireccion.ABAJO);
+            } else if (i == ((((((((((pos + div) + div))+1 + div) + div))+1) + div)) + div)) {
+                y = y + 1;
+                y = posicionar(x, y, EnumDireccion.ARRIBA);
+                casillas.get(i).setPosition(i);
+                casillas.get(i).setForma(EnumCasilla.ESQUINA);
+                casillas.get(i).setPositionX(x);
+                casillas.get(i).setPositionY(y);
+                casillas.get(i).setTamanio(tamanioCasilla);
+                casillas.get(i).setRotacion(180);
+                casillas.get(i).setDireccion(EnumDireccion.IZQUIERDA);
+                casillas.get(i).draw(g2d);
+            } else if (i == (((((((((((pos + div) + div))+1 + div) + div))+1) + div)) + div))+1) {
+                casillas.get(i).setPosition(i);
+                casillas.get(i).setForma(EnumCasilla.ESQUINA);
+                casillas.get(i).setPositionX(x);
+                casillas.get(i).setPositionY(y);
+                casillas.get(i).setTamanio(tamanioCasilla);
+                casillas.get(i).setRotacion(270);
+                casillas.get(i).setDireccion(EnumDireccion.IZQUIERDA);
+                casillas.get(i).draw(g2d);
+                x = posicionar(x, y, EnumDireccion.DERECHA);
+                y = y - 1;
+            } else if (i > (((((((((((pos + div) + div))+1 + div) + div))+1) + div)) + div))+1 && i < (((((((((((((pos + div) + div))+1 + div) + div))+1) + div)) + div))+1) + div)) {
+                casillas.get(i).setPosition(i);
+                casillas.get(i).setForma(EnumCasilla.INICIO);
+                casillas.get(i).setPositionX(x);
+                casillas.get(i).setPositionY(y);
+                casillas.get(i).setTamanio(tamanioCasilla);
+                casillas.get(i).setDireccion(EnumDireccion.IZQUIERDA);
+                casillas.get(i).draw(g2d);
                 y = posicionar(x, y, EnumDireccion.ARRIBA);
             }
-            x = posicionar(x, y, EnumDireccion.IZQUIERDA);
 
-            for (int e = 0; e < casillas.size(); e++) {
-                if (casillas.get(e).getTamanio() == 0) {
-                    casillas.get(e).setPosition(5);
-                    casillas.get(e).setForma(EnumCasilla.ESQUINA);
-                    casillas.get(e).setPositionX(x);
-                    casillas.get(e).setPositionY(y);
-                    casillas.get(e).setTamanio(tamanioCasilla);
-                    casillas.get(e).setRotacion(90);
-
-                    casillas.get(e).setDireccion(EnumDireccion.ARRIBA);
-                    casillas.get(e).draw(g2d);
-                    break;
-                }
-            }
-
-            //Obtener las casillas para volver a dibujarlas
-            if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
-                for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == 5
-                            && casillas.get(o).getForma() == EnumCasilla.ESQUINA
-                            && casillas.get(o).getDireccion() == EnumDireccion.ARRIBA) {
-                        casillas.get(o).draw(g2d);
-                        break;
-                    }
-                }
-            }
-
-            for (int e = 0; e < casillas.size(); e++) {
-                if (casillas.get(e).getTamanio() == 0) {
-                    casillas.get(e).setPosition(6);
-                    casillas.get(e).setForma(EnumCasilla.ESQUINA);
-                    casillas.get(e).setPositionX(x);
-                    casillas.get(e).setPositionY(y);
-                    casillas.get(e).setTamanio(tamanioCasilla);
-                    casillas.get(e).setRotacion(360);
-
-                    casillas.get(e).setDireccion(EnumDireccion.ARRIBA);
-                    casillas.get(e).draw(g2d);
-                    break;
-                }
-            }
-
-            //Obtener las casillas para volver a dibujarlas
-            if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
-                for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == 6
-                            && casillas.get(o).getForma() == EnumCasilla.ESQUINA
-                            && casillas.get(o).getDireccion() == EnumDireccion.ARRIBA) {
-                        casillas.get(o).draw(g2d);
-                        break;
-                    }
-                }
-            }
-
-        } else {
-            for (int i = 0; i < cantidadLado; i++) {
-                y = posicionar(x, y, EnumDireccion.ABAJO);
-            }
-
-            //Para que no tape la rayita
-            y = y + 1;
-
-            x = posicionar(x, y, EnumDireccion.IZQUIERDA);
-
-            for (int e = 0; e < casillas.size(); e++) {
-                if (casillas.get(e).getTamanio() == 0) {
-                    casillas.get(e).setPosition(5);
-                    casillas.get(e).setForma(EnumCasilla.ESQUINA);
-                    casillas.get(e).setPositionX(x);
-                    casillas.get(e).setPositionY(y);
-                    casillas.get(e).setTamanio(tamanioCasilla);
-                    casillas.get(e).setRotacion(180);
-
-                    casillas.get(e).setDireccion(EnumDireccion.ABAJO);
-                    casillas.get(e).draw(g2d);
-                    break;
-                }
-            }
-
-            //Obtener las casillas para volver a dibujarlas
-            if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
-                for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == 5
-                            && casillas.get(o).getForma() == EnumCasilla.ESQUINA
-                            && casillas.get(o).getDireccion() == EnumDireccion.ABAJO) {
-                        casillas.get(o).draw(g2d);
-                        break;
-                    }
-                }
-            }
-
-            for (int e = 0; e < casillas.size(); e++) {
-                if (casillas.get(e).getTamanio() == 0) {
-                    casillas.get(e).setPosition(6);
-                    casillas.get(e).setForma(EnumCasilla.ESQUINA);
-                    casillas.get(e).setPositionX(x);
-                    casillas.get(e).setPositionY(y);
-                    casillas.get(e).setTamanio(tamanioCasilla);
-                    casillas.get(e).setRotacion(270);
-
-                    casillas.get(e).setDireccion(EnumDireccion.ABAJO);
-                    casillas.get(e).draw(g2d);
-                    break;
-                }
-            }
-
-            //Obtener las casillas para volver a dibujarlas
-            if (casillas.get(casillas.size() - 1).getTamanio() != 0) {
-                for (int o = 0; o < casillas.size(); o++) {
-                    if (casillas.get(o).getPosition() == 6
-                            && casillas.get(o).getForma() == EnumCasilla.ESQUINA
-                            && casillas.get(o).getDireccion() == EnumDireccion.ABAJO) {
-                        casillas.get(o).draw(g2d);
-                        break;
-                    }
-                }
-            }
         }
-    }
-
-    public void drawBaseTablero(Graphics g) {
-        ImageIcon imageIcon = new ImageIcon(new ImageIcon(getClass().getResource("/Images/CalendarioDelSolFondoNegro.png")).getImage());
-        Image imagen = imageIcon.getImage();
-
-        g.drawImage(imagen, 125, 75, null);
     }
 
     public void showButtons(Graphics g) {
-        JButton btnIniciar = new JButton("Iniciar");
-
-        btnIniciar.setSize(150, 35);
-        btnIniciar.setVisible(true);
-        btnIniciar.setLocation(740, 585);
-        btnIniciar.setForeground(Color.BLACK);
-        btnIniciar.setBackground(new Color(250, 206, 71));
-        btnIniciar.setFont(new Font("Herculanum", Font.BOLD, 14));
-        btnIniciar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                posicionarFichas();
-            }
-        });
-        this.add(btnIniciar);
-        botones.add(btnIniciar);
+//        JButton btnIniciar = new JButton("Iniciar");
+//
+//        btnIniciar.setSize(150, 35);
+//        btnIniciar.setVisible(true);
+//        btnIniciar.setLocation(740, 585);
+//        btnIniciar.setForeground(Color.BLACK);
+//        btnIniciar.setBackground(new Color(250, 206, 71));
+//        btnIniciar.setFont(new Font("Herculanum", Font.BOLD, 14));
+//        btnIniciar.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent ae) {
+//                posicionarFichas();
+//            }
+//        });
+//        this.add(btnIniciar);
+//        botones.add(btnIniciar);
 
         //Falta hacer dinamica esta parte con la cantidad de jugadores en la partida
-        this.add(fichas.get(0).getFicha());
-        this.add(fichas.get(6).getFicha());
-        this.add(fichas.get(12).getFicha());
-        this.add(fichas.get(18).getFicha());
-
+//        this.add(fichas.get(0).getFicha());
+//        this.add(fichas.get(6).getFicha());
+//        this.add(fichas.get(12).getFicha());
+//        this.add(fichas.get(18).getFicha());
         JButton btnLanzar = new JButton("Lanzar cañas");
 
         botones.add(btnLanzar);
@@ -924,23 +490,14 @@ public final class Tablero extends JPanel {
             public void actionPerformed(ActionEvent ae) {
                 int numero = lanzar.calcular();
                 lanzar.mostrarCanias();
-                moverFicha(numero, casillas.get(2).getFicha());
+              //  moverFicha(numero, fichas.get(0));
 
             }
         });
         this.add(btnLanzar);
-        if (casillas.get(2).getFicha() != null) {
-            this.add(casillas.get(2).getFicha().getFicha());
-        }
-
-//        JButton btnApostar = new JButton("Apostar");
-//        btnApostar.setSize(110, 35);
-//        btnApostar.setVisible(true);
-//        btnApostar.setLocation(780, 685);
-//        btnApostar.setForeground(Color.BLACK);
-//        btnApostar.setBackground(new Color(250, 206, 71));
-//        btnApostar.setFont(new Font("Herculanum", Font.BOLD, 14));
-//        this.add(btnApostar);
+//        if (fichas.get(18) != null) {
+//            this.add(fichas.get(18).getFicha());
+//        }
     }
 
     public void showPlayersIcons() {
@@ -1023,8 +580,19 @@ public final class Tablero extends JPanel {
         this.add(lblGema6);
     }
 
+    public void showApuestaRestante() {
+        JLabel lblMontoApuesta = new JLabel();
+        lblMontoApuesta.setText(String.valueOf(this.broker.getJugador().getApuesta().getMontoTotal()));
+        lblMontoApuesta.setFont(new Font("PT Sans", Font.BOLD, 18));
+        lblMontoApuesta.setForeground(new Color(243, 243, 220));
+        lblMontoApuesta.setSize(100, 40);
+        lblMontoApuesta.setLocation(795, 20);
+        lblMontoApuesta.setVisible(true);
+        this.add(lblMontoApuesta);
+    }
+
     public void showNicknames() {
-        JLabel lblNickname1 = new JLabel("El Chino");
+        JLabel lblNickname1 = new JLabel();
         lblNickname1.setFont(new Font("PT Sans", Font.PLAIN, 14));
         lblNickname1.setForeground(new Color(243, 243, 220));
         lblNickname1.setSize(100, 40);
@@ -1033,7 +601,7 @@ public final class Tablero extends JPanel {
         this.add(lblNickname1);
         this.etiquetaJugadores.add(lblNickname1);
 
-        JLabel lblNickname2 = new JLabel("GalloOro");
+        JLabel lblNickname2 = new JLabel();
         lblNickname2.setFont(new Font("PT Sans", Font.PLAIN, 14));
         lblNickname2.setForeground(new Color(243, 243, 220));
         lblNickname2.setSize(100, 40);
@@ -1042,7 +610,7 @@ public final class Tablero extends JPanel {
         this.add(lblNickname2);
         this.etiquetaJugadores.add(lblNickname2);
 
-        JLabel lblNickname3 = new JLabel("LudoVico");
+        JLabel lblNickname3 = new JLabel();
         lblNickname3.setFont(new Font("PT Sans", Font.PLAIN, 14));
         lblNickname3.setForeground(new Color(243, 243, 220));
         lblNickname3.setSize(100, 40);
@@ -1051,7 +619,7 @@ public final class Tablero extends JPanel {
         this.add(lblNickname3);
         this.etiquetaJugadores.add(lblNickname3);
 
-        JLabel lblNickname4 = new JLabel("Bebelin");
+        JLabel lblNickname4 = new JLabel();
         lblNickname4.setFont(new Font("PT Sans", Font.PLAIN, 14));
         lblNickname4.setForeground(new Color(243, 243, 220));
         lblNickname4.setSize(100, 40);
@@ -1062,31 +630,12 @@ public final class Tablero extends JPanel {
 
     }
 
-    public void showApuestaRestante() {
-        JLabel lblTituloCodigo = new JLabel("12");
-        lblTituloCodigo.setFont(new Font("PT Sans", Font.BOLD, 18));
-        lblTituloCodigo.setForeground(new Color(243, 243, 220));
-        lblTituloCodigo.setSize(100, 40);
-        lblTituloCodigo.setLocation(795, 20);
-        lblTituloCodigo.setVisible(true);
-        this.add(lblTituloCodigo);
-    }
-
-    public void posicionarFichas() {
-
-        casillas.get(0).drawFicha(fichas.get(12));
-        casillas.get(1).drawFicha(fichas.get(18));
-        casillas.get(2).drawFicha(fichas.get(0));
-        casillas.get(3).drawFicha(fichas.get(6));
-
-    }
-
     public void moverFicha(int numero, Ficha ficha) {
 
         int pos = ficha.getPosicionActual();
-        pos = pos + numero;
-        for (Forma casilla : casillas) {
-            if (casilla.getDireccion() == EnumDireccion.IZQUIERDA) {
+        if (pos != -1) {
+            pos = pos + numero;
+            for (Forma casilla : casillas) {
                 /*
                 Solo estoy validando con la ficha azul que esa va a la derecha, en el EnumDireccion.Derecha es solo para el azul
                 aqui deberia de ir la direccion especifica que le toca al jugador que esta jugando.
@@ -1096,389 +645,25 @@ public final class Tablero extends JPanel {
                     casilla.drawFicha(ficha);
                     break;
                 }
-
             }
-        }
+        } else if (numero == 1) {
+            pos = 0;//ficha verde posición inicial
+            for (Forma casilla : casillas) {
+                /*
+                Solo estoy validando con la ficha azul que esa va a la derecha, en el EnumDireccion.Derecha es solo para el azul
+                aqui deberia de ir la direccion especifica que le toca al jugador que esta jugando.
+                 */
 
-    }
-
-    public void showFichasAzules() {
-        ImageIcon imageIcon1 = new ImageIcon(new ImageIcon(getClass().getResource("/Images/fichaazul32px.png")).getImage());
-        JLabel lblFichaAzul1 = new JLabel();
-        lblFichaAzul1.setIcon(imageIcon1);
-        lblFichaAzul1.setSize(40, 40);
-        lblFichaAzul1.setLocation(310, 300);
-        lblFichaAzul1.setVisible(true);
-
-        for (int i = 0; i < fichas.size(); i++) {
-            if (fichas.get(i).getFicha() == null) {
-                fichas.get(i).setFicha(lblFichaAzul1);
-                this.add(fichas.get(i).getFicha());
-                break;
-            }
-        }
-
-        JLabel lblFichaAzul2 = new JLabel();
-        lblFichaAzul2.setIcon(imageIcon1);
-        lblFichaAzul2.setSize(40, 40);
-        lblFichaAzul2.setLocation(310, 260);
-        lblFichaAzul2.setVisible(true);
-
-        for (int i = 0; i < fichas.size(); i++) {
-            if (fichas.get(i).getFicha() == null) {
-                fichas.get(i).setFicha(lblFichaAzul2);
-                this.add(fichas.get(i).getFicha());
-                break;
-            }
-        }
-
-        JLabel lblFichaAzul3 = new JLabel();
-        lblFichaAzul3.setIcon(imageIcon1);
-        lblFichaAzul3.setSize(40, 40);
-        lblFichaAzul3.setLocation(350, 220);
-        lblFichaAzul3.setVisible(true);
-
-        for (int i = 0; i < fichas.size(); i++) {
-            if (fichas.get(i).getFicha() == null) {
-                fichas.get(i).setFicha(lblFichaAzul3);
-                this.add(fichas.get(i).getFicha());
-                break;
-            }
-        }
-
-        JLabel lblFichaAzul6 = new JLabel();
-        lblFichaAzul6.setIcon(imageIcon1);
-        lblFichaAzul6.setSize(40, 40);
-        lblFichaAzul6.setLocation(350, 260);
-        lblFichaAzul6.setVisible(true);
-
-        for (int i = 0; i < fichas.size(); i++) {
-            if (fichas.get(i).getFicha() == null) {
-                fichas.get(i).setFicha(lblFichaAzul6);
-                this.add(fichas.get(i).getFicha());
-                break;
-            }
-        }
-
-        JLabel lblFichaAzul4 = new JLabel();
-        lblFichaAzul4.setIcon(imageIcon1);
-        lblFichaAzul4.setSize(40, 40);
-        lblFichaAzul4.setLocation(350, 300);
-        lblFichaAzul4.setVisible(true);
-
-        for (int i = 0; i < fichas.size(); i++) {
-            if (fichas.get(i).getFicha() == null) {
-                fichas.get(i).setFicha(lblFichaAzul4);
-                this.add(fichas.get(i).getFicha());
-                break;
-            }
-        }
-
-        JLabel lblFichaAzul5 = new JLabel();
-        lblFichaAzul5.setIcon(imageIcon1);
-        lblFichaAzul5.setSize(40, 40);
-        lblFichaAzul5.setLocation(270, 300);
-        lblFichaAzul5.setVisible(true);
-
-        for (int i = 0; i < fichas.size(); i++) {
-            if (fichas.get(i).getFicha() == null) {
-                fichas.get(i).setFicha(lblFichaAzul5);
-                this.add(fichas.get(i).getFicha());
-                break;
-            }
-        }
-
-        //Para volver a pintar las fichas
-        if (fichas.get(fichas.size() - 1).getFicha() != null) {
-            for (int i = 0; i < 6; i++) {
-                this.add(fichas.get(i).getFicha());
+                if (pos == casilla.getPosition()) {
+                    casilla.drawFicha(ficha);
+                    break;
+                }
             }
         }
     }
 
-    public void showFichasRojas() {
-
-        ImageIcon imageIcon1 = new ImageIcon(new ImageIcon(getClass().getResource("/Images/ficharoja32px.png")).getImage());
-        JLabel lblFichaRoja1 = new JLabel();
-        lblFichaRoja1.setIcon(imageIcon1);
-        lblFichaRoja1.setSize(40, 40);
-        lblFichaRoja1.setLocation(555, 300);
-        lblFichaRoja1.setVisible(true);
-
-        for (int i = 0; i < fichas.size(); i++) {
-            if (fichas.get(i).getFicha() == null) {
-                fichas.get(i).setFicha(lblFichaRoja1);
-                this.add(fichas.get(i).getFicha());
-                break;
-            }
-        }
-
-        JLabel lblFichaRoja2 = new JLabel();
-        lblFichaRoja2.setIcon(imageIcon1);
-        lblFichaRoja2.setSize(40, 40);
-        lblFichaRoja2.setLocation(555, 260);
-        lblFichaRoja2.setVisible(true);
-
-        for (int i = 0; i < fichas.size(); i++) {
-            if (fichas.get(i).getFicha() == null) {
-                fichas.get(i).setFicha(lblFichaRoja2);
-                this.add(fichas.get(i).getFicha());
-                break;
-            }
-        }
-
-        JLabel lblFichaRoja3 = new JLabel();
-        lblFichaRoja3.setIcon(imageIcon1);
-        lblFichaRoja3.setSize(40, 40);
-        lblFichaRoja3.setLocation(515, 220);
-        lblFichaRoja3.setVisible(true);
-
-        for (int i = 0; i < fichas.size(); i++) {
-            if (fichas.get(i).getFicha() == null) {
-                fichas.get(i).setFicha(lblFichaRoja3);
-                this.add(fichas.get(i).getFicha());
-                break;
-            }
-        }
-
-        JLabel lblFichaRoja4 = new JLabel();
-        lblFichaRoja4.setIcon(imageIcon1);
-        lblFichaRoja4.setSize(40, 40);
-        lblFichaRoja4.setLocation(515, 260);
-        lblFichaRoja4.setVisible(true);
-
-        for (int i = 0; i < fichas.size(); i++) {
-            if (fichas.get(i).getFicha() == null) {
-                fichas.get(i).setFicha(lblFichaRoja4);
-                this.add(fichas.get(i).getFicha());
-                break;
-            }
-        }
-
-        JLabel lblFichaRoja5 = new JLabel();
-        lblFichaRoja5.setIcon(imageIcon1);
-        lblFichaRoja5.setSize(40, 40);
-        lblFichaRoja5.setLocation(515, 300);
-        lblFichaRoja5.setVisible(true);
-
-        for (int i = 0; i < fichas.size(); i++) {
-            if (fichas.get(i).getFicha() == null) {
-                fichas.get(i).setFicha(lblFichaRoja5);
-                this.add(fichas.get(i).getFicha());
-                break;
-            }
-        }
-
-        JLabel lblFichaRoja6 = new JLabel();
-        lblFichaRoja6.setIcon(imageIcon1);
-        lblFichaRoja6.setSize(40, 40);
-        lblFichaRoja6.setLocation(595, 300);
-        lblFichaRoja6.setVisible(true);
-
-        for (int i = 0; i < fichas.size(); i++) {
-            if (fichas.get(i).getFicha() == null) {
-                fichas.get(i).setFicha(lblFichaRoja6);
-                this.add(fichas.get(i).getFicha());
-                break;
-            }
-        }
-        //Para volver a pintar las fichas
-        if (fichas.get(fichas.size() - 1).getFicha() != null) {
-            for (int i = 6; i < 12; i++) {
-                this.add(fichas.get(i).getFicha());
-            }
-        }
-    }
-
-    public void showFichasVerdes() {
-
-        ImageIcon imageIcon1 = new ImageIcon(new ImageIcon(getClass().getResource("/Images/fichaverde32px.png")).getImage());
-
-        JLabel lblFichaVerde1 = new JLabel();
-        lblFichaVerde1.setIcon(imageIcon1);
-        lblFichaVerde1.setSize(40, 40);
-        lblFichaVerde1.setLocation(555, 460);
-        lblFichaVerde1.setVisible(true);
-
-        for (int i = 0; i < fichas.size(); i++) {
-            if (fichas.get(i).getFicha() == null) {
-                fichas.get(i).setFicha(lblFichaVerde1);
-                this.add(fichas.get(i).getFicha());
-                break;
-            }
-        }
-
-        JLabel lblFichaVerde2 = new JLabel();
-        lblFichaVerde2.setIcon(imageIcon1);
-        lblFichaVerde2.setSize(40, 40);
-        lblFichaVerde2.setLocation(555, 500);
-        lblFichaVerde2.setVisible(true);
-
-        for (int i = 0; i < fichas.size(); i++) {
-            if (fichas.get(i).getFicha() == null) {
-                fichas.get(i).setFicha(lblFichaVerde2);
-                this.add(fichas.get(i).getFicha());
-                break;
-            }
-        }
-
-        JLabel lblFichaVerde3 = new JLabel();
-        lblFichaVerde3.setIcon(imageIcon1);
-        lblFichaVerde3.setSize(40, 40);
-        lblFichaVerde3.setLocation(515, 460);
-        lblFichaVerde3.setVisible(true);
-
-        for (int i = 0; i < fichas.size(); i++) {
-            if (fichas.get(i).getFicha() == null) {
-                fichas.get(i).setFicha(lblFichaVerde3);
-                this.add(fichas.get(i).getFicha());
-                break;
-            }
-        }
-
-        JLabel lblFichaVerde4 = new JLabel();
-        lblFichaVerde4.setIcon(imageIcon1);
-        lblFichaVerde4.setSize(40, 40);
-        lblFichaVerde4.setLocation(515, 500);
-        lblFichaVerde4.setVisible(true);
-
-        for (int i = 0; i < fichas.size(); i++) {
-            if (fichas.get(i).getFicha() == null) {
-                fichas.get(i).setFicha(lblFichaVerde4);
-                this.add(fichas.get(i).getFicha());
-                break;
-            }
-        }
-
-        JLabel lblFichaVerde5 = new JLabel();
-        lblFichaVerde5.setIcon(imageIcon1);
-        lblFichaVerde5.setSize(40, 40);
-        lblFichaVerde5.setLocation(515, 540);
-        lblFichaVerde5.setVisible(true);
-
-        for (int i = 0; i < fichas.size(); i++) {
-            if (fichas.get(i).getFicha() == null) {
-                fichas.get(i).setFicha(lblFichaVerde5);
-                this.add(fichas.get(i).getFicha());
-                break;
-            }
-        }
-
-        JLabel lblFichaVerde6 = new JLabel();
-        lblFichaVerde6.setIcon(imageIcon1);
-        lblFichaVerde6.setSize(40, 40);
-        lblFichaVerde6.setLocation(595, 460);
-        lblFichaVerde6.setVisible(true);
-
-        for (int i = 0; i < fichas.size(); i++) {
-            if (fichas.get(i).getFicha() == null) {
-                fichas.get(i).setFicha(lblFichaVerde6);
-                this.add(fichas.get(i).getFicha());
-                break;
-            }
-        }
-        //Para volver a pintar las fichas
-        if (fichas.get(fichas.size() - 1).getFicha() != null) {
-            for (int i = 12; i < 18; i++) {
-                this.add(fichas.get(i).getFicha());
-            }
-        }
-    }
-
-    public void showFichasNaranja() {
-
-        ImageIcon imageIcon1 = new ImageIcon(new ImageIcon(getClass().getResource("/Images/fichanaranja32px.png")).getImage());
-
-        JLabel lblFichaNaranja1 = new JLabel();
-        lblFichaNaranja1.setIcon(imageIcon1);
-        lblFichaNaranja1.setSize(40, 40);
-        lblFichaNaranja1.setLocation(310, 460);
-        lblFichaNaranja1.setVisible(true);
-
-        for (int i = 0; i < fichas.size(); i++) {
-            if (fichas.get(i).getFicha() == null) {
-                fichas.get(i).setFicha(lblFichaNaranja1);
-                this.add(fichas.get(i).getFicha());
-                break;
-            }
-        }
-
-        JLabel lblFichaNaranja2 = new JLabel();
-        lblFichaNaranja2.setIcon(imageIcon1);
-        lblFichaNaranja2.setSize(40, 40);
-        lblFichaNaranja2.setLocation(310, 500);
-        lblFichaNaranja2.setVisible(true);
-
-        for (int i = 0; i < fichas.size(); i++) {
-            if (fichas.get(i).getFicha() == null) {
-                fichas.get(i).setFicha(lblFichaNaranja2);
-                this.add(fichas.get(i).getFicha());
-                break;
-            }
-        }
-
-        JLabel lblFichaNaranja3 = new JLabel();
-        lblFichaNaranja3.setIcon(imageIcon1);
-        lblFichaNaranja3.setSize(40, 40);
-        lblFichaNaranja3.setLocation(350, 460);
-        lblFichaNaranja3.setVisible(true);
-
-        for (int i = 0; i < fichas.size(); i++) {
-            if (fichas.get(i).getFicha() == null) {
-                fichas.get(i).setFicha(lblFichaNaranja3);
-                this.add(fichas.get(i).getFicha());
-                break;
-            }
-        }
-
-        JLabel lblFichaNaranja4 = new JLabel();
-        lblFichaNaranja4.setIcon(imageIcon1);
-        lblFichaNaranja4.setSize(40, 40);
-        lblFichaNaranja4.setLocation(350, 500);
-        lblFichaNaranja4.setVisible(true);
-
-        for (int i = 0; i < fichas.size(); i++) {
-            if (fichas.get(i).getFicha() == null) {
-                fichas.get(i).setFicha(lblFichaNaranja4);
-                this.add(fichas.get(i).getFicha());
-                break;
-            }
-        }
-
-        JLabel lblFichaNaranja5 = new JLabel();
-        lblFichaNaranja5.setIcon(imageIcon1);
-        lblFichaNaranja5.setSize(40, 40);
-        lblFichaNaranja5.setLocation(350, 540);
-        lblFichaNaranja5.setVisible(true);
-
-        for (int i = 0; i < fichas.size(); i++) {
-            if (fichas.get(i).getFicha() == null) {
-                fichas.get(i).setFicha(lblFichaNaranja5);
-                this.add(fichas.get(i).getFicha());
-                break;
-            }
-        }
-
-        JLabel lblFichaNaranja6 = new JLabel();
-        lblFichaNaranja6.setIcon(imageIcon1);
-        lblFichaNaranja6.setSize(40, 40);
-        lblFichaNaranja6.setLocation(270, 460);
-        lblFichaNaranja6.setVisible(true);
-
-        for (int i = 0; i < fichas.size(); i++) {
-            if (fichas.get(i).getFicha() == null) {
-                fichas.get(i).setFicha(lblFichaNaranja6);
-                this.add(fichas.get(i).getFicha());
-                break;
-            }
-        }
-
-        //Para volver a pintar las fichas
-        if (fichas.get(fichas.size() - 1).getFicha() != null) {
-            for (int i = 18; i < 24; i++) {
-                this.add(fichas.get(i).getFicha());
-            }
-        }
+    public ArrayList<Ficha> getFichas() {
+        return fichas;
     }
 
     public Canias getLanzar() {
@@ -1488,5 +673,4 @@ public final class Tablero extends JPanel {
     public ArrayList<JButton> getBotones() {
         return botones;
     }
-
 }

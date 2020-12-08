@@ -2,6 +2,7 @@
 package Dominio;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -9,20 +10,14 @@ public class Jugador implements Serializable{
     private static final long serialVersionUID = 4L;
     private String nickname;
     private Apuesta apuesta;
-    private int CodigoPartida;
     private List<Ficha> fichas;
     private TipoJugador tipoJugador;
+    
 
-    public Jugador(){
-        
-    }
-    
-    public Jugador(int codigo){
-        this.CodigoPartida = codigo;
-    }
-    
+
     public Jugador(String nickname) {
         this.nickname=nickname;
+        this.fichas = new ArrayList<>();
     }
 
     public Jugador(String nickname, Apuesta apuesta, List<Ficha> fichas, TipoJugador tipoJugador) {
@@ -38,14 +33,6 @@ public class Jugador implements Serializable{
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
-    }
-    
-    public int getCodigoPartida() {
-        return CodigoPartida;
-    }
-
-    public void setCodigoPartida(int CodigoPartida) {
-        this.CodigoPartida = CodigoPartida;
     }
     
     public Apuesta getApuesta() {
@@ -70,11 +57,6 @@ public class Jugador implements Serializable{
 
     public void setTipoJugador(TipoJugador tipoJugador) {
         this.tipoJugador = tipoJugador;
-    }
-    
-    
-    
-    
-    
+    } 
     
 }

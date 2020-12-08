@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -14,8 +16,9 @@ import javax.swing.JPanel;
 
 public class PanelBotones extends JPanel {
 
-    fmTablero fmTablero;
-    Broker b;
+    private fmTablero fmTablero;
+    private Broker b;
+    private List<JButton> botones;
 
     public PanelBotones(fmTablero frameTablero, Broker b) {
         setLayout(new GroupLayout(this));
@@ -23,6 +26,7 @@ public class PanelBotones extends JPanel {
         this.setBackground(new Color(105, 2, 5));
         this.fmTablero = frameTablero;
         this.b = b;
+        botones=new ArrayList<>();
         showButtons();
         showCodigo();
     }
@@ -48,7 +52,7 @@ public class PanelBotones extends JPanel {
     public void showButtons() {
         JButton btnIniciar = new JButton("Iniciar");
         btnIniciar.setSize(130, 30);
-        btnIniciar.setVisible(true);
+//        btnIniciar.setVisible(true);
         btnIniciar.setLocation(15, 80);
         btnIniciar.setForeground(Color.BLACK);
         btnIniciar.setBackground(new Color(243, 243, 220));
@@ -56,10 +60,12 @@ public class PanelBotones extends JPanel {
         btnIniciar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                Mandadero m = new Mandadero(EnumServicio.ASIGNAR_TURNO);
-                b.solicitarPedido(m);
+                Mandadero m = new Mandadero(EnumServicio.ASIGNAR_TURNO);    
+                m.addPeticion("fichas", fmTablero.getFichas());
+                b.solicitarPedido(m);                
             }
         });
+        this.botones.add(btnIniciar);
         this.add(btnIniciar);
         
 
@@ -78,6 +84,7 @@ public class PanelBotones extends JPanel {
                 b.solicitarPedido(mandadero);
             }
         });
+        this.botones.add(btnSalir);
         this.add(btnSalir);
         
 //        
@@ -99,6 +106,9 @@ public class PanelBotones extends JPanel {
 //        this.add(btnPrueba);
         
         
+    }
+    public List<JButton> getBotones(){
+        return this.botones;
     }
 
 }

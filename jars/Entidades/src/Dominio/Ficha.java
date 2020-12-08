@@ -12,9 +12,11 @@ public class Ficha implements Serializable{
     private int posicionY;
     private int posicionActual;
 
-    public Ficha(JLabel ficha) {
-        this.ficha = ficha;
+    public Ficha() {
+        this.ficha = new JLabel();
+        posicionActual = -1;
     }
+   
 
     public Ficha(JLabel ficha, int posicionX, int posicionY, int posicionActual) {
         this.ficha = ficha;
@@ -29,10 +31,6 @@ public class Ficha implements Serializable{
 
     public void setPosicionActual(int posicionActual) {
         this.posicionActual = posicionActual;
-    }
-    
-    public Ficha(){
-        posicionActual = -1;
     }
 
     public JLabel getFicha() {

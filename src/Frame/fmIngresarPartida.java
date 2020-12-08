@@ -1,6 +1,9 @@
 package Frame;
 
+import Dominio.Apuesta;
+import Dominio.Ficha;
 import Dominio.Jugador;
+import Dominio.TipoJugador;
 import callMessage.Mandadero;
 import conexionCliente.ClienteSocket;
 import enumServicio.EnumServicio;
@@ -22,15 +25,18 @@ public class fmIngresarPartida extends javax.swing.JFrame implements Observer {
     fmTablero frameTablero;
     private Jugador jugador;
     private int tamTablero;
+    int cantGemas;
 
-    public fmIngresarPartida() {
+    public fmIngresarPartida(int cantidadGemas) {
         initComponents();
+        this.cantGemas = cantidadGemas;
         this.setLocationRelativeTo(null);
         this.setTitle("Ingresar partida");
+        this.llenarCmbCantApuesta();
         cliente = new ClienteSocket("localhost", 9090);
-        
+
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
+
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent event) {
@@ -55,9 +61,12 @@ public class fmIngresarPartida extends javax.swing.JFrame implements Observer {
         btnCancelar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         lblFondo = new javax.swing.JLabel();
-        lb_codigo = new javax.swing.JLabel();
-        lblNickName = new javax.swing.JLabel();
+        lb_nick = new javax.swing.JLabel();
+        lblNick = new javax.swing.JLabel();
         txtNickname = new javax.swing.JTextField();
+        lblNickName = new javax.swing.JLabel();
+        cbCantApuesta = new javax.swing.JComboBox<>();
+        lblNickName1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
@@ -78,7 +87,7 @@ public class fmIngresarPartida extends javax.swing.JFrame implements Observer {
                 btnIngresarActionPerformed(evt);
             }
         });
-        jPanelIngresarPartida.add(btnIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 220, 144, -1));
+        jPanelIngresarPartida.add(btnIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 250, 144, -1));
 
         btnCancelar.setBackground(new java.awt.Color(243, 243, 220));
         btnCancelar.setFont(new java.awt.Font("Herculanum", 0, 16)); // NOI18N
@@ -88,7 +97,7 @@ public class fmIngresarPartida extends javax.swing.JFrame implements Observer {
                 btnCancelarActionPerformed(evt);
             }
         });
-        jPanelIngresarPartida.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 220, 131, -1));
+        jPanelIngresarPartida.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 250, 131, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/piramide-maya.png"))); // NOI18N
         jPanelIngresarPartida.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 30, -1, -1));
@@ -96,13 +105,12 @@ public class fmIngresarPartida extends javax.swing.JFrame implements Observer {
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/FED148.jpeg"))); // NOI18N
         jPanelIngresarPartida.add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 560, 60));
 
-        lb_codigo.setForeground(new java.awt.Color(255, 255, 255));
-        jPanelIngresarPartida.add(lb_codigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 150, 150, 20));
+        lb_nick.setForeground(new java.awt.Color(255, 255, 255));
+        jPanelIngresarPartida.add(lb_nick, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 170, 150, 20));
 
-        lblNickName.setFont(new java.awt.Font("PT Sans", 0, 18)); // NOI18N
-        lblNickName.setForeground(new java.awt.Color(243, 243, 220));
-        lblNickName.setText("Nickname*");
-        jPanelIngresarPartida.add(lblNickName, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 140, -1, -1));
+        lblNick.setFont(new java.awt.Font("PT Sans", 0, 18)); // NOI18N
+        lblNick.setForeground(new java.awt.Color(243, 243, 220));
+        jPanelIngresarPartida.add(lblNick, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 180, -1, -1));
 
         txtNickname.setBackground(new java.awt.Color(243, 243, 220));
         txtNickname.setFont(new java.awt.Font("PT Sans", 0, 13)); // NOI18N
@@ -113,6 +121,18 @@ public class fmIngresarPartida extends javax.swing.JFrame implements Observer {
         });
         jPanelIngresarPartida.add(txtNickname, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 140, 180, 30));
 
+        lblNickName.setFont(new java.awt.Font("PT Sans", 0, 18)); // NOI18N
+        lblNickName.setForeground(new java.awt.Color(243, 243, 220));
+        lblNickName.setText("Nickname*");
+        jPanelIngresarPartida.add(lblNickName, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, -1, -1));
+
+        jPanelIngresarPartida.add(cbCantApuesta, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 190, 180, -1));
+
+        lblNickName1.setFont(new java.awt.Font("PT Sans", 0, 18)); // NOI18N
+        lblNickName1.setForeground(new java.awt.Color(243, 243, 220));
+        lblNickName1.setText("Cantidad apuesta");
+        jPanelIngresarPartida.add(lblNickName1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 190, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -121,7 +141,7 @@ public class fmIngresarPartida extends javax.swing.JFrame implements Observer {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelIngresarPartida, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+            .addComponent(jPanelIngresarPartida, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
         );
 
         pack();
@@ -132,6 +152,20 @@ public class fmIngresarPartida extends javax.swing.JFrame implements Observer {
         frameMenu.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    public void llenarCmbCantApuesta() {
+        if (cantGemas >= 20) {
+            cbCantApuesta.addItem(2);
+            cbCantApuesta.addItem(4);
+            cbCantApuesta.addItem(6);
+            cbCantApuesta.addItem(8);
+            cbCantApuesta.addItem(10);
+        } else {
+            cbCantApuesta.addItem(2);
+            cbCantApuesta.addItem(4);
+            cbCantApuesta.addItem(6);
+        }
+    }
 
     public boolean validarNickname() {
         return !txtNickname.getText().isEmpty();
@@ -151,32 +185,38 @@ public class fmIngresarPartida extends javax.swing.JFrame implements Observer {
     }
 
     public void abrirSiguientePantalla(Mandadero mandadero) {
+        Apuesta apuesta = new Apuesta((int) mandadero.getRespuesta().get("cantGemas"),
+                (int) cbCantApuesta.getSelectedItem());
+        this.jugador.setApuesta(apuesta);
         this.frameTablero = new fmTablero(tamTablero, cliente.getBroker());
-        frameTablero.posicionarJugador((List)mandadero.getRespuesta().get("posiciones"));
+        frameTablero.posicionarJugador((List) mandadero.getRespuesta().get("posiciones"));
+        frameTablero.habilitarBoton((Jugador) mandadero.getRespuesta().get("host"));
         frameTablero.setVisible(true);
         this.dispose();
         this.cliente.getBroker().deleteObserver(this);
-
     }
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         if (validarNickname()) {
             jugador = new Jugador(txtNickname.getText());
+            jugador.setTipoJugador(TipoJugador.GUEST);
+            jugador.setApuesta(new Apuesta((int) cbCantApuesta.getSelectedItem()));
+            crearFichasJugador(jugador);
             iniciarCliente(jugador);
             Mandadero mandadero = new Mandadero(EnumServicio.INGRESAR_PARTIDA);
             mandadero.addPeticion("jugador", jugador);
             cliente.getBroker().solicitarPedido(mandadero);
-            
-
         } else {
-            lblNickName.setText("*Ingresa tu nickname");
+            lb_nick.setText("*Ingresa tu nickname");
         }
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void txtNicknameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNicknameKeyTyped
         char a = evt.getKeyChar();
-        if ((txtNickname.getText().length() >= 10)) {//que sea menor a 10 letras
+        if ((txtNickname.getText().length() >= 10) || !Character.isLetter(a)) {
             evt.consume();
+        } else {
+            lb_nick.setText("");
         }
     }//GEN-LAST:event_txtNicknameKeyTyped
 
@@ -188,22 +228,31 @@ public class fmIngresarPartida extends javax.swing.JFrame implements Observer {
         return retValue;
     }
 
+    public void crearFichasJugador(Jugador jugador) {
+        for (int i = 0; i < 6; i++) {
+            jugador.getFichas().add(new Ficha());
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnIngresar;
+    private javax.swing.JComboBox<Integer> cbCantApuesta;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanelIngresarPartida;
-    private javax.swing.JLabel lb_codigo;
+    private javax.swing.JLabel lb_nick;
     private javax.swing.JLabel lblFondo;
     private javax.swing.JLabel lblIngresarPartida;
+    private javax.swing.JLabel lblNick;
     private javax.swing.JLabel lblNickName;
+    private javax.swing.JLabel lblNickName1;
     private javax.swing.JTextField txtNickname;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void update(Observable o, Object o1) {
         Mandadero mandadero = (Mandadero) o1;
-        if (mandadero.getTipoServicio().equals(EnumServicio.INGRESAR_PARTIDA)) {
+        if (mandadero.getTipoServicio().equals(EnumServicio.POSICIONAR_JUGADOR)) {
             this.tamTablero = (int) mandadero.getRespuesta().get("tamTablero");
             abrirSiguientePantalla(mandadero);
         }
