@@ -101,7 +101,7 @@ public class fmCreditos extends javax.swing.JFrame {
                 jLabel2MouseClicked(evt);
             }
         });
-        jPanelCreditos.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(293, 470, 150, -1));
+        jPanelCreditos.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(293, 470, 140, -1));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/ChimueloDesertico.png"))); // NOI18N
         jPanelCreditos.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, -1, -1));

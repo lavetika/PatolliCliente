@@ -80,7 +80,7 @@ public class fmMenu extends javax.swing.JFrame implements Observer {
                 btnJugarActionPerformed(evt);
             }
         });
-        jPanelMenuPrincipal.add(btnJugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 230, 176, 49));
+        jPanelMenuPrincipal.add(btnJugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 210, 176, 49));
 
         btnComoJugar.setBackground(new java.awt.Color(243, 243, 220));
         btnComoJugar.setFont(new java.awt.Font("Herculanum", 0, 14)); // NOI18N
@@ -95,7 +95,7 @@ public class fmMenu extends javax.swing.JFrame implements Observer {
                 btnComoJugarActionPerformed(evt);
             }
         });
-        jPanelMenuPrincipal.add(btnComoJugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 300, 176, 45));
+        jPanelMenuPrincipal.add(btnComoJugar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 280, 176, 45));
 
         btnCreditos.setBackground(new java.awt.Color(243, 243, 220));
         btnCreditos.setFont(new java.awt.Font("Herculanum", 0, 14)); // NOI18N
@@ -110,7 +110,7 @@ public class fmMenu extends javax.swing.JFrame implements Observer {
                 btnCreditosActionPerformed(evt);
             }
         });
-        jPanelMenuPrincipal.add(btnCreditos, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 370, 176, 46));
+        jPanelMenuPrincipal.add(btnCreditos, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 350, 176, 46));
 
         lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/FED148.jpeg"))); // NOI18N
         jPanelMenuPrincipal.add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 360, 90));
@@ -119,7 +119,7 @@ public class fmMenu extends javax.swing.JFrame implements Observer {
         jPanelMenuPrincipal.add(lb_nickname, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, 120, 20));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/ajolotito.png"))); // NOI18N
-        jPanelMenuPrincipal.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 140, 110, 120));
+        jPanelMenuPrincipal.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, 110, 120));
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Tuna Development ©");
@@ -128,7 +128,7 @@ public class fmMenu extends javax.swing.JFrame implements Observer {
                 jLabel2MouseClicked(evt);
             }
         });
-        jPanelMenuPrincipal.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 440, 150, -1));
+        jPanelMenuPrincipal.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 420, 150, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
