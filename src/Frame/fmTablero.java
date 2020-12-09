@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
@@ -30,6 +31,7 @@ public class fmTablero extends javax.swing.JFrame implements Observer {
     private Canias canias;
     private ArrayList<JButton> botones;
     private boolean turno;
+    private ImageIcon iconoGanador;
 
     /**
      * Creates new form fmTablero
@@ -160,28 +162,36 @@ public class fmTablero extends javax.swing.JFrame implements Observer {
 
             case ENVIAR_MENSAJE:
                 panelChat.setDisplay((String) m.getRespuesta().get("mensaje"));
-//                System.out.println(m.toString() + " viene de tablero");
+
                 break;
-            case ABANDONO_JUGADOR: {
+            case ABANDONO_JUGADOR:
                 try {
                     this.broker.getCliente().desconectar();
                 } catch (IOException ex) {
                     System.out.println("Error en el abandono jugador de frmTablero.");
                 }
-            }
-            fmMenu fmMenu = new fmMenu();
-            fmMenu.setVisible(true);
-//            JOptionPane.showMessageDialog(this, "Has abandonado la partida. :)");
-            break;
+
+                fmMenu fmMenu = new fmMenu();
+                fmMenu.setVisible(true);
+                JOptionPane.showMessageDialog(this, "Has abandonado la partida. :)");
+                break;
             case MOVIMIENTO_FICHA:
                 this.turno = (boolean) m.getRespuesta().get("turno");
                 this.enableButtons();
                 break;
             case POSICIONAR_JUGADOR:
+                boolean partidaIniciada = false;
                 if (m.getRespuesta().containsKey("host")) {
-                    Jugador jugador=(Jugador) m.getRespuesta().get("host");
-                    boolean partidaIniciada= (boolean) m.getRespuesta().get("iniciado");
-                    this.habilitarBoton(jugador,partidaIniciada);
+                    Jugador jugador = (Jugador) m.getRespuesta().get("host");
+                    partidaIniciada = (boolean) m.getRespuesta().get("iniciado");
+                    this.habilitarBotonHost(jugador, partidaIniciada);
+                }
+
+                if (m.getRespuesta().containsKey("terminada") && partidaIniciada) {
+                    JOptionPane.showMessageDialog(this, "Has ganado la partida.", "Ganaste", JOptionPane.INFORMATION_MESSAGE, iconoGanador);
+                    this.dispose();
+                    this.broker.solicitarPedido(new Mandadero(EnumServicio.ABANDONO_JUGADOR));
+
                 }
                 this.posicionarJugador((List) m.getRespuesta().get("posiciones"));
                 break;
@@ -192,17 +202,26 @@ public class fmTablero extends javax.swing.JFrame implements Observer {
         }
     }
 
-    public void habilitarBoton(Jugador jugadorHost, boolean partidaIniciada) {
-        if (jugadorHost.getNickname().equals(this.broker.getJugador().getNickname())) {
-            this.broker.getJugador().setTipoJugador(TipoJugador.HOST);
-        }
-        if (this.broker.getJugador().getTipoJugador().equals(TipoJugador.HOST)) {
-            this.pb.getBotones().get(0).setVisible(true);
-            if(partidaIniciada){
-               this.pb.getBotones().get(0).setEnabled(false); 
+    public void habilitarBotonHost(Jugador jugadorHost, boolean partidaIniciada) {
+        if (!partidaIniciada) {
+            if (jugadorHost.getNickname().equals(this.broker.getJugador().getNickname())) {
+                this.broker.getJugador().setTipoJugador(TipoJugador.HOST);
             }
+
+            if (this.broker.getJugador().getTipoJugador().equals(TipoJugador.HOST)) {
+                this.pb.getBotones().get(0).setVisible(true);
+            } else {
+                this.pb.getBotones().get(0).setVisible(false);
+            }
+
+        }
+    }
+
+    public void habilitarBotonIniciar(List<Jugador> jugadores) {
+        if (jugadores.size() < 2) {
+            this.pb.getBotones().get(0).setEnabled(false);
         } else {
-            this.pb.getBotones().get(0).setVisible(false);
+            this.pb.getBotones().get(0).setEnabled(true);
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

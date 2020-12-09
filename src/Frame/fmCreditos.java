@@ -95,7 +95,7 @@ public class fmCreditos extends javax.swing.JFrame {
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Tuna Development ©");
-        jPanelCreditos.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 470, -1, -1));
+        jPanelCreditos.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(293, 470, 150, -1));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/ChimueloDesertico.png"))); // NOI18N
         jPanelCreditos.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, -1, -1));

@@ -38,6 +38,7 @@ public class fmMenu extends javax.swing.JFrame implements Observer {
         lblFondo = new javax.swing.JLabel();
         lb_nickname = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -118,6 +119,10 @@ public class fmMenu extends javax.swing.JFrame implements Observer {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/ajolotito.png"))); // NOI18N
         jPanelMenuPrincipal.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 140, 110, 120));
+
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Tuna Development ©");
+        jPanelMenuPrincipal.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 440, 150, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -252,6 +257,7 @@ public class fmMenu extends javax.swing.JFrame implements Observer {
     private javax.swing.JButton btnCreditos;
     private javax.swing.JButton btnJugar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanelMenuPrincipal;
     private javax.swing.JScrollPane jScrollPane1;

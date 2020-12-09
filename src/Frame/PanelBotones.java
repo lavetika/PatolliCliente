@@ -12,6 +12,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -22,12 +23,14 @@ public class PanelBotones extends JPanel {
     private fmTablero fmTablero;
     private Broker b;
     private List<JButton> botones;
+    private ImageIcon iconoSalida;
 
     public PanelBotones(fmTablero frameTablero, Broker b) {
         setLayout(new GroupLayout(this));
         this.setSize(150, 800);
         this.setBackground(new Color(105, 2, 5));
         this.fmTablero = frameTablero;
+        this.iconoSalida = new ImageIcon(new ImageIcon(getClass().getResource("/Images/azteca.png")).getImage());
         this.b = b;
         botones = new ArrayList<>();
         showButtons();
@@ -83,16 +86,19 @@ public class PanelBotones extends JPanel {
         btnSalir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-//                int resp = JOptionPane.showConfirmDialog(null, "¿Seguro que quieres salir?",
-//                        "Confirmar abandono de partida", JOptionPane.OK_CANCEL_OPTION);
-//                if (resp == JOptionPane.OK_OPTION) {
+                int resp = JOptionPane.showConfirmDialog(null, "¿Seguro que quieres salir?",
+                        "Confirmar abandono de partida", JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE,iconoSalida);
+                if (resp == JOptionPane.OK_OPTION) {
                     fmTablero.dispose();
                     Mandadero mandadero = new Mandadero(EnumServicio.ABANDONO_JUGADOR);
                     b.solicitarPedido(mandadero);
-//                }
+                }
             }
-        });
+        }
+        );
+
         this.botones.add(btnSalir);
+
         this.add(btnSalir);
 
 //        

@@ -490,7 +490,7 @@ public final class Tablero extends JPanel {
             public void actionPerformed(ActionEvent ae) {
                 int numero = lanzar.calcular();
                 lanzar.mostrarCanias();
-              //  moverFicha(numero, fichas.get(0));
+                moverFicha(numero, fichas.get(0));
 
             }
         });

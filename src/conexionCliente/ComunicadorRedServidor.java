@@ -50,8 +50,7 @@ public class ComunicadorRedServidor extends Observable implements Runnable {
     public Mandadero recibirPeticion() {
         Mandadero mandadero = null;
         try {
-            mandadero = (Mandadero) this.flujoEntradaDatos.readObject();
-            System.out.println(mandadero.toString());
+            mandadero = (Mandadero) this.flujoEntradaDatos.readObject();            
         } catch (IOException e) {
             System.out.println(e.getMessage());
         } catch (ClassNotFoundException ex) {

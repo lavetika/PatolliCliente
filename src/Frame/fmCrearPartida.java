@@ -292,7 +292,7 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
 
     private void txtNicknameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNicknameKeyTyped
         char a = evt.getKeyChar();
-        if ((txtNickname.getText().length() >= 10) || !Character.isLetter(a)) {
+        if ((txtNickname.getText().length() >= 8) || !Character.isLetter(a)) {
             evt.consume();
         } else {
             lblNick.setText("");
@@ -383,7 +383,7 @@ public class fmCrearPartida extends javax.swing.JFrame implements Observer {
 
         Jugador jugadorHost = (Jugador) mandadero.getRespuesta().get("host");
         boolean partidaIni = (boolean) mandadero.getRespuesta().get("iniciado");
-        this.frameTablero.habilitarBoton(jugadorHost, partidaIni);
+        this.frameTablero.habilitarBotonHost(jugadorHost, partidaIni);
 
         frameTablero.setVisible(true);
         this.dispose();
