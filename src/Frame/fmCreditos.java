@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 public class fmCreditos extends javax.swing.JFrame {
 
@@ -95,6 +96,11 @@ public class fmCreditos extends javax.swing.JFrame {
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Tuna Development ©");
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
         jPanelCreditos.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(293, 470, 150, -1));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/ChimueloDesertico.png"))); // NOI18N
@@ -180,6 +186,14 @@ public class fmCreditos extends javax.swing.JFrame {
     private void btnSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalirMouseClicked
         this.btnSalir.setEnabled(false);
     }//GEN-LAST:event_btnSalirMouseClicked
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+            try{
+            java.awt.Desktop.getDesktop().browse(java.net.URI.create("https://drive.google.com/file/d/1kvMaKz50uEeWgd_zYheW38PTvKH-kXEJ/view?usp=sharing"));
+        }catch(IOException ex){
+            
+        }
+    }//GEN-LAST:event_jLabel2MouseClicked
 
     @Override
     public Image getIconImage() {

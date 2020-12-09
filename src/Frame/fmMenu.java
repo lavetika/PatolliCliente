@@ -6,6 +6,7 @@ import conexionCliente.ClienteSocket;
 import enumServicio.EnumServicio;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JOptionPane;
@@ -122,6 +123,11 @@ public class fmMenu extends javax.swing.JFrame implements Observer {
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Tuna Development ©");
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
         jPanelMenuPrincipal.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 440, 150, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -172,6 +178,14 @@ public class fmMenu extends javax.swing.JFrame implements Observer {
     private void btnCreditosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCreditosMouseClicked
         this.btnCreditos.setEnabled(false);
     }//GEN-LAST:event_btnCreditosMouseClicked
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+            try{
+            java.awt.Desktop.getDesktop().browse(java.net.URI.create("https://drive.google.com/file/d/1kvMaKz50uEeWgd_zYheW38PTvKH-kXEJ/view?usp=sharing"));
+        }catch(IOException ex){
+            
+        }
+    }//GEN-LAST:event_jLabel2MouseClicked
 
     /**
      * @param args the command line arguments
